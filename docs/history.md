@@ -1,5 +1,24 @@
 # Histórico
 
+## 25/10/2026 — planejamento da evolução paralela dos renders
+
+Fábio definiu preservar CAW atual e ALP atual, preparar um terceiro render
+substituível no CChatRender e convergir três consumidores: ALP, chat mínimo
+CWH e CAW do CrânIA Agent. O plano shared-render-plan.md registra fronteiras,
+pastas propostas, etapas, responsáveis, decisões e retorno por instância.
+compatibility-matrix.md contém 24 capacidades para correspondência funcional,
+com critérios futuros sem declarar paridade já testada.
+
+O CWH recebe a demanda de um usuário e uma conversa, ligada a LAB-CHAT-001 e
+à migração ativa. Um CAW próprio no laboratório vem depois para validar temas,
+customizações, múltiplos usuários e conversas. A consolidação dos contratos
+finais ocorre após os três consumidores funcionarem na candidata. Autorização,
+histórico, execução e protocolos de entrega permanecem nos hosts.
+
+Documentação e referências de tarefas nesta rodada; nenhum pacote, pasta de
+implementação, versão instalada, serviço ou cliente foi alterado. As mudanças
+visuais locais não publicadas permanecem separadas da release 26.10.25-a.
+
 ## 26.10.25a — extração inicial do render do Pergunte Aí
 
 Markdown, dados/gráficos SVG locais, HTML/SPA opacos, imagem, áudio/voz gravada,

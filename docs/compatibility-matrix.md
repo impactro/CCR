@@ -1,0 +1,48 @@
+# Matriz de compatibilidade dos renders de chat
+
+Inventário do [plano compartilhado](shared-render-plan.md). CAW significa a
+fonte local de referência; ALP significa o pacote 26.10.25-a com os plugins do
+produto. next é a linha candidata ainda não implementada. Presença no código
+não equivale a homologação em outro consumidor ou em todos os clientes CAW.
+
+Estado por célula: identificado, parcial, ausente, em teste ou validado. Registrar
+validado somente com referência de teste/revisão/consumidor. Nesta matriz inicial,
+os testes descritos são critérios futuros e não resultados já produzidos.
+
+| ID | Capacidade | CAW atual | ALP atual | Pareamento e aceite do candidato |
+| --- | --- | --- | --- | --- |
+| R01 | Casca de conversa | Identificada na aplicação chat.js | Identificada na UI do produto, fora do núcleo CM | Transcript/composer/estados desacoplados, com ações do host. |
+| R02 | Envelope e ordem | textResult e responses[] projetados pelo CA | Texto, blocos visuais e anexos adaptados pelo ALP | Preservar ordem e semântica, sem novo protocolo público ou parser de execução no render. |
+| R03 | Texto e código | Markdown sanitizado pelo servidor, conteúdo técnico separado | Markdown sanitizado no cliente, plugins para blocos | Fixtures de listas/tabelas/código, Unicode e conteúdo inválido; confiança em HTML explícita. |
+| R04 | Dados tipados | Contrato com string/html/number/boolean/date/datetime | Núcleo genérico mais restrito; grades via plugins | Preservar tipos, null e unidades; não converter ausência em zero. |
+| R05 | Gráficos | showdata com múltiplos tipos e dependências próprias | Gráficos locais no núcleo e apresentação avançada nos plugins | Tabela acessível, escolha coerente e alternativa quando recurso não estiver disponível. |
+| R06 | Interação e exportação | Ações do CAW e capacidades de showdata | Grade e exportações do produto | Inventariar filtros, ordenação e formatos separadamente; não declarar exportação genérica por existir em um plugin. |
+| R07 | HTML e SPA | Referência de arquivo autorizado e iframe do CA | Conteúdo autocontido isolado e política do host | Adaptar arquivo/conteúdo e permissões, preservar isolamento, navegação e alternativa legível. |
+| R08 | Links externos | Tipo link e incorporação conforme políticas do provedor | Links de fonte; não há paridade genérica de embeds no núcleo | Política explícita de incorporação; Abrir disponível quando o destino recusar frame. |
+| R09 | Imagem e arquivo | Registro de arquivos e URLs próprias protegidas | Artefatos da sessão e ações de download | Resolver por host, sem expor caminho físico ou aceitar URL arbitrária do modelo. |
+| R10 | PDF | Visualizador de arquivo com verificação do recurso | PDF.js sob demanda, com limites próprios | Comparar estratégias e documentos, manter acesso autorizado e download; não copiar endpoint fixo. |
+| R11 | Áudio e voz | Reprodução e ações ligadas aos serviços de voz do CA | Apresentação de áudio/voz gravada no módulo | Reproduzir áudio; geração, gravação, transcrição e Ouvir são capacidades do host, não presumidas. |
+| R12 | Vídeo e YouTube | Mídia no chat/visualizador; levantar os casos concretos de embed | Vídeo e YouTube sob demanda no núcleo; plugins do ALP | Codec/controles, política de origem e parada ao sair; sem autoplay implícito. |
+| R13 | Mermaid e SVG | Mermaid no visualizador; inventariar SVG por canal | Mermaid e SVG via plugins do produto | Extrair somente capacidades genéricas, mantendo CSP e descarte; tipos não suportados têm alternativa. |
+| R14 | Mapas e bairros | Não identificado como capacidade genérica CAW | Plugin eleitoral e dados próprios do ALP | Permanecer plugin ALP; render comum não consulta nem interpreta a base eleitoral. |
+| R15 | Temas e clientes | Tokens CA e extensões locais de clientes | Estilos do módulo e customização do ALP | Mapear tokens e hooks, testar claro/escuro/customizado sem importar identidade de outro cliente. |
+| R16 | Workspace e usuário | Escopo autenticado fornecido/verificado pelo backend | Sessão pública e visitorId pseudônimo; não é workspace CA | IDs opacos, nulos quando ausentes; host continua autorizador. |
+| R17 | Conversa, mensagem e execução | Histórico/lista de conversas e execuções do CA | Histórico da sessão, questionId e attemptId próprios | Separar IDs; correlacionar partes, atualização e cancelamento sem confundir sessão SDK com conversa. |
+| R18 | Carregamento e atualização | Fluxos próprios de chat/modo agente e consultas de estado | Polling e apresentação final com estados do produto | Adaptadores de eventos; uma conversa não recebe atualização tardia de outra. |
+| R19 | Ciclo de vida | Cleanup distribuído na aplicação e serviços | dispose/AbortSignal no núcleo e ações/plugins do ALP | Parar mídia, cancelar fetch, descartar frames, timers e URLs ao substituir ou sair. |
+| R20 | Ações visuais | Copiar, Ouvir e ações contextuais do CAW | Copiar/exportar e ações do produto | Callbacks de capacidades; ocultar/desabilitar ações ausentes, sem invocar serviço errado. |
+| R21 | Acessibilidade e desempenho | Comparar telas/temas atuais dos clientes | Tabelas acessíveis e limites do núcleo; conferir plugins | Teclado/foco/contraste/móvel, DOM/listeners e recursos sob demanda; separar tempos de modelo e UI. |
+| R22 | CWH mínimo | Nova demanda, não capacidade instalada por este plano | CChatRender reutilizável como dependência | Um usuário/conversa, resultado rico e erro/cancelamento local; nenhuma entrega WhatsApp por efeito do teste. |
+| R23 | CAW local e múltiplos escopos | Fonte disponível; instalação de teste é etapa posterior | Não é uma função do ALP | Dois usuários/workspaces e duas conversas, arquivos cruzados negados e troca durante carregamento. |
+| R24 | Seleção e retorno | Atual apresentação integrada ao CA | Pacote fixado pelo consumidor | Seleção explícita por instância/versão; testar retorno sem mudar banco, perfil ou motor. |
+
+## Registro de evidência por capacidade
+
+Ao desenvolver uma fatia, registrar nesta seção o ID Rxx, revisão do módulo,
+driver, adaptador e consumidor, fixture sintética, teste funcional, conferência
+visual, limites e decisão. Não inserir conversas, identificadores reais de
+visitantes, credenciais ou arquivos privados de clientes.
+
+A matriz não contém executor ou estado de tarefa; esses dados ficam na fila
+única do projeto dono. Uma lacuna vira uma tarefa local referenciada, e não uma
+segunda lista de pendências neste documento.
