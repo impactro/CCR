@@ -1,6 +1,11 @@
 # CChatRender
 
-Versão CES `26.10.25a`; distribuição npm `26.10.25-a`. Componente local candidato, sem publicação em registry.
+Versão CES `26.10.25b`; distribuição npm `26.10.25-b`. Componente local, sem publicação em registry.
+
+Leitura de dados: gráficos locais usam rótulos e valores maiores, números em
+negrito e linhas de barras mais altas. Em telas estreitas, a figura mantém uma
+largura mínima com rolagem interna para preservar a leitura; o documento do host
+continua responsivo. Cores, mapas e largura da conversa são políticas do host.
 
 Renderizador de respostas ricas, independente de motor de IA, servidor, dados e
 identidade do produto. Primeiro consumidor: Pergunte Aí. Biblioteca JavaScript,
