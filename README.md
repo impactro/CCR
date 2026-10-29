@@ -1,6 +1,6 @@
 # CChatRender
 
-Versão CES `26.10.29a`; distribuição npm `26.10.29-a`. Componente local, sem publicação em registry.
+Versão CES `26.10.29b`; distribuição npm `26.10.29-b`. Componente local, sem publicação em registry.
 
 Leitura de dados: gráficos locais usam rótulos e valores maiores, números em
 negrito e linhas de barras mais altas. Em telas estreitas, a figura mantém uma
@@ -8,7 +8,10 @@ largura mínima com rolagem interna para preservar a leitura; o documento do hos
 continua responsivo. Cores, mapas e largura da conversa são políticas do host.
 
 Renderizador de respostas ricas, independente de motor de IA, servidor, dados e
-identidade do produto. Primeiro consumidor: Pergunte Aí. Biblioteca JavaScript,
+identidade do produto. Origem no Pergunte Aí; a evolução atual prioriza o CWH,
+produto em uso diário. ALP é laboratório/showroom e se adapta ao contrato do
+produto. Crania Agent é a referência comercial do ecossistema; CA/CAW não são
+alterados nesta rodada. Biblioteca JavaScript,
 sem serviço Windows nem registro de ferramentas de agente.
 
 ```js
@@ -86,8 +89,8 @@ o tarball versionado no consumidor é distribuição imutável, não um fork.
 Origem: extração e generalização do render do Pergunte Aí, inspirado nos
 conceitos content-viewer/showdata do CrânIA Agent. Não importa seu runtime.
 
-DOMPurify3.4.17 sanitiza o Markdown; marked18.1.0 faz o parsing; PDF.js6.4.299
-é a dependência opcional de execução da prévia. Todas as versões são fixadas no
+DOMPurify3.4.17 sanitiza o Markdown; marked18.1.0 faz o parsing. PDF nativo,
+sem PDF.js/worker/dependência opcional. Todas as versões são fixadas no
 lock. Uma falha preserva texto/link e não autoriza relaxar CSP. Plugins são código
 confiável do host; conteúdo recebido nunca registra um plugin.
 
@@ -122,3 +125,44 @@ o proprietário da URL conserva sua revogação. viewerContainer é o contêiner
 posicionado da conversa; descarte fecha e descarrega PDF. Metadados/ações de
 uma conversa não autorizam acesso a outra. Estado por conversa é memória da
 visualização; não cria/migra histórico nem fornece autorização.
+
+## Balões comuns no CWH —26.10.29b
+
+`@crania/chat-render/conversation` é uma entrada ESM independente, sem imports
+de Markdown, DOMPurify, banco, transporte ou navegador global. Exporta
+`renderChatMessage`, `renderChatQuote` e `isAuthorColor`. A entrada principal
+também reexporta essas funções. O CWH fixa o pacote e extrai essa entrada junto
+de `presentation`; o ALP continua na versão anterior até sua próxima adaptação.
+
+```js
+import {renderChatMessage,renderChatQuote} from '@crania/chat-render/conversation';
+const author={id:'author-one',displayName:'Ana',color:'#167e77'}; // host resolve
+const message={conversationId:'chat-one',messageId:'m1',authorId:author.id,
+ role:'user',direction:'incoming',createdAt:1793280600000};
+const html=renderChatMessage(message,{author,layout:'group',previousMessage:null,
+ bodyMarkup:'<p>Conteúdo já escapado pelo adaptador</p>'});
+```
+
+O envelope comum monta autor/cor, sequência, separador diário, hora externa,
+reação agregada e slots de corpo/ações/recibo. Citação recebe `replyTo` com
+conversationId/messageId/authorId/preview.text e o descritor do **citado**.
+Não resolve equivalência de IDs nem deduz autor por role. Identidade ausente,
+conversa diferente, direção ou dia diferente interrompem a sequência.
+
+`layout` private/group e `showAuthor`, `showIncomingAvatar`, `showOutgoingAvatar`
+são escolhas do host. Por padrão, grupos mostram identidade apenas no início,
+privadas não a repetem e avatar próprio fica oculto. `automated` seleciona a
+aparência já existente; não executa agente. `reactions` recebe pares text/count
+já resolvidos pelo host. `edited` é metadado de apresentação.
+
+Todos os campos textuais são escapados; somente #RRGGBB entra na variável de
+cor. Slots `bodyMarkup`, `actionsMarkup`, `avatarMarkup`, `beforeBodyMarkup` e
+`deliveryMarkup` são saída **confiável do adaptador**, nunca HTML de mensagem
+ou preview recebido. Não há callback de rede/evento embutido nesta fatia.
+
+Hooks CSS/data do CWH são conservados para compatibilidade com seus temas e
+reconciliador. O CSS instalado continua no host, sem importar `styles.css` do
+corpo rico sobre o mensageiro. Não há troca de parser WhatsApp por Markdown.
+Renderização de mídias, visualizador, ações, persistência de cores, seleção de
+reação própria, fila e reciprocidade de transporte continuam no CWH. O corpo
+rico `createChatRenderer` continua uma entrada separada para o host que o usa.

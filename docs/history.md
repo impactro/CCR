@@ -38,3 +38,12 @@ Não oferece geração, gravação ou transcrição de mídia. Scripts HTML opci
 rodam isolados; sandbox de navegador não é garantia de cota rígida de CPU.
 Mídia externa exige política explícita do host. PDFs usam prévia visual por página,
 sem substituir o arquivo original nem certificar todos os codecs/fontes/documentos.
+
+## 26.10.29b — envelope comum com prioridade CWH
+
+Entrada conversation sem dependências pesadas: autor/cor, sequências, data/hora,
+slots do host, contagens agregadas e citação do autor correto. CWH é primeiro
+integrador nesta rodada, mantendo HTML/CSS e reconciliação atuais. ALP se adapta
+posteriormente; Crania Agent/CAW ficam fora das alterações. Testes sintéticos de
+autoria/escopo, escape e avatar configurável; integração usa fixtures anteriores
+do produto. Não extrai transporte, banco, parser WhatsApp ou despacho de ações.

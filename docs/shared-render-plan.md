@@ -141,13 +141,14 @@ não deve atrasar a ativação já autorizada do agente com recursos existentes.
 ## Etapas e critérios de avanço — ordem revista em29/10/2026
 
 Esta ordem substitui a sequência inicial que antecipava extração do CAW.
-Primeiro CWH/PergunteAI/CChatRender; depois agentes/testes; CAW por último.
+Primeiro CWH/CChatRender; ALP se adapta depois, sem bloquear o produto.
+Depois agentes/testes; CAW por último e fora desta rodada.
 
 | Etapa | Entrega pequena | Critério de avanço |
 | --- | --- | --- |
 | E0 Inventário | Fontes, versões e diferenças dos dois consumidores | ComparaçãoCWH e confirmaçãoPC-IA ALP; não presumir produção pelo checkout. Concluído no escopo inicial. |
 | E1 Primeira base | PDF nativo, apresentação de data/agrupamento, lifecycle e state por conversa | Pacote26.10.29-a consumido pelos dois; testes sintéticos. Entregue a fatia; ainda não é casca comum completa nem diff incremental. |
-| E2 Autoria e citação | Descritor do autor, cor fornecida pelo host, cabeçalho e quadro de citação | Mesmo autor em duas conversas, citado com autor diferente do remetente, próprio avatar configurável e temas claro/escuro. Próxima fatia proposta. |
+| E2 Autoria e citação | Descritor do autor, cor fornecida pelo host, envelope e quadro de citação | Pacote26.10.29-b integrado primeiro no CWH, com HTML idêntico e CSS preservado. ALP adapta na sequência; não é gate do CWH. Paleta/persistência ficam no host. |
 | E3 Ações e reações | Trilho de ações por capacidade, seletor8/81, indicação de reação própria, feedback imediato | Sem botão sem callback; UI não espera rede; erro tardio não desfaz escolha mais recente; host conserva autorização/recibo. |
 | E4 Atualização e mídia | Atualização por mensagem/parte estável e visualizador na conversa | Alterar texto/recibo/reação sem remontar mídias inalteradas; troca de conversa e descarte corretos. Parear CWH e ALP antes de retirar cópias. |
 | E5 Agentes e testes no CWH | Conversar com executor existente e projeção comum | Duas conversas sintéticas, cancelamento quando oferecido e nenhum envio WhatsApp pelo teste Web. Executor/filas fora do render. |
@@ -306,8 +307,8 @@ interpreta forwardingScore, não cria fila e não contorna limitações de canal
 Preferências de PIN/favorito/etiquetas também são do host; círculos/tooltip e
 trilho fixo de navegação são padrões de composição, não gestão do WhatsApp.
 
-A primeira PR/pacote candidato deve extrair somente autoria/citação e os
-respectivos testes. Integrar nos dois produtos; só depois extrair ações e
+A primeira PR/pacote candidato extrai autoria/citação e os respectivos testes.
+Integrar primeiro no CWH; depois ALP se adapta. Só depois extrair ações e
 feedback. Mostrar no ALP apenas as capacidades efetivamente implementadas,
 sem inventar encaminhamento WhatsApp para respostas de IA. Listas, composer e
 casca inteira ficam para fatias posteriores quando houver ganho comprovado.
@@ -319,3 +320,26 @@ pendente; resposta tardia/troca de escopo é descartada; player/PDF/rascunho se
 mantêm; teclado e tema são verificados com CSS do host completo. A regra
 global de input que ampliou checkboxes no CWH é regressão a cobrir por cascade,
 não motivo para copiar CSS global do produto para a biblioteca.
+
+## Prioridade de produto e injeção no CWH —29/10/2026
+
+Direção humana posterior substitui a prioridade anterior do laboratório:
+Crania Agent/CAW é o produto comercial de referência, mas não será alterado
+nesta rodada. CWH é a frente prioritária de implementação agora. PergunteAI/ALP
+é laboratório/showroom e se adapta às decisões dos produtos; sua disponibilidade
+ou layout não bloqueiam uma integração testada no CWH.
+
+Pacote26.10.29-b adiciona a entrada `conversation` independente do corpo rico.
+O CWH consome efetivamente `renderChatMessage` e `renderChatQuote`, sem manter
+uma segunda implementação do envelope. `author` é descritor resolvido pelo
+host, `replyTo.preview.text` é texto, agrupamento continua por identidade opaca/
+conversa/direção/dia. Duas IAs com mesmo role e IDs distintos não se agrupam.
+Não há inferência PN/LID na biblioteca. Avatar próprio é configurável, oculto
+no CWH. Cores e citação conservam os hooks atuais e CSS instalado do produto.
+
+Aceite desta injeção: fixtures sintéticas capturadas antes da extração comparam
+28 balões e5 citações byte a byte; matriz de identidade/escopo do módulo e
+suite do CWH, mais DOM com CSS completo e estabilidade de player/PDF/rascunho.
+Isso não é homologação visual do plugin PDF em navegador. Texto WhatsApp, mídias,
+ações nativas, recibos, filas e preferências continuam no adaptador; extração
+do trilho de ações e atualização de partes permanecem etapas seguintes.

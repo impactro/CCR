@@ -85,3 +85,19 @@ author-colors.test.mjs, reaction-feedback.test.mjs, message-actions.test.mjs,
 message-presentation.test.mjs e bridge/test_author_colors.py. Dados sintéticos;
 nenhum teste envia a contato real. Comum ainda precisa executar essas fixtures
 no seu próprio adaptador antes de marcar cada célula como validada no CM/ALP.
+
+### Candidato26.10.29-b — produto CWH primeiro
+
+R15/R17/R25/R26: envelope `renderChatMessage`, citação `renderChatQuote` e
+validação de cor compartilhados, adotados pelo CWH. Descritor do autor fornecido
+pelo host; citado tem identidade/cor própria. Autoria, conversa, direção e dia
+determinam sequência, não role. Política de avatar próprio configurável.
+R27: somente apresentação da contagem já agregada; seletor/operação ainda no
+CWH. R28/R29/R30/R31/R32 não são declarados extraídos por esta entrega.
+
+Fixtures CWH de28 balões/5 citações capturadas na fonte26.10.29-r antes da troca
+comparam o HTML completo sem diferença; CSS do host conservado. Casos comuns
+incluem dois autores assistant, duas conversas, citação com autor diferente,
+entrada desconhecida e escape de texto/cor. ALP permanece26.10.29-a nesta frente,
+sem adaptação/publicação presumida. CA/CAW permanecem intocados. CWH dita esta
+rodada de integração; ALP é laboratório e se adapta depois.

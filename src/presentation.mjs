@@ -7,6 +7,10 @@
  * @property {'user'|'assistant'|'system'} role
  * @property {number} createdAt Epoch milliseconds UTC.
  * @property {Array<object>} parts Ordered parts of ONE message.
+ * @property {boolean=} edited
+ * @property {boolean=} breakBefore
+ * @property {boolean=} breakAfter
+ * @property {{conversationId:string,messageId:string,authorId:string|null,preview:object}=} replyTo
  * @property {string=} requestId
  * @property {string=} attemptId
  */
