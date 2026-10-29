@@ -1,4 +1,9 @@
-# CChatRender
+# CCR — Crânio Chat Render
+
+**CCR** é o nome curto de CChatRender, aprovado por Fábio em29/10/2026.
+O nome técnico `@crania/chat-render`, os caminhos e imports continuam estáveis.
+Artefatos ricos CES em anexos JSON/HTML são a próxima etapa, mapeada em
+[documentos ricos CES](docs/CCR-RICH-DOCUMENT.md); não são suporte já instalado.
 
 Versão CES `26.10.29b`; distribuição npm `26.10.29-b`. Componente local, sem publicação em registry.
 

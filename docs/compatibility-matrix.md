@@ -101,3 +101,13 @@ incluem dois autores assistant, duas conversas, citação com autor diferente,
 entrada desconhecida e escape de texto/cor. ALP permanece26.10.29-a nesta frente,
 sem adaptação/publicação presumida. CA/CAW permanecem intocados. CWH dita esta
 rodada de integração; ALP é laboratório e se adapta depois.
+
+### Nome CCR e documentos CES —mapeamento29/10
+
+CCR = Crânio Chat Render, mesmo módulo/pacote CChatRender. Adaptação ALP para
+26.10.29-b autorizada ao chat dono, ainda sem resultado presumido nesta revisão.
+
+| ID | Capacidade | Situação e aceite futuro |
+| --- | --- | --- |
+| R33 | Reconhecer documento rico CES | Mapeado em CCR-RICH-DOCUMENT.md; owner/format/version/renderer/type propostos. Decoder não instalado; JSON/HTML comum e incompatíveis continuam arquivo. |
+| R34 | Mesmo dado rico por host/canal | Um decoder CCR e adaptadores de recurso; mesmo JSON mantém tipos/ordem no ALP/CWH. CAW tipado e plugins ALP têm diferenças inventariadas; não é paridade entregue. |

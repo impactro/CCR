@@ -47,3 +47,11 @@ integrador nesta rodada, mantendo HTML/CSS e reconciliação atuais. ALP se adap
 posteriormente; Crania Agent/CAW ficam fora das alterações. Testes sintéticos de
 autoria/escopo, escape e avatar configurável; integração usa fixtures anteriores
 do produto. Não extrai transporte, banco, parser WhatsApp ou despacho de ações.
+
+## 29/10/2026 — nome CCR e mapa de documentos ricos
+
+Nome curto aprovado: CCR, Crânio Chat Render, preservando nome técnico/pacote.
+ALP autorizado a adotar envelope comum já entregue no CWH. Documentado formato
+proposto de arquivo CES JSON/HTML, versões e fronteira com SEND_JSON/V4, incluindo
+lacunas de tipos CAW/CCR e fallback de arquivo. Não há decoder publicado nem
+reempacotamento do26.10.29-b por estas mudanças de documentação.

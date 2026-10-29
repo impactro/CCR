@@ -1,4 +1,8 @@
-# Evolução gradual do render de chat compartilhado
+# CCR — evolução gradual do render de chat compartilhado
+
+CCR significa **Crânio Chat Render**, nome curto humano do CChatRender. Nome do
+pacote `@crania/chat-render` e caminhos permanecem estáveis. O próximo conteúdo
+rico em documentos CES está mapeado em [CCR-RICH-DOCUMENT.md](CCR-RICH-DOCUMENT.md).
 
 ## Objetivo e direção
 
@@ -343,3 +347,16 @@ suite do CWH, mais DOM com CSS completo e estabilidade de player/PDF/rascunho.
 Isso não é homologação visual do plugin PDF em navegador. Texto WhatsApp, mídias,
 ações nativas, recibos, filas e preferências continuam no adaptador; extração
 do trilho de ações e atualização de partes permanecem etapas seguintes.
+
+## Rodada ALP e próximo conteúdo rico —29/10/2026
+
+Fábio autorizou expressamente o chat PC-IA ALP a adotar o CCR26.10.29-b e
+aproximar seu envelope visual ao CWH preservando todo o conteúdo rico interno.
+O aviso anterior de apenas documentar foi substituído por essa autorização.
+Resultado/commit/publicação devem ser confirmados pelo dono ALP, sem presumir
+implantação pelo envio do pedido. CA/CAW continuam fora das alterações.
+
+Anexos JSON/HTML com marcador CES e versões de arquivo/contrato CCR são a próxima
+fatia de conteúdo. O [mapa do documento](CCR-RICH-DOCUMENT.md) separa apresentação
+de SEND_JSON/V4, preserva download comum e registra tipos/gráficos ainda ausentes.
+Não instalar detector nem afirmar paridade de conteúdo rico nesta adaptação visual.
