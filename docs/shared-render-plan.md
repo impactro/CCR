@@ -28,7 +28,7 @@ durável. O estado de execução pertence à fila local do projeto responsável.
 | Migração separada | A migração e ativação do agente AIstein pertencem à tarefa de Migração AIstein; este plano não a substitui. |
 | Padronização ao final | Um contrato mínimo permite conectar os componentes; protocolo, comunicação, tipagem e dados são consolidados após os três consumidores funcionarem. Preservar os protocolos públicos existentes durante a transição. |
 
-## Referências atuais
+## Referências históricas de25/10/2026
 
 | Fonte observada | Referência | Interpretação |
 | --- | --- | --- |
@@ -138,22 +138,26 @@ migração. Registrar a nova direção no plano existente do CWH, sem abrir uma 
 paralela com o mesmo escopo. Migração operacional primeiro; evolução de render
 não deve atrasar a ativação já autorizada do agente com recursos existentes.
 
-## Etapas e critérios de avanço
+## Etapas e critérios de avanço — ordem revista em29/10/2026
 
-| Etapa | Entrega | Critério de avanço |
+Esta ordem substitui a sequência inicial que antecipava extração do CAW.
+Primeiro CWH/PergunteAI/CChatRender; depois agentes/testes; CAW por último.
+
+| Etapa | Entrega pequena | Critério de avanço |
 | --- | --- | --- |
-| E0 Referências e inventário | Lista de clientes/versões/customizações, mapa das dependências e matriz inicial | Identificar origem canônica, instalação de teste, responsáveis e extensões de cada consumidor. |
-| E1 Paralelismo sem troca | Entradas identificadas para caw/alp/next, seleção explícita por consumidor e comportamento desconhecido recusado | Driver instalado e versão conferida; voltar ao anterior sem trocar motor, dados ou perfis. next não é habilitado por padrão. |
-| E2 Extração do CAW atual | Extrair apresentação em fatias e substituir dependências por adaptadores | A fatia extraída se comporta como antes no CAW de teste; preservar hooks/classes e rotas utilizadas pelo host. |
-| E3 Chat mínimo CWH | Um usuário, uma conversa, executor existente e render selecionável | Texto, dados e mídia funcionam localmente, com erros/cancelamento coerentes e sem envios WhatsApp decorrentes do teste Web. |
-| E4 Evolução pareada no ALP | Enriquecer next e aumentar compatibilidade do driver ALP por capacidades pequenas | Cada item possui fixture, comparação visual/funcional e regressões relevantes. Melhorias genéricas voltam ao módulo; regras eleitorais ficam no ALP. |
-| E5 CAW instalado no Lab | Composição própria do CAW para testar o candidato | Validar temas/customizações e pelo menos dois usuários/workspaces e duas conversas, incluindo troca durante carregamento. Um chat CWH de usuário único não certifica isolamento entre usuários. |
-| E6 Três consumidores funcionando | ALP, CWH e CAW local usando a mesma revisão candidata | Conferir versões/hashes, protocolos, dados e capacidades por consumidor. Não basta carregar a página ou produzir resposta complete. |
-| E7 Consolidação e adoção | Padronizar contratos finais e promover para clientes em ondas autorizadas | Matriz sem lacunas impeditivas no escopo do cliente, retorno comprovado e aceite por instância. Remover legado somente depois, em ciclo específico. |
+| E0 Inventário | Fontes, versões e diferenças dos dois consumidores | ComparaçãoCWH e confirmaçãoPC-IA ALP; não presumir produção pelo checkout. Concluído no escopo inicial. |
+| E1 Primeira base | PDF nativo, apresentação de data/agrupamento, lifecycle e state por conversa | Pacote26.10.29-a consumido pelos dois; testes sintéticos. Entregue a fatia; ainda não é casca comum completa nem diff incremental. |
+| E2 Autoria e citação | Descritor do autor, cor fornecida pelo host, cabeçalho e quadro de citação | Mesmo autor em duas conversas, citado com autor diferente do remetente, próprio avatar configurável e temas claro/escuro. Próxima fatia proposta. |
+| E3 Ações e reações | Trilho de ações por capacidade, seletor8/81, indicação de reação própria, feedback imediato | Sem botão sem callback; UI não espera rede; erro tardio não desfaz escolha mais recente; host conserva autorização/recibo. |
+| E4 Atualização e mídia | Atualização por mensagem/parte estável e visualizador na conversa | Alterar texto/recibo/reação sem remontar mídias inalteradas; troca de conversa e descarte corretos. Parear CWH e ALP antes de retirar cópias. |
+| E5 Agentes e testes no CWH | Conversar com executor existente e projeção comum | Duas conversas sintéticas, cancelamento quando oferecido e nenhum envio WhatsApp pelo teste Web. Executor/filas fora do render. |
+| E6 CAW posterior | Inventário específico e integração em ambiente de teste | Só após a base dos dois produtos; dois usuários/workspaces/conversas, temas e recursos isolados. Nenhuma alteração CA/CAW autorizada nesta rodada. |
+| E7 Consolidação | Retirar adaptações temporárias e promover por instância | Revisões identificadas, matriz com evidências e teste dos consumidores; nenhum upgrade global implícito. |
 
-E1/E2 e o desenho do CWH podem ser planejados em paralelo. A migração ativa do
-agente conserva sua prioridade. A publicação em clientes CAW não começa junto
-com uma mudança experimental do ALP ou do CWH.
+Cada etapa fecha uma capacidade útil, com pacote fixado e consumidor testado.
+Não criar diretórios/drivers vazios nem copiar a aplicação inteira para o módulo.
+A extração usa os protótipos CWH e a adaptação ALP; não transforma um protótipo
+local em terceira implementação permanente. A fila local do dono registra execução.
 
 ## Pareamento de uma capacidade por vez
 
@@ -231,3 +235,87 @@ nenhum desses três produtos de referência é alterado por esta padronização.
 Contrato e limites da fatia estão no README e src/presentation.mjs.
 A referência local25-b já estava commitada em bac0062; a célula histórica acima
 é fotografia do plano25/10, não o estado vigente. Pacote candidato26.10.29-a.
+
+
+## Mapa funcional revisto após o uso diário —29/10/2026
+
+Referências: CChatRender código4483ea1/pacote26.10.29-a; CWH fontee6c106a/
+26.10.29-r; última publicação ALP confirmada nesta frente b6c507f/26.10.29d/
+Sites96. Ler a comparação do CWH para instalação e testes. A presente revisão
+muda planejamento/documentação, não o pacote nem a versão instalada do módulo.
+
+### Autoria, conversas e contratos
+
+Manter conversationId, messageId, authorId, role, direction e createdAt já
+acordados. role não identifica uma pessoa e direction depende de quem está
+vendo a conversa. Dois agentes com role assistant precisam de authorIds
+diferentes; não agrupar por papel, nome ou posição do balão.
+
+O contexto do host deverá resolver authorId para um descritor {id, displayName,
+avatar?, color?}; as propriedades atuais authorName/authorColor nos DTOs CWH
+são adaptação do produto, não novo protocolo público de transporte. Identidades
+e preferências são escopadas ao host/conta/workspace. visitorId ALP não vira
+contato WhatsApp; igualdade de nomes/números não estabelece equivalência.
+PN/LID só compartilham preferência após vínculo nativo verificado pelo host.
+
+A cor pertence ao autor e atravessa conversas. O núcleo recebe a cor validada;
+não lê SQLite/localStorage nem consulta contatos para decidir identidade. O
+CWH já persiste auto/manual/reset e resolve aliases; isso continua no host.
+O módulo compartilha marcação, tokens e apresentação da paleta/callback.
+Cabeçalho/avatares devem ser configuráveis: CWH usa foto apenas no início de
+sequências recebidas e omite avatar próprio, sem universalizar essa decisão.
+
+Citação é referência separada: replyTo {conversationId,messageId,authorId,
+preview}. preview preserva tipo/ordem e é texto/recurso autorizado, não HTML
+confiável. Nome/cor/barra são do autor citado, não de quem responde. Conteúdo
+original indisponível conserva alternativa legível. Abrir a mensagem original
+é callback do host, não consulta ao banco pelo núcleo. Citar conteúdo numa
+conversa com IA não o transforma em instrução privilegiada.
+
+### Componentes e capacidades seguintes
+
+| Componente | Origem concreta | Destino comum | Responsabilidade que fica no host |
+| --- | --- | --- | --- |
+| Identidade/cabeçalho | CWH message-presentation + author-colors; ALP adapter | Nome/foto/cor, sequência e configuração do avatar próprio | Resolver identidade, persistir cor e permissões. |
+| Quadro de citação | CWH renderQuote/quoteMarkup | Referência, prévia, autor correto e barra quadrada | Recuperar original e produzir payload de resposta nativo. |
+| Reações | CWH reaction-feedback/message-actions | Emojis, contagem e reação própria;8 atalhos/+81 simples | Próprio autor e autorização de remover; operação real. |
+| Trilho de ações | CWH mensagem | responder, reagir, visualizar, baixar, encaminhar; só disponíveis | Capacidade por mensagem, tipo/recurso e callbacks autorizados. |
+| Resposta visual imediata | CWH reaction-feedback | Fechar painel antes da rede, projeção local e erro não bloqueante | UUID/recibo, confirmação real e política de retry. Não inventar entrega. |
+| Lista de destinatários | CWH recipient-list | Busca, foto/nome e seleção reutilizáveis | Carregar destinos e aplicar a política do canal. Sem Status por padrão. |
+| Visualizador | PDF nativo comum e viewer CWH | Uma área na conversa, baixar/fechar, imagem/vídeo/PDF nativos | Autorização, origem, MIME, propriedade e revogação de Blob. |
+| Progresso na testeira | CWH fila de encaminhamento; ALP jobs | Slot/estado visual com callbacks de controle | Dispatcher, ritmo, pausa real, persistência e trabalho do agente. |
+
+Capacidades precisam de ações separadas: canReply/canReact/canRemoveOwnReaction/
+canPreview/canDownload/canForward. São nomes propostos para o contrato da
+próxima fatia; não descrever como exports já existentes. Ausência de callback
+oculta a ação. Somente ter uma imagem no corpo não autoriza download/encaminhar.
+A presença de reação de terceiro não habilita a lixeira da própria reação.
+
+Reação é estado por actorId/emoji e mensagem; a contagem é projeção. O host
+fornece autoria própria/aliases verificados. Uma resposta antiga de rede não
+pode desfazer um clique posterior. Feedback otimista fica em memória, é
+limitado e limpo por escopo; não substitui recibos ou histórico canônico.
+A perda de rede não deve aprisionar o usuário num diálogo de confirmação.
+
+### Fronteiras do WhatsApp e ordem de extração
+
+Marcador/contador nativo de encaminhamento, regras de grupos/destinos, parte
+imediata, fila1/min, pareamento, leitura, transcrição, agentes e SQLite continuam
+no CWH. O núcleo pode mostrar um badge/estado fornecido pelo adaptador; não
+interpreta forwardingScore, não cria fila e não contorna limitações de canal.
+Preferências de PIN/favorito/etiquetas também são do host; círculos/tooltip e
+trilho fixo de navegação são padrões de composição, não gestão do WhatsApp.
+
+A primeira PR/pacote candidato deve extrair somente autoria/citação e os
+respectivos testes. Integrar nos dois produtos; só depois extrair ações e
+feedback. Mostrar no ALP apenas as capacidades efetivamente implementadas,
+sem inventar encaminhamento WhatsApp para respostas de IA. Listas, composer e
+casca inteira ficam para fatias posteriores quando houver ganho comprovado.
+
+Aceite comum mínimo: dois autores em dois chats mantêm cor; citado de outro
+autor conserva a própria cor; papel igual de duas IAs não une identidade;
+reação de terceiro não mostra remover; clicar atualiza antes de uma Promise
+pendente; resposta tardia/troca de escopo é descartada; player/PDF/rascunho se
+mantêm; teclado e tema são verificados com CSS do host completo. A regra
+global de input que ampliou checkboxes no CWH é regressão a cobrir por cascade,
+não motivo para copiar CSS global do produto para a biblioteca.

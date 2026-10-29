@@ -1,6 +1,6 @@
 # Matriz de compatibilidade dos renders de chat
 
-Inventário do [plano compartilhado](shared-render-plan.md). CAW significa a
+Inventário original de25/10/2026 do [plano compartilhado](shared-render-plan.md). CAW significa a
 fonte local de referência; ALP significa o pacote 26.10.25-a com os plugins do
 produto. next é a linha candidata ainda não implementada. Presença no código
 não equivale a homologação em outro consumidor ou em todos os clientes CAW.
@@ -59,3 +59,29 @@ R18/R19: update preserva mídia quando snapshot/escopo/revisão não mudam; muda
 de corpo ainda remonta. Testes presentation.test.mjs incluem troca de conversa,
 meia-noite local e Blob com origem/autorização explícitas. Não certifica CAW.
 Integração e publicação ALP/CWH são evidências próprias dos consumidores.
+
+
+### Revisão de escopo29/10 — protótipos CWH não equivalem a capacidade instalada no CM
+
+Pacote comum permanece26.10.29-a. CWH fontee6c106a/26.10.29-r;
+ALP última confirmação b6c507f/26.10.29d. CA/CAW seguem fora desta rodada.
+As células da tabela original acima são históricas; as evidências posteriores
+registram evolução. Novas linhas mantêm IDs estáveis, sem virar backlog paralelo.
+
+| ID | Capacidade | CWH atual | ALP conferido | CChatRender atual / candidato |
+| --- | --- | --- | --- | --- |
+| R25 | Autor e cor por identidade | Automática fixa, manual/reset no privado e aliases verificados; SQLite no host | Autor/projeção no produto; cor por autor não conferida nesta revisão | Não fornece cadastro/paleta de autor; candidato recebe descritor do host. |
+| R26 | Citação | Referência/direção nativa, prévia, autor/cor do citado e barra quadrada | Comportamento de citação não pareado | Ausente como componente comum; próximo E2. |
+| R27 | Reagir e remover própria |8/+81, contagem, própria e feedback imediato | Não pareado | Apresentação/callback/own state candidatos; operação não pertence ao núcleo. |
+| R28 | Ações por mensagem | Ordem responder/reagir/visualizar/baixar/encaminhar; mídia condicional | Ações próprias de conteúdo rico | Contrato granular ainda proposto; ausência de ação deve ocultar controle. |
+| R29 | UI otimista | Fecha antes da rede; operações por mensagem ordenadas, erro tardio protegido | Polling de execução; feedback de reação não pareado | update conserva snapshot igual; não é framework completo de ações/diff. |
+| R30 | Seletor de pessoas | Busca/seleção, nomes/fotos e exclusão de Status | Não pareado | Componente candidato; destinos/regras carregados pelo host. |
+| R31 | Progresso de encaminhamento | Fila durável, primeira parte conforme metadados e depois1/min; pausa/retomada/cancelar | Jobs de IA são outro domínio | Slot visual pode ser comum; dispatcher, ritmo e recibos permanecem no host. |
+| R32 | Casca e navegação compactas | Toggle X/menu ancorado, labels circulares/tooltip/clear condicional, testeira compacta | Layout específico do produto | Tokens/classes/composição a alinhar; não importar shell inteiro. |
+
+R15/R17/R19/R20/R21 continuam transversais: temas completos, estado por conversa,
+identidade, descarte e disponibilidade de ações. Testes de referência CWH:
+author-colors.test.mjs, reaction-feedback.test.mjs, message-actions.test.mjs,
+message-presentation.test.mjs e bridge/test_author_colors.py. Dados sintéticos;
+nenhum teste envia a contato real. Comum ainda precisa executar essas fixtures
+no seu próprio adaptador antes de marcar cada célula como validada no CM/ALP.
