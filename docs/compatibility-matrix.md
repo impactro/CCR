@@ -127,3 +127,17 @@ com mesmo validador de tabela. Outros gráficos/plugins CAW continuam lacuna.
 R34: objeto e arquivo equivalentes testados no núcleo; cada host confirma adoção.
 R20: copyText e richDocumentText para cópia local/TSV, sem transporte.31 testes.
 E4/diff completo e dispatcher de ações comuns não são declarados entregues.
+
+Evidência CWH68881ab/t:277 testes e DOM com CSS claro/escuro,18 assets instalados
+sem restart;2 documentos sintéticos enviados pelo CWH para self, observados na
+captura local como file/fromMe/sent. Recuperação nativa na origem com hash dos
+bytes igual ao original, sem forçar rede. DTOs capturados +bytes correspondentes
+renderizados pelo adaptador real em DOM: tabela3linhas/gráfico3barras/HTMLpassivo,
+download e copiar externos, sem segunda moldura. Não é inspeção de navegador.
+ALP corrigiu a moldura/cópia em26.10.29f/Sites98/8970092,106 testes; módulo c
+adotado posteriormente por versão própria a confirmar. Nenhum envio a terceiro.
+
+Fechamento ALP:26.10.29g/Sites99/83f13fc, CCR26.10.29-c/hash fixado,111 testes
+e exemplos equivalentes por objeto/arquivo no adaptador, cópia comum com foco.
+Transporte público ALP ainda sem documents/upload; não é E2E público de anexos.
+Plugins existentes preservados; não há decoder alternativo. PCIA parado.

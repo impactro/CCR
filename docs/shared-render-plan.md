@@ -387,3 +387,10 @@ tipos/null/false/zero, sandbox, cópia/rascunho e lifecycle. CWH valida o adapta
 com CSS completo e polling, preservando arquivo e ações nativas. Teste real
 autorizado: até2 arquivos sintéticos para self2670, somente por rota existente
 autenticada e com destino exato; não criar credencial/contorno para o ensaio.
+
+Fechamento: CWH68881ab/t instalado semrestart,2 documentos sintéticos self
+observados porIDnativo na captura local, recuperados na origem com hashigual;
+DTOs ebytes correspondentes renderizados emDOM com CSScompleto. Seminspeção
+debrowser. ALP83f13fc/26.10.29g/Sites99 adotou CCRc,111testes; transporteALP
+aindasemdocuments/upload, adaptador explícito validado porfixtures. CA/CAW
+intocados. R34 preserva esse limite; ampliar transporte é fatia posterior.
