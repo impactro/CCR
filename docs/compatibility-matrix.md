@@ -111,3 +111,8 @@ CCR = Crânio Chat Render, mesmo módulo/pacote CChatRender. Adaptação ALP par
 | --- | --- | --- |
 | R33 | Reconhecer documento rico CES | Mapeado em CCR-RICH-DOCUMENT.md; owner/format/version/renderer/type propostos. Decoder não instalado; JSON/HTML comum e incompatíveis continuam arquivo. |
 | R34 | Mesmo dado rico por host/canal | Um decoder CCR e adaptadores de recurso; mesmo JSON mantém tipos/ordem no ALP/CWH. CAW tipado e plugins ALP têm diferenças inventariadas; não é paridade entregue. |
+
+Confirmação ALP:26.10.29e/Sites97/9d93d42, CCR26.10.29-b,105 testes e
+build/conteúdo rico, envelope único instalado; R15/R17/R25/R26 consumidos,
+preservando autores/personagens, cores e citação. API/assets conferidos pelo
+dono no PC-IA; nenhum screenshot de navegador. R33/R34 continuam mapeamento.

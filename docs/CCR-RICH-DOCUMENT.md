@@ -81,7 +81,7 @@ documento pai. HTML sem marcador continua arquivo. Ainda não implementado.
 | CCR src/sandbox.js | HTML isolado; scripts desligados por padrão;120000 caracteres | Scripts dependem do host, nunca do header. |
 | CA ca/json_format.py | data com title, columns[{label,type}], rows; string/html/number/boolean/date/datetime/null | Mais tipos que o núcleo CCR. Fonte apenas lida, sem alterar CA. |
 | CAW showdata.js | Tabela e pizza/rosca/empilhados/dispersão/timeline/indicadores/outros | Não declarar paridade porque há um gráfico de barras no CCR. |
-| ALP | Núcleo CCR e plugins do produto | Inventário confirmado pelo chat PC-IA ALP; mapas/base eleitoral permanecem plugins. |
+| ALP26.10.29e | Markdown, data/table/chart, views/dashboards, HTML/SPA, SVG/Mermaid, mapas, relacionais, demos/candidatos, mídia e artefatos por hash | Inventário docs/CCR-TIPOS-RICOS.md confirmado pelo chat PC-IA ALP, commit9d93d42; mapas/base eleitoral permanecem plugins. |
 
 Preservar ordem, tipos, unidades e null; não converter ausência em zero, boolean
 em número ou data em número para encaixar no menor denominador. HTML em célula
@@ -126,3 +126,14 @@ JSON/HTML comum continua arquivo; incompatível/quebrado conserva download;
 autor/conversa não vêm do anexo; scripts/campos não concedem efeitos; troca de
 conversa libera recursos. Documentação não equivale a funcionalidade publicada.
 Execução fica na fila do projeto dono, sem segunda fila de tarefas aqui.
+
+## Confirmação da primeira adaptação ALP
+
+PC-IA ALP confirmou26.10.29e, Sites97, commit9d93d42, CCR26.10.29-b com hash
+628fa90270b05486883caf58aae1dc8bdb7a7e592ac3f47160f1a41e83fd20e8.
+105 testes, build, conteúdo rico/ESM/UTF-8 e assets públicos conferidos pelo dono;
+worker PCIA permanece parado. Sem screenshot de navegador. O inventário acima
+é capacidade encontrada no ALP, não prova de export comum de todos esses plugins.
+Decoder de documentos ricos não foi instalado. A cópia de proposta ada9fd7 no
+vendor CWH permanece snapshot daquela revisão; este inventário é confirmação
+posterior, sem alterar o pacote CCR26.10.29-b já distribuído.

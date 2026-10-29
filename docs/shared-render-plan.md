@@ -360,3 +360,10 @@ Anexos JSON/HTML com marcador CES e versões de arquivo/contrato CCR são a pró
 fatia de conteúdo. O [mapa do documento](CCR-RICH-DOCUMENT.md) separa apresentação
 de SEND_JSON/V4, preserva download comum e registra tipos/gráficos ainda ausentes.
 Não instalar detector nem afirmar paridade de conteúdo rico nesta adaptação visual.
+
+Fechamento ALP confirmado pelo chat dono:26.10.29e/Sites97/9d93d42,
+CCR26.10.29-b com hash fixado, montador local antigo removido,105 testes e
+build/conteúdo rico/ESM/UTF-8 aprovados; assets/API públicos conferidos no PC-IA.
+Autores/personagens distintos, cor do citado e mídia preservados. Sem captura
+visual, browser Work desabilitado. Worker PCIA permanece Stopped. E2 tem os dois
+consumidores; isso não entrega E3/E4 nem o decoder R33/R34.
