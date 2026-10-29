@@ -1,0 +1,13 @@
+{
+  "owner": "CES",
+  "format": "ccr.document",
+  "version": 1,
+  "renderer": {"name": "CCR", "version": 1},
+  "type": "data",
+  "view": "bar",
+  "title": "Exemplo CCR — gráfico local",
+  "data": {
+    "columns": [{"label": "Região", "type": "string"}, {"label": "Total", "type": "number"}],
+    "rows": [["Norte", 12], ["Sul", 8], ["Centro", 0]]
+  }
+}

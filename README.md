@@ -2,10 +2,10 @@
 
 **CCR** é o nome curto de CChatRender, aprovado por Fábio em29/10/2026.
 O nome técnico `@crania/chat-render`, os caminhos e imports continuam estáveis.
-Artefatos ricos CES em anexos JSON/HTML são a próxima etapa, mapeada em
-[documentos ricos CES](docs/CCR-RICH-DOCUMENT.md); não são suporte já instalado.
+Artefatos ricos CES JSON/HTML usam o contrato v1 do CCR26.10.29-c, descrito em
+[documentos ricos CES](docs/CCR-RICH-DOCUMENT.md). O host fornece recurso autorizado.
 
-Versão CES `26.10.29b`; distribuição npm `26.10.29-b`. Componente local, sem publicação em registry.
+Versão CES `26.10.29c`; distribuição npm `26.10.29-c`. Componente local, sem publicação em registry.
 
 Leitura de dados: gráficos locais usam rótulos e valores maiores, números em
 negrito e linhas de barras mais altas. Em telas estreitas, a figura mantém uma
@@ -171,3 +171,30 @@ corpo rico sobre o mensageiro. Não há troca de parser WhatsApp por Markdown.
 Renderização de mídias, visualizador, ações, persistência de cores, seleção de
 reação própria, fila e reciprocidade de transporte continuam no CWH. O corpo
 rico `createChatRenderer` continua uma entrada separada para o host que o usa.
+
+## Documentos ricos e copiar —26.10.29c
+
+`@crania/chat-render/document` exporta decodeRichDocument/createDocumentRenderer
+e richDocumentText, sem Markdown/DOMPurify. Um arquivo JSON/HTML com marcador
+CES e versões1 produz tabela tipada, gráfico bar/column/line/area ou HTML passivo.
+Sem marcador/inválido/incompatível continua arquivo no adaptador. Limites e tipos
+em [contrato v1](docs/CCR-RICH-DOCUMENT.md), exemplos em examples/rich-documents.
+
+```js
+import {decodeRichDocument,createDocumentRenderer} from '@crania/chat-render/document';
+import {copyText} from '@crania/chat-render/clipboard';
+import '@crania/chat-render/document.css';
+const decoded=decodeRichDocument(jsonText); // ou objeto/documento HTML marcado
+if(decoded.status==='ready'){
+ const renderer=createDocumentRenderer();
+ const handle=renderer.update(container,decoded.document);
+ // Ao remover a mensagem: renderer.dispose(container).
+}
+// Em um clique do usuário: await copyText(textoVisivel).
+```
+
+O corpo rico existente aceita message.documents com esses mesmos envelopes e
+inclui as prévias no limite visual/lifecycle. A faixa de ações permanece FORA
+do article.bubble; copiar é ação local do host e não depende da conexão de envio.
+Dentro da bolha ficam somente texto, citação e corpo rico; o host deve remover
+fundos/bordas antigos de wrappers internos para evitar uma segunda moldura.

@@ -1,6 +1,6 @@
 {
   "name": "@crania/chat-render",
-  "version": "26.10.29-b",
+  "version": "26.10.29-c",
   "private": true,
   "type": "module",
   "description": "Host-independent rich chat presentation with bounded plugins and isolated media",
@@ -10,11 +10,16 @@
     "./sandbox-runtime": "./src/sandbox-runtime.js",
     "./sandbox-host": "./src/sandbox-host.js",
     "./presentation": "./src/presentation.mjs",
-    "./conversation": "./src/conversation.mjs"
+    "./conversation": "./src/conversation.mjs",
+    "./document": "./src/document-renderer.mjs",
+    "./document.css": "./src/document.css",
+    "./clipboard": "./src/clipboard.mjs"
   },
   "files": [
     "src",
-    "README.md"
+    "README.md",
+    "examples/rich-documents",
+    "docs/CCR-RICH-DOCUMENT.md"
   ],
   "scripts": {
     "test": "node --test tests/*.test.mjs"
@@ -27,5 +32,5 @@
     "esbuild": "0.28.2",
     "jsdom": "29.1.1"
   },
-  "cesVersion": "26.10.29b"
+  "cesVersion": "26.10.29c"
 }

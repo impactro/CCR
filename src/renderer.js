@@ -5,6 +5,7 @@ import {createHtmlFrame} from './sandbox.js';
 import {createMedia} from './media.js';
 import {createDataTable} from './data.js';
 import {createDataChart} from './chart.js';
+import {createDocumentRenderer,decodeRichDocument} from './document-renderer.mjs';
 
 const tags = ['p','br','strong','em','del','ul','ol','li','blockquote','h1','h2','h3','h4','table','thead','tbody','tr','th','td','a','pre','code','hr'];
 const parser = new Marked({gfm: true, breaks: true, renderer: {html() { return ''; }}});
@@ -33,9 +34,10 @@ export function createChatRenderer(options = {}) {
   const plugins = options.plugins || {};
   const limits = {text: 150000, block: 120000, visuals: 4, ...options.limits};
   const snapshots=new WeakMap();
+  const documents=createDocumentRenderer({locale:options.locale});
   return {
     update(element,message={},extra={}) {
-      const key=JSON.stringify([extra.conversationId,extra.messageId,extra.resourceRevision,message.text,message.attachments]);
+      const key=JSON.stringify([extra.conversationId,extra.messageId,extra.resourceRevision,message.text,message.attachments,Array.isArray(message.documents)?message.documents.map(decodeRichDocument):[]]);
       const old=snapshots.get(element);
       if(extra.conversationId&&extra.messageId&&old?.key===key&&!old.handle.signal.aborted)return old.handle;
       const handle=this.render(element,message,extra);snapshots.set(element,{key,handle});return handle;
@@ -94,8 +96,15 @@ export function createChatRenderer(options = {}) {
           if (typeof result?.dispose === 'function') scope.cleanup(() => result.dispose());
         } catch { error(code.parentElement); }
       }
-      for (const item of (Array.isArray(message.attachments) ? message.attachments : []).slice(0, Math.max(0, limits.visuals - visuals))) {
+      const attachments=(Array.isArray(message.attachments)?message.attachments:[]).slice(0,Math.max(0,limits.visuals-visuals));
+      for (const item of attachments) {
         try { element.append(createMedia(document, item, context)); } catch { issue('render_error'); }
+      }
+      visuals+=attachments.length;
+      for(const value of (Array.isArray(message.documents)?message.documents:[]).slice(0,Math.max(0,limits.visuals-visuals))){
+        const container=document.createElement('div'),handle=documents.update(container,value);
+        element.append(container);scope.cleanup(()=>documents.dispose(container));
+        if(handle.result.status!=='ready')issue('document_unavailable');
       }
       return {dispose: () => {
         scope.dispose();

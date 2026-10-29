@@ -116,3 +116,14 @@ Confirmação ALP:26.10.29e/Sites97/9d93d42, CCR26.10.29-b,105 testes e
 build/conteúdo rico, envelope único instalado; R15/R17/R25/R26 consumidos,
 preservando autores/personagens, cores e citação. API/assets conferidos pelo
 dono no PC-IA; nenhum screenshot de navegador. R33/R34 continuam mapeamento.
+
+### CCR26.10.29-c — R33/R34 e copiar
+
+R33 implementado: contrato v1, marker CES JSON/HTML, validação estrita e status
+unrecognized/unsupported/invalid que conservam arquivo no adaptador. Até1MiB,
+table/bar/column/line/area e HTML passivo; versão de formato não é versão npm.
+R04 ampliado: string/number/boolean/date/datetime/html inline limitado/null,
+com mesmo validador de tabela. Outros gráficos/plugins CAW continuam lacuna.
+R34: objeto e arquivo equivalentes testados no núcleo; cada host confirma adoção.
+R20: copyText e richDocumentText para cópia local/TSV, sem transporte.31 testes.
+E4/diff completo e dispatcher de ações comuns não são declarados entregues.

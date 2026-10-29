@@ -55,3 +55,13 @@ ALP autorizado a adotar envelope comum já entregue no CWH. Documentado formato
 proposto de arquivo CES JSON/HTML, versões e fronteira com SEND_JSON/V4, incluindo
 lacunas de tipos CAW/CCR e fallback de arquivo. Não há decoder publicado nem
 reempacotamento do26.10.29-b por estas mudanças de documentação.
+
+## 26.10.29c — documentos CES e cópia local
+
+Contrato ccr.document v1: decoder comum, tabelas tipadas preservando null/false/
+zero/datas, quatro gráficos locais e HTML passivo marcado. Campos/versões/
+limites validados; anexo comum/incompatível não vira conteúdo executável. Entrada
+document independente e message.documents no renderer rico, com lifecycle e
+orçamento visual. CSS escopado, exemplos de arquivo e cópia em texto/TSV.
+Clipboard local com fallback que restaura foco/seleção do rascunho. Envelope
+continua único; ações externas são adaptadas pelos consumidores, CA/CAW intocados.

@@ -1,7 +1,18 @@
+import {validateTable} from './data-value.mjs';
+const INLINE_TAGS=new Set(['B','STRONG','EM','I','U','S','BR','CODE','SMALL','SPAN']);
+const DROP_TAGS=new Set(['SCRIPT','STYLE','IFRAME','OBJECT','EMBED','SVG','MATH','LINK','META','BASE','FORM','INPUT','BUTTON','TEXTAREA']);
+function inlineHtml(document,text){
+ const parsed=document.createElement('template'),fragment=document.createDocumentFragment();parsed.innerHTML=text;
+ const copy=(source,target)=>{for(const node of source.childNodes){
+  if(node.nodeType===3)target.append(document.createTextNode(node.textContent));
+  else if(node.nodeType===1&&!DROP_TAGS.has(node.tagName)){
+   const next=INLINE_TAGS.has(node.tagName)?document.createElement(node.tagName.toLowerCase()):document.createDocumentFragment();
+   copy(node,next);target.append(next);
+  }
+ }};copy(parsed.content,fragment);return fragment;
+}
 export function createDataTable(document, value, {locale='pt-BR'}={}) {
-  if (!value || !Array.isArray(value.columns) || !Array.isArray(value.rows) || !value.columns.length || value.columns.length > 16 || value.rows.length > 1000) throw Error('Dados fora do limite');
-  const columns = value.columns.map(c => typeof c === 'string' ? c : c?.label);
-  if (columns.some(c => typeof c !== 'string' || c.length > 120)) throw Error('Coluna inválida');
+  const validated=validateTable(value),columns=validated.columns.map(column=>column.label);
   const wrap = document.createElement('figure'); wrap.className = 'chat-data';
   const title = document.createElement('figcaption'); title.textContent = String(value.title || 'Dados').slice(0, 180);
   const table = document.createElement('table'), head = document.createElement('thead'), tr = document.createElement('tr');
@@ -9,10 +20,14 @@ export function createDataTable(document, value, {locale='pt-BR'}={}) {
   head.append(tr); table.append(head);
   const body = document.createElement('tbody');
   const number=new Intl.NumberFormat(locale,{maximumFractionDigits:6});
-  for (const row of value.rows) {
-    if (!Array.isArray(row) || row.length !== columns.length || row.some(v => v !== null && !(typeof v === 'string' && v.length <= 2000) && !(typeof v === 'number' && Number.isFinite(v)))) throw Error('Linha inválida');
+  for (const row of validated.rows) {
     const line = document.createElement('tr');
-    for (const value of row) { const td = document.createElement('td'); td.textContent = value === null ? 'Sem dado' : typeof value==='number'?number.format(value):value; line.append(td); }
+    row.forEach((value,index)=>{const td=document.createElement('td'),type=validated.columns[index].type;
+      if(type)td.dataset.type=type;
+      if(value!==null&&type==='html')td.append(inlineHtml(document,value));
+      else td.textContent=value===null?'Sem dado':typeof value==='number'?number.format(value):typeof value==='boolean'?value?'Sim':'Não':value;
+      line.append(td);
+    });
     body.append(line);
   }
   table.append(body); wrap.append(title, table);

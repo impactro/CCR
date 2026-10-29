@@ -367,3 +367,23 @@ build/conteúdo rico/ESM/UTF-8 aprovados; assets/API públicos conferidos no PC-
 Autores/personagens distintos, cor do citado e mídia preservados. Sem captura
 visual, browser Work desabilitado. Worker PCIA permanece Stopped. E2 tem os dois
 consumidores; isso não entrega E3/E4 nem o decoder R33/R34.
+
+## CCR26.10.29-c — documento rico v1 e cópia
+
+Continuidade humana sem prints autorizou a primeira implementação R33/R34:
+decoder comum de arquivo CES, tabela tipada, quatro gráficos e HTML passivo,
+entrada document sem Markdown e message.documents no renderer rico. Contrato
+versionado em CCR-RICH-DOCUMENT.md. Não extrai plugins eleitorais nem implementa
+o catálogo completo de gráficos CAW. Não altera SEND_JSON/V4/CA/CAW.
+
+Fábio também apontou a moldura duplicada no ALP e pediu copiar texto como ação
+externa. Copiar é utilitário local CCR; consumidores decidem texto/capacidades.
+No CWH a ordem é responder/reagir/copiar/visualizar/baixar/encaminhar, com mídia
+condicional. ALP remove classes/fundos herdados de bolhas internas e conserva
+uma só moldura. Essa correção foi passada ao chat dono, sem concorrência no módulo.
+
+Validação da biblioteca:31 testes, objeto/arquivo equivalentes, limites/versões,
+tipos/null/false/zero, sandbox, cópia/rascunho e lifecycle. CWH valida o adaptador
+com CSS completo e polling, preservando arquivo e ações nativas. Teste real
+autorizado: até2 arquivos sintéticos para self2670, somente por rota existente
+autenticada e com destino exato; não criar credencial/contorno para o ensaio.
