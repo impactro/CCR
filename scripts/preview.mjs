@@ -4,13 +4,12 @@ import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {build} from 'esbuild';
 const root=new URL('../',import.meta.url),fixtures=new URL('.agents/fixtures/',root);
 await mkdir(fixtures,{recursive:true});
-const bundle=await build({entryPoints:[new URL('examples/demo.js',root).pathname.replace(/^\/(.:)/,'$1')],bundle:true,write:false,format:'esm',external:['/pdf-runtime.js']});
-const pdfBundle=await build({entryPoints:[new URL('src/pdf-runtime.js',root).pathname.replace(/^\/(.:)/,'$1')],bundle:true,write:false,format:'esm',minify:true});
+const bundle=await build({entryPoints:[new URL('examples/demo.js',root).pathname.replace(/^\/(.:)/,'$1')],bundle:true,write:false,format:'esm'});
 const css=await readFile(new URL('src/styles.css',root),'utf8');
 const frame='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><script defer src="/sandbox-host.js"></script><style>html,body,iframe{margin:0;width:100%;height:100%;border:0}</style></head><body><iframe id="app" title="Conteúdo isolado" sandbox="allow-scripts" data-content-url="/rich-content.html"></iframe></body></html>';
 const content='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><script defer src="/sandbox.js"></script></head><body><main id="content"></main></body></html>';
 const page='<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>CChatRender · validação local</title><link rel="stylesheet" href="/demo.css"><script type="module" src="/demo.js"></script></head><body><header><span>CM / CChatRender</span><h1>Uma resposta, vários formatos.</h1><p>Verificação local · valores e mídia sintéticos · sem acesso a dados de atendimento</p></header><main></main><footer><button id="dispose">Liberar recurso de teste</button></footer></body></html>';
-const policy="default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'";
+const policy="default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; frame-src 'self' https://www.youtube-nocookie.com; connect-src 'self'; object-src 'self'; base-uri 'none'; form-action 'none'";
 const framePolicy="default-src 'none'; script-src 'self' 'unsafe-eval'; style-src 'unsafe-inline'; img-src data:; media-src data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; sandbox allow-scripts";
 const svg='<svg xmlns="http://www.w3.org/2000/svg" width="600" height="240"><rect width="600" height="240" fill="#e6f2eb"/><circle cx="150" cy="120" r="65" fill="#168657"/><path d="M270 175L330 65L390 175Z" fill="#ddae54"/><text x="420" y="125" font-size="22" fill="#18352c">Mídia local</text></svg>';
 const stream='BT /F1 22 Tf 50 740 Td (CChatRender - PDF fixture) Tj ET';
@@ -26,8 +25,6 @@ const server=http.createServer(async(req,res)=>{
  if(!asset){res.writeHead(404);res.end('Fixture indisponível');return;}
  res.writeHead(200,{'Content-Type':asset[1]});res.end(asset[0]);
 });
-routes.set('/pdf-runtime.js',[pdfBundle.outputFiles[0].text,'text/javascript']);
 routes.set('/rich-content.html',[content,'text/html']);
 routes.set('/sandbox-host.js',[await readFile(new URL('src/sandbox-host.js',root)),'text/javascript']);
-routes.set('/pdf-worker.mjs',[await readFile(new URL('../build/pdf.worker.mjs',import.meta.resolve('pdfjs-dist'))),'text/javascript']);
 server.listen(4271,'127.0.0.1',()=>console.log('CChatRender preview http://127.0.0.1:4271'));

@@ -1,6 +1,6 @@
 # CChatRender
 
-Versão CES `26.10.25b`; distribuição npm `26.10.25-b`. Componente local, sem publicação em registry.
+Versão CES `26.10.29a`; distribuição npm `26.10.29-a`. Componente local, sem publicação em registry.
 
 Leitura de dados: gráficos locais usam rótulos e valores maiores, números em
 negrito e linhas de barras mais altas. Em telas estreitas, a figura mantém uma
@@ -17,8 +17,6 @@ import '@crania/chat-render/styles.css'; // ou compilar no CSS do host
 
 const renderer = createChatRenderer({
   allowHtmlScripts: false,
-  pdfLoader: () => import('/pdf-runtime.js'), // opcional, bundle separado
-  pdfWorkerUrl: '/pdf-worker.mjs',
   plugins: {custom(source, context) { /* validar; devolver um Node */ }},
   allowResource: url => url.origin === location.origin && url.pathname.startsWith('/files/')
 });
@@ -67,14 +65,7 @@ event handlers HTML e frames; remove o invólucro dos formulários preservando
 controles locais. Código autorizado usa addEventListener. HTML sem scripts pode
 usar srcdoc passivo sanitizado, sem links de navegação automática.
 
-PDF usa PDF.js somente após clicar em Pré-visualizar PDF. O host compila o export
-`@crania/chat-render/pdf-runtime` separadamente e serve o worker de
-`pdfjs-dist/build/pdf.worker.mjs` da versão fixada. Sem loader configurado,
-aparece apenas o link de abertura. O componente não usa o plugin PDF nativo.
-O host permite `worker-src 'self'` e `connect-src 'self'` para os seus artefatos;
-a CSP isolada dos miniapps continua sem rede. Prévia de uma página por vez,
-até30MiB e mil páginas; sem XFA, eval, WASM ou scripts/anotações executáveis.
-Canvas não substitui o texto acessível do documento original; preservar o link.
+PDF usa o visualizador nativo do navegador; não há PDF.js, worker ou canvas. O host fornece `viewerContainer`, uma área posicionada da conversa, para abertura com Baixar/Fechar.
 
 Recursos são negados por padrão, exceto URLs próprias no contrato
 `/api/session/artifact/<UUID>`. Origens HTTPS ou paths adicionais exigem opção
@@ -104,3 +95,30 @@ O npm rejeitou a instalação de `26.10.25a` como versão de dependência
 (`Invalid Version` no comparador SemVer). Exceção técnica de empacotamento:
 `package.json.version` usa `26.10.25-a`; `cesVersion` e `release.json.version`
 conservam a versão oficial. A correspondência é um para um, sem alias móvel.
+
+## Primeira convergência CWH/PergunteAI — 29/10/2026
+
+`presentation` exporta `sequenceFor`, `messageTime`, `messageDay` e
+`createConversationState`. O contrato JSDoc ChatMessage usa conversationId,
+messageId, authorId, role, direction, createdAt (milissegundos UTC) e parts
+ordenadas. requestId/attemptId são opcionais; sessão/visitante não são conversa.
+O host conserva transporte, banco, autorização, ordem e protocolos existentes.
+CWH converte segundos/fromMe no adaptador; PergunteAI converte seus registros.
+
+Agrupamento: mesma conversa/autor conhecido/direção/dia no fuso do host
+(São Paulo padrão); eventos de sistema e breakBefore/breakAfter interrompem.
+A data é separadora em negrito; cada mensagem conserva hora e identidade.
+Partes de uma resposta não viram mensagens artificiais. authorId ausente não
+agrupa. CSS kebab-case com componentes chat-* e tokens --ca-ui-* fornecidos
+pelo host, seguindo a convenção observada em CA, CCI e CMAIL, sem alterá-los.
+
+`renderer.update(element, message, {conversationId,messageId,resourceRevision})`
+preserva DOM quando texto/anexos/escopo/revisão de recurso não mudam. Mudança
+de conteúdo ainda reconstrói o corpo: não é diff incremental completo.
+Recibos/horários ficam fora do corpo. `render()` continua montagem explícita.
+O host deve mudar resourceRevision quando a autorização/recurso mudar.
+Blob exige origem igual e allowResource explícito para a URL exata concedida;
+o proprietário da URL conserva sua revogação. viewerContainer é o contêiner
+posicionado da conversa; descarte fecha e descarrega PDF. Metadados/ações de
+uma conversa não autorizam acesso a outra. Estado por conversa é memória da
+visualização; não cria/migra histórico nem fornece autorização.

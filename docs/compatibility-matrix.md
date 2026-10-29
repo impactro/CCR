@@ -46,3 +46,16 @@ visitantes, credenciais ou arquivos privados de clientes.
 A matriz não contém executor ou estado de tarefa; esses dados ficam na fila
 única do projeto dono. Uma lacuna vira uma tarefa local referenciada, e não uma
 segunda lista de pendências neste documento.
+
+
+### Candidato26.10.29-a — primeira convergência
+
+R10/R19: PDF nativo sob demanda com contêiner fornecido pelo host, baixar,
+fechar e descarte; PDF.js/worker/dependência removidos. Teste sintético DOM em
+sandbox-pdf.test.mjs; aparência do plugin nativo depende do navegador.
+R15/R17: projection ChatMessage documentada, classes chat-* e tokens --ca-ui-*,
+agrupamento por autor/conversa/direção/dia, state por conversa em memória.
+R18/R19: update preserva mídia quando snapshot/escopo/revisão não mudam; mudança
+de corpo ainda remonta. Testes presentation.test.mjs incluem troca de conversa,
+meia-noite local e Blob com origem/autorização explícitas. Não certifica CAW.
+Integração e publicação ALP/CWH são evidências próprias dos consumidores.

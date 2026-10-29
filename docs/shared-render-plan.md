@@ -218,3 +218,16 @@ somente a ação de seu dono.
 Ao abrir cada ciclo, reler este plano e a matriz. Ao fechar, atualizar evidências
 e decisões no lugar, registrar o resultado no histórico e encerrar apenas a
 tarefa efetivamente entregue. Não sobrescrever a direção por um resumo de chat.
+
+
+## Primeira passada aprovada em 29/10/2026
+
+Escopo imediato: PergunteAI, CWH e CChatRender. CA/CAW ficam fora desta rodada.
+O usuário aprovou contratos mínimos de apresentação, PDF nativo, agrupamento,
+data/hora igualmente no ALP e preparação de múltiplas conversas. PDF.js foi
+explicitamente removido, sem manter driver legado. Nomes CSS seguem kebab-case,
+classes chat-* delimitadas e tokens --ca-ui-* como nos componentes CA/CCI/CMAIL;
+nenhum desses três produtos de referência é alterado por esta padronização.
+Contrato e limites da fatia estão no README e src/presentation.mjs.
+A referência local25-b já estava commitada em bac0062; a célula histórica acima
+é fotografia do plano25/10, não o estado vigente. Pacote candidato26.10.29-a.

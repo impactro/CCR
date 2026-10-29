@@ -32,10 +32,18 @@ export function disposeAnswer(element) { scopes.get(element)?.dispose(); scopes.
 export function createChatRenderer(options = {}) {
   const plugins = options.plugins || {};
   const limits = {text: 150000, block: 120000, visuals: 4, ...options.limits};
+  const snapshots=new WeakMap();
   return {
+    update(element,message={},extra={}) {
+      const key=JSON.stringify([extra.conversationId,extra.messageId,extra.resourceRevision,message.text,message.attachments]);
+      const old=snapshots.get(element);
+      if(extra.conversationId&&extra.messageId&&old?.key===key&&!old.handle.signal.aborted)return old.handle;
+      const handle=this.render(element,message,extra);snapshots.set(element,{key,handle});return handle;
+    },
     split: text => splitAnswer(text, Object.keys(plugins)),
     dispose: disposeAnswer,
     render(element, message = {}, extra = {}) {
+      snapshots.delete(element);
       disposeAnswer(element);
       const scope = createScope(); scopes.set(element, scope);
       const document = element.ownerDocument, window = document.defaultView;

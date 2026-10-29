@@ -3,6 +3,10 @@ export function resourceUrl(value, {baseUrl, resourceOrigins = [], allowResource
   if (typeof value !== 'string' || value.length > 2048) throw Error('Recurso inválido');
   const base = new URL(baseUrl);
   const url = new URL(value, base);
+  if(url.protocol==='blob:'){
+    if(url.origin!==base.origin||typeof allowResource!=='function'||allowResource(url)!==true)throw Error('Blob não autorizado pelo host');
+    return url.href;
+  }
   if (url.username || url.password || url.hash || !['http:', 'https:'].includes(url.protocol)) throw Error('URL inválida');
   const localArtifact = url.origin === base.origin && /^\/api\/session\/artifact\/[a-f0-9-]{36}$/.test(url.pathname) && !url.search;
   const external = url.protocol === 'https:' && resourceOrigins.includes(url.origin);
@@ -49,8 +53,7 @@ export function createMedia(document, item, context) {
         figure.append(transcript);
       }
     } else if (kind === 'pdf') {
-      media = typeof context.options.pdfLoader==='function' ? createPdfPreview(document,src,context) : document.createElement('p');
-      if (!context.options.pdfLoader) media.textContent='Use Abrir PDF para visualizar o documento.';
+      media = createPdfPreview(document,src,context);
     } else if (kind !== 'file') throw Error('Tipo de mídia não suportado');
     if (media) figure.prepend(media);
     const link = document.createElement('a'); link.href = src;
