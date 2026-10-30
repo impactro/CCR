@@ -403,3 +403,22 @@ export sem clone; corpo/player/PDF/rascunho independentes. CWH integra markup
 puro no dispatcher existente; ALP recebe o mesmo pacote para seu adaptador.
 38 testes locais. O diff completo do corpo e a área de testes de agentes
 continuam próximas fatias; CAW não é alterado.
+
+## Fechamento da faixa comum — 29/10/2026
+
+CWH ec5c3b2 +12ed59c/fe5327c, patch26.10.29-u, consome CCR26.10.29-d
+(implementação37c0381). Pacote SHA-256
+5192b128d3bd5caefc39af98774229d25a7f5250a1175946e910fafa6bfea47d,
+distribuído pelo vendor CWH; sem publicação npm nem remoto próprio do CM.
+
+PC-IA ALP confirmou publicação26.10.29h/Sites100/879d703 com esse mesmo pacote.
+121 testes e checks de conteúdo rico/build/ESM/sessão. Controles nativos de
+export adotados sem clone; cópia local, downloads com AbortSignal e descarte
+impedem arquivos/feedback tardios. Uma bolha e ações externas preservadas.
+Transporte ALP continua sem documents/upload; PCIA permanece parado.
+
+Faixa comum consumida nos dois hosts. Diff completo das partes do corpo e a
+área de agentes/testes continuam próximas fatias no backlog LAB-CHAT-001 do CWH.
+O novo serviço MCP CWH é infraestrutura de host, não responsabilidade do CCR.
+CA205636f altera somente delegação de autenticação MCP; nenhum render CAW ou
+cliente CA foi promovido. Não declarar E4 completo nem nova geração TTS MCP.

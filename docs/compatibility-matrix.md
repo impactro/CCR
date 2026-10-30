@@ -150,3 +150,10 @@ export sem clone; corpo/player/PDF/rascunho independentes. CWH integra markup
 puro no dispatcher existente; ALP recebe o mesmo pacote para seu adaptador.
 38 testes locais. O diff completo do corpo e a área de testes de agentes
 continuam próximas fatias; CAW não é alterado.
+
+Adoção confirmada CCRd: CWH26.10.29-u (ec5c3b2 +12ed59c/fe5327c) instalado
+por patch seletivo e ALP26.10.29h/Sites100/879d703 publicado,121 testes. Ambos
+consomem a mesma faixa externa por capacidades. ALP preserva callbacks/controles
+nativos e cancela fetch/export ao descartar. CWH conserva dispatcher e visual;
+277 testes frontend e DOM claro/escuro aprovados. E4/diff completo e área de
+testes de agentes continuam futuros. CA somente adapter MCP em fonte, sem CAW.
