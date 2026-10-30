@@ -5,7 +5,8 @@ O nome técnico `@crania/chat-render`, os caminhos e imports continuam estáveis
 Artefatos ricos CES JSON/HTML usam o contrato v1 do CCR26.10.29-c, descrito em
 [documentos ricos CES](docs/CCR-RICH-DOCUMENT.md). O host fornece recurso autorizado.
 
-Versão CES `26.10.29d`; distribuição npm `26.10.29-d`. Componente local, sem publicação em registry.
+Versões CES e npm atuais estão em package.json/release.json. Componente local,
+distribuído por artefatos identificados, sem publicação em registry.
 
 Leitura de dados: gráficos locais usam rótulos e valores maiores, números em
 negrito e linhas de barras mais altas. Em telas estreitas, a figura mantém uma
@@ -15,8 +16,11 @@ continua responsivo. Cores, mapas e largura da conversa são políticas do host.
 Renderizador de respostas ricas, independente de motor de IA, servidor, dados e
 identidade do produto. Origem no Pergunte Aí; a evolução atual prioriza o CWH,
 produto em uso diário. ALP é laboratório/showroom e se adapta ao contrato do
-produto. Crania Agent é a referência comercial do ecossistema; CA/CAW não são
-alterados nesta rodada. Biblioteca JavaScript,
+produto. Crania Agent é a referência comercial do ecossistema. CAW, LP/ALP,
+CWH e os demais consumidores seguem o mesmo
+[contrato de apresentação](docs/CHAT-PRESENTATION-CONTRACT.md); o tema fornece
+a identidade, e o host adapta dados e capacidades. Adoção integral em cada
+produto exige evidência própria. Biblioteca JavaScript,
 sem serviço Windows nem registro de ferramentas de agente.
 
 ```js
