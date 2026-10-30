@@ -5,7 +5,7 @@ O nome técnico `@crania/chat-render`, os caminhos e imports continuam estáveis
 Artefatos ricos CES JSON/HTML usam o contrato v1 do CCR26.10.29-c, descrito em
 [documentos ricos CES](docs/CCR-RICH-DOCUMENT.md). O host fornece recurso autorizado.
 
-Versão CES `26.10.29c`; distribuição npm `26.10.29-c`. Componente local, sem publicação em registry.
+Versão CES `26.10.29d`; distribuição npm `26.10.29-d`. Componente local, sem publicação em registry.
 
 Leitura de dados: gráficos locais usam rótulos e valores maiores, números em
 negrito e linhas de barras mais altas. Em telas estreitas, a figura mantém uma
@@ -198,3 +198,12 @@ inclui as prévias no limite visual/lifecycle. A faixa de ações permanece FORA
 do article.bubble; copiar é ação local do host e não depende da conexão de envio.
 Dentro da bolha ficam somente texto, citação e corpo rico; o host deve remover
 fundos/bordas antigos de wrappers internos para evitar uma segunda moldura.
+
+## CCR26.10.29-d — ações externas
+
+Faixa comum de ações por capacidade, IDs opacos, ordem e callbacks do host;
+API em [CCR-ACTIONS.md](docs/CCR-ACTIONS.md). Atualização keyed, AbortSignal/dispose e controles nativos de
+export sem clone; corpo/player/PDF/rascunho independentes. CWH integra markup
+puro no dispatcher existente; ALP recebe o mesmo pacote para seu adaptador.
+38 testes locais. O diff completo do corpo e a área de testes de agentes
+continuam próximas fatias; CAW não é alterado.

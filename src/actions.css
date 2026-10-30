@@ -1,0 +1,5 @@
+.chat-action-rail{display:flex;align-items:center;flex-wrap:wrap;gap:2px}
+.chat-action-rail [hidden]{display:none!important}
+.chat-action-rail>button,.chat-action-rail>a{display:inline-grid;place-items:center;min-width:24px;min-height:24px;padding:3px;border:0;background:transparent;color:var(--ca-ui-muted,currentColor);text-decoration:none;cursor:pointer}
+.chat-action-rail svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.chat-action-rail :disabled,.chat-action-rail [aria-disabled=true]{opacity:.5;cursor:default}

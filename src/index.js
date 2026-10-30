@@ -8,3 +8,4 @@ export {messageTime,messageDay,sequenceFor,createConversationState,DEFAULT_TIME_
 export {renderChatMessage,renderChatQuote,isAuthorColor} from './conversation.mjs';
 export {createDocumentRenderer,decodeRichDocument,richDocumentText,RICH_DOCUMENT_VERSION,RICH_DOCUMENT_MAX_BYTES,RICH_DOCUMENT_VIEWS} from './document-renderer.mjs';
 export {copyText} from './clipboard.mjs';
+export {renderMessageActions,createMessageActionRail} from './actions.mjs';

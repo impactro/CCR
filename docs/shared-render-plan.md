@@ -394,3 +394,12 @@ DTOs ebytes correspondentes renderizados emDOM com CSScompleto. Seminspeção
 debrowser. ALP83f13fc/26.10.29g/Sites99 adotou CCRc,111testes; transporteALP
 aindasemdocuments/upload, adaptador explícito validado porfixtures. CA/CAW
 intocados. R34 preserva esse limite; ampliar transporte é fatia posterior.
+
+## CCR26.10.29-d — ações externas
+
+Faixa comum de ações por capacidade, IDs opacos, ordem e callbacks do host;
+API em [CCR-ACTIONS.md](CCR-ACTIONS.md). Atualização keyed, AbortSignal/dispose e controles nativos de
+export sem clone; corpo/player/PDF/rascunho independentes. CWH integra markup
+puro no dispatcher existente; ALP recebe o mesmo pacote para seu adaptador.
+38 testes locais. O diff completo do corpo e a área de testes de agentes
+continuam próximas fatias; CAW não é alterado.

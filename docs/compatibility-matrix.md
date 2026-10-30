@@ -141,3 +141,12 @@ Fechamento ALP:26.10.29g/Sites99/83f13fc, CCR26.10.29-c/hash fixado,111 testes
 e exemplos equivalentes por objeto/arquivo no adaptador, cópia comum com foco.
 Transporte público ALP ainda sem documents/upload; não é E2E público de anexos.
 Plugins existentes preservados; não há decoder alternativo. PCIA parado.
+
+## CCR26.10.29-d — ações externas
+
+Faixa comum de ações por capacidade, IDs opacos, ordem e callbacks do host;
+API em [CCR-ACTIONS.md](CCR-ACTIONS.md). Atualização keyed, AbortSignal/dispose e controles nativos de
+export sem clone; corpo/player/PDF/rascunho independentes. CWH integra markup
+puro no dispatcher existente; ALP recebe o mesmo pacote para seu adaptador.
+38 testes locais. O diff completo do corpo e a área de testes de agentes
+continuam próximas fatias; CAW não é alterado.
