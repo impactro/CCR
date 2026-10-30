@@ -5,6 +5,11 @@ O nome técnico `@crania/chat-render`, os caminhos e imports continuam estáveis
 Artefatos ricos CES JSON/HTML usam o contrato v1 do CCR26.10.29-c, descrito em
 [documentos ricos CES](docs/CCR-RICH-DOCUMENT.md). O host fornece recurso autorizado.
 
+As quatro superfícies do produto e os limites de cada tipo rico estão no
+[mapa de consumidores e capacidades](docs/RICH-CONTENT-CONSUMERS.md): CWH
+WhatsApp, CWH Assistente e CCI Explorador ativos; CAW na próxima migração.
+ALP permanece laboratório e referência de extensões.
+
 Versões CES e npm atuais estão em package.json/release.json. Componente local,
 distribuído por artefatos identificados, sem publicação em registry.
 

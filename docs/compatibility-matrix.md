@@ -1,5 +1,11 @@
 # Matriz de compatibilidade dos renders de chat
 
+Direção atual30/10/2026: três superfícies ativas (CWH WhatsApp, CWH Assistente,
+CCI Explorador) e CAW como quarta futura. ALP é laboratório/referência. A matriz
+histórica abaixo não declara paridade atual; consultar também
+[RICH-CONTENT-CONSUMERS.md](RICH-CONTENT-CONSUMERS.md) para tipos, capacidades
+geográficas, prompt canônico planejado e integração futura de email.
+
 Inventário original de25/10/2026 do [plano compartilhado](shared-render-plan.md). CAW significa a
 fonte local de referência; ALP significa o pacote 26.10.25-a com os plugins do
 produto. next é a linha candidata ainda não implementada. Presença no código

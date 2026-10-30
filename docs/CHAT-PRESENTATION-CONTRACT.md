@@ -5,6 +5,11 @@ seguem o mesmo padrão. O CCR é o núcleo do render de chat completo, incluindo
 o envelope da mensagem e suas ações, além do conteúdo rico. Não é apenas uma
 biblioteca de gráficos nem um tema opcional.
 
+As superfícies ativas do produto são CWH WhatsApp, CWH Assistente e CCI
+Explorador; CAW será a quarta. ALP permanece laboratório e referência de plugins.
+O mapa de canais, dados e capacidades está em
+[RICH-CONTENT-CONSUMERS.md](RICH-CONTENT-CONSUMERS.md).
+
 ## Responsabilidades
 
 | Dono | Responsabilidade |

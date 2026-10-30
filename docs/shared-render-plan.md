@@ -6,6 +6,12 @@ rico em documentos CES está mapeado em [CCR-RICH-DOCUMENT.md](CCR-RICH-DOCUMENT
 
 ## Objetivo e direção
 
+Atualização30/10/2026: as quatro superfícies do produto são CWH WhatsApp,
+CWH Assistente e CCI Explorador (ativas), mais CAW (próxima migração).
+ALP continua laboratório/consumidor de referência. O estado e as capacidades
+estão em [RICH-CONTENT-CONSUMERS.md](RICH-CONTENT-CONSUMERS.md). Essa direção
+substitui a contagem original de três consumidores abaixo.
+
 CAW, ALP e CWH devem terminar usando o mesmo render de chat, com adaptadores e
 configuração próprios. A evolução começa com implementações paralelas, preserva
 os clientes atuais e aproveita as melhorias do laboratório político. A adoção e
@@ -24,8 +30,8 @@ durável. O estado de execução pertence à fila local do projeto responsável.
 | Preservar o que funciona | CAW atual e ALP atual continuam disponíveis durante a evolução. |
 | Um módulo compartilhado | CChatRender é o nome de trabalho do módulo; não criar um fork permanente por consumidor. |
 | Três linhas paralelas | CAW atual, ALP atual e um candidato comum substituível, identificado inicialmente como next. next não é nome de produto ou versão pública. |
-| Três consumidores finais | Pergunte Aí/ALP, chat mínimo do CWH e CAW do CrânIA Agent. CAW é uma interface do CA, não um quarto consumidor. |
-| Laboratório primeiro | Usar ALP e chat mínimo do CWH para experimentar, sem substituir interfaces de clientes CAW. |
+| Quatro superfícies do produto | CWH WhatsApp, CWH Assistente, CCI Explorador e CAW; as três primeiras ativas. ALP é laboratório e referência. |
+| Produto primeiro | CWH dita a integração; ALP contribui e se adapta. CAW é migrado depois, preservando os clientes atuais. |
 | Compatibilidade incremental | Trabalhar item a item, com correspondência de comportamento, testes e pequenas melhorias transferidas entre os lados. |
 | Customização preservada | Manter temas, estilos, classes e pontos de extensão utilizados por cada cliente até uma migração explícita. |
 | Troca por instância | Cada consumidor seleciona uma versão e um driver; não existe promoção global implícita. |
