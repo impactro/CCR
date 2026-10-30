@@ -1,6 +1,7 @@
 import {decodeRichDocument} from './rich-document.mjs';
 import {createDataTable} from './data.js';
 import {createDataChart} from './chart.js';
+import {createHeatmap,createGeoMap} from './visuals.mjs';
 import {createHtmlFrame} from './sandbox.js';
 import {createScope} from './lifecycle.js';
 export {decodeRichDocument,RICH_DOCUMENT_VERSION,RICH_DOCUMENT_MAX_BYTES,RICH_DOCUMENT_VIEWS} from './rich-document.mjs';
@@ -31,7 +32,8 @@ export function createDocumentRenderer({locale='pt-BR'}={}){
    if(decoded.status==='ready'){
     try{
      const value=decoded.document;
-     content=value.type==='html'?createHtmlFrame(document,value.data.html,{scripts:false,title:value.title}):value.view==='table'?createDataTable(document,{...value.data,title:value.title},{locale}):createDataChart(document,{...value.data,title:value.title},{view:value.view,locale});
+     const data={...value.data,title:value.title};
+     content=value.type==='html'?createHtmlFrame(document,value.data.html,{scripts:false,title:value.title}):value.view==='table'?createDataTable(document,data,{locale}):value.view==='map'?createGeoMap(document,data,{locale}):value.view==='heatmap'?createHeatmap(document,data,{locale}):createDataChart(document,data,{view:value.view,locale});
      if(value.type==='html')scope.cleanup(()=>{content.removeAttribute('srcdoc');content.removeAttribute('src');});
     }catch{result={status:'invalid',code:'render_failed'};}
    }

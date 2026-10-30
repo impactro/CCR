@@ -1,6 +1,6 @@
 {
   "name": "@crania/chat-render",
-  "version": "26.10.29-d",
+  "version": "26.10.30-a",
   "private": true,
   "type": "module",
   "description": "Host-independent rich chat presentation with bounded plugins and isolated media",
@@ -35,5 +35,5 @@
     "esbuild": "0.28.2",
     "jsdom": "29.1.1"
   },
-  "cesVersion": "26.10.29d"
+  "cesVersion": "26.10.30a"
 }

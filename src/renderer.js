@@ -5,6 +5,7 @@ import {createHtmlFrame} from './sandbox.js';
 import {createMedia} from './media.js';
 import {createDataTable} from './data.js';
 import {createDataChart} from './chart.js';
+import {createHeatmap,createGeoMap} from './visuals.mjs';
 import {createDocumentRenderer,decodeRichDocument} from './document-renderer.mjs';
 
 const tags = ['p','br','strong','em','del','ul','ol','li','blockquote','h1','h2','h3','h4','table','thead','tbody','tr','th','td','a','pre','code','hr'];
@@ -14,7 +15,7 @@ const scopes = new WeakMap();
 const plain = value => typeof value === 'string' ? value : '';
 
 export function splitAnswer(text, kinds = []) {
-  const grids = new Set(['chart','data','table','dashboard','html','spa', ...kinds]);
+  const grids = new Set(['ccr','chart','data','table','map','heatmap','dashboard','html','spa', ...kinds]);
   const parts = [];
   for (const section of plain(text).split(/^\s*<!--\s*resposta\s*-->\s*$/gim).map(v => v.trim()).filter(Boolean)) {
     let current = '', hasGrid = false;
@@ -75,7 +76,7 @@ export function createChatRenderer(options = {}) {
         catch { error(table); }
       }
       let visuals = 0;
-      const builtins = new Set(['html','spa','audio','voice','video','youtube','image','pdf','file','data','table','chart']);
+      const builtins = new Set(['ccr','html','spa','audio','voice','video','youtube','image','pdf','file','data','table','chart','map','heatmap']);
       for (const code of [...element.querySelectorAll('pre > code')]) {
         const language = code.className.replace('language-', '').toLowerCase(), source = code.textContent;
         if (!Object.hasOwn(plugins, language) && !builtins.has(language)) {
@@ -87,7 +88,14 @@ export function createChatRenderer(options = {}) {
           let result;
           if (Object.hasOwn(plugins, language)) result = plugins[language](source, context);
           else if (language === 'html' || language === 'spa') result = createHtmlFrame(document, source, {scripts: options.allowHtmlScripts === true, runtimeUrl: options.htmlFrameUrl});
-          else if (language === 'chart') result = createDataChart(document, JSON.parse(source),{locale:options.locale});
+          else if (language === 'ccr') {
+            const node=document.createElement('div'),handle=documents.update(node,source);
+            if(handle.result.status!=='ready')throw Error('Invalid CCR document');
+            result={element:node,dispose:()=>documents.dispose(node)};
+          }
+          else if (language === 'chart') result = (options.renderChart||createDataChart)(document, JSON.parse(source),{locale:options.locale});
+          else if (language === 'map') result = (options.renderMap||createGeoMap)(document, JSON.parse(source),{locale:options.locale});
+          else if (language === 'heatmap') result = createHeatmap(document, JSON.parse(source),{locale:options.locale});
           else if (['data','table'].includes(language)) result = createDataTable(document, JSON.parse(source),{locale:options.locale});
           else result = createMedia(document, {...JSON.parse(source), type: language}, context);
           const node = result?.element || result;

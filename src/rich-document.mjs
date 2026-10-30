@@ -2,7 +2,7 @@ import {validateTable} from './data-value.mjs';
 
 export const RICH_DOCUMENT_VERSION=1;
 export const RICH_DOCUMENT_MAX_BYTES=1024*1024;
-export const RICH_DOCUMENT_VIEWS=Object.freeze(['table','bar','column','line','area']);
+export const RICH_DOCUMENT_VIEWS=Object.freeze(['table','bar','column','line','area','map','heatmap']);
 const HEADER='<!-- CES-CCR ';
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 const keys=(value,allowed)=>object(value)&&Object.keys(value).every(key=>allowed.includes(key));

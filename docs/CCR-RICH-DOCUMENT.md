@@ -153,3 +153,5 @@ worker PCIA permanece parado. Sem screenshot de navegador. O inventário acima
 A confirmação acima refere-se à primeira adaptação26.10.29-b, anterior ao
 decoder26.10.29-c. A cópia de proposta ada9fd7 no vendor CWH permanece snapshot
 histórico. Cada host confirma separadamente sua adoção da nova versão.
+
+Since26.10.30a, data views also include `heatmap` and `map`. Maps use numeric Latitude/Longitude columns and do not geocode or fetch a basemap. The Markdown rich renderer accepts the same CES document in a fenced `ccr` block. Existing unsupported-view fallbacks remain valid for older consumers.

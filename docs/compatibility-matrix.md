@@ -157,3 +157,19 @@ consomem a mesma faixa externa por capacidades. ALP preserva callbacks/controles
 nativos e cancela fetch/export ao descartar. CWH conserva dispatcher e visual;
 277 testes frontend e DOM claro/escuro aprovados. E4/diff completo e área de
 testes de agentes continuam futuros. CA somente adapter MCP em fonte, sem CAW.
+
+## 30/10 — Assistant rich protocol (CWH owner)
+
+CCR26.10.30a adds generic coordinate maps, numeric heatmaps and fenced `ccr`
+CES documents, reusing the same typed data/null contract. Markdown chart/map
+hooks let authorized hosts supply richer providers without provider imports in
+the core. Generic coordinates are distinct from ALP electoral layers; no ALP
+plugin or CAW code was changed. The native map retains an accessible table,
+plots valid lat/lon offline and links explicit points to Google Maps.
+
+The CWH Assistant opts into the existing opaque SPA runtime. WhatsApp rich
+attachments remain passive. One bubble, external actions and disposal are
+preserved. Native PDF stays the common file viewer. No Google Charts loader,
+ALP election basemap or CAW customer parity is claimed by this slice.
+Evidence: tests/visuals.test.mjs plus the existing lifecycle/runtime suite.
+Product execution/workspace stays in CWH LAB-CHAT-001, not CCR.

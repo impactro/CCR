@@ -3,6 +3,7 @@ export {createMedia, resourceUrl} from './media.js';
 export {createHtmlFrame} from './sandbox.js';
 export {createDataTable} from './data.js';
 export {createDataChart,localChartViews} from './chart.js';
+export {createHeatmap,createGeoMap} from './visuals.mjs';
 
 export {messageTime,messageDay,sequenceFor,createConversationState,DEFAULT_TIME_ZONE} from './presentation.mjs';
 export {renderChatMessage,renderChatQuote,isAuthorColor} from './conversation.mjs';
