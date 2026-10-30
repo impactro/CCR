@@ -207,3 +207,12 @@ export sem clone; corpo/player/PDF/rascunho independentes. CWH integra markup
 puro no dispatcher existente; ALP recebe o mesmo pacote para seu adaptador.
 38 testes locais. O diff completo do corpo e a área de testes de agentes
 continuam próximas fatias; CAW não é alterado.
+
+
+## CCR26.10.30b — shared visual vocabulary
+
+Use host --ca-ui-border, --ca-ui-muted, --ca-ui-warning, --ca-ui-text and
+--ca-ui-surface for the shared rich body. Font-family and base spacing belong
+to --ca-ui-font and --ca-ui-space in the host contract; CCR does not install
+a global reset, palette selector or configuration menu. Document pixels and
+chart data colors are not corporate theme tokens. APIs remain unchanged.

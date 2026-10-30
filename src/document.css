@@ -1,7 +1,7 @@
 .chat-rich-document{min-width:0;max-width:100%;white-space:normal;overflow:hidden}
 .chat-rich-document .chat-data{margin:6px 0;max-width:100%;overflow:auto;font-size:12px;line-height:1.5}
 .chat-rich-document .chat-data table{border-collapse:collapse;min-width:100%;width:max-content;max-width:100%;color:inherit}
-.chat-rich-document .chat-data th,.chat-rich-document .chat-data td{padding:6px 9px;border-bottom:1px solid var(--ca-ui-border,var(--line,#cdddda));text-align:left;max-width:36ch;overflow-wrap:anywhere;white-space:normal}
+.chat-rich-document .chat-data th,.chat-rich-document .chat-data td{padding:6px 9px;border-bottom:1px solid var(--ca-ui-border,#cdddda);text-align:left;max-width:36ch;overflow-wrap:anywhere;white-space:normal}
 .chat-rich-document .chat-data th{font-weight:700}.chat-rich-document .chat-data figcaption{font-size:12px;margin:4px 0;font-weight:600}
 .chat-rich-document .chat-data-source{font-weight:400!important;opacity:.75}
 .chat-rich-document .chat-local-chart>svg{display:block;min-width:560px;background:#fff;border-radius:3px}

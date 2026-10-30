@@ -173,3 +173,16 @@ preserved. Native PDF stays the common file viewer. No Google Charts loader,
 ALP election basemap or CAW customer parity is claimed by this slice.
 Evidence: tests/visuals.test.mjs plus the existing lifecycle/runtime suite.
 Product execution/workspace stays in CWH LAB-CHAT-001, not CCR.
+
+
+## 30/10 — Canonical visual tokens (CCR26.10.30b)
+
+Shared body/table borders, captions and error surfaces consume --ca-ui-* with
+neutral standalone fallbacks; the private --line fallback is removed. The host
+owns palette/font/spacing and exposes its tokens on the document root. CCR
+does not select a theme or discover identity. Structured SVG chart colors,
+heatmap scales, document HTML and native PDF retain their content semantics;
+a brand migration must not recolor document pixels or change authorization.
+CWH CSS-MIGRATION.md and CA VISUAL-IDENTITY.md describe consumer migration.
+This CSS-only release preserves renderer APIs and disposal. Immutable earlier
+packages remain available; consumers explicitly pin the new artifact hash.
