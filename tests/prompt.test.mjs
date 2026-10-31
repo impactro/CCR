@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {JSDOM} from 'jsdom';
-import {buildRenderPrompt,getRenderPromptContract,validateRenderPromptPlugin,RENDER_PROMPT_VERSION,RENDER_PROMPT_SCHEMA_VERSION} from '@crania/chat-render/prompt';
+import {buildRenderPrompt,getRenderPromptContract,validateRenderPromptPlugin,RENDER_PROMPT_VERSION,RENDER_PROMPT_SCHEMA_VERSION,MAX_RENDER_PROMPT_PLUGINS} from '@crania/chat-render/prompt';
 import {decodeRichDocument,RICH_DOCUMENT_VIEWS} from '../src/rich-document.mjs';
 import {createChatRenderer} from '../src/renderer.js';
 
@@ -74,4 +74,13 @@ test('malformed, remote-reference, cyclic or executable descriptors are refused 
   const cycle=plugin();cycle.schema.self=cycle;assert.throws(()=>validateRenderPromptPlugin(cycle),TypeError);
   let invoked=false;const getter=plugin();Object.defineProperty(getter,'schema',{get(){invoked=true;return {};}});assert.throws(()=>validateRenderPromptPlugin(getter));assert.equal(invoked,false);
   const tooLarge=plugin();tooLarge.schema.description='x'.repeat(33000);assert.throws(()=>validateRenderPromptPlugin(tooLarge),/prompt_descriptor_limit/);
+});
+
+test('the full ALP-sized registry fits without dropping plugins, while aggregate prompt size stays bounded',()=>{
+  assert.equal(MAX_RENDER_PROMPT_PLUGINS,32);
+  const plugins=Array.from({length:MAX_RENDER_PROMPT_PLUGINS},(_,i)=>({...plugin(),id:`example.plugin${i}`,fence:`plugin-${i}`}));
+  const text=buildRenderPrompt({plugins});assert.equal((text.match(/## Host plugin /g)||[]).length,32);
+  assert.throws(()=>buildRenderPrompt({plugins:[...plugins,{...plugin(),id:'example.extra',fence:'extra'}]}),/prompt_capabilities_invalid/);
+  const large=plugins.slice(0,5).map(p=>({...p,instructions:Array.from({length:8},()=> 'x'.repeat(1800))}));
+  assert.throws(()=>buildRenderPrompt({plugins:large}),/prompt_output_limit/);
 });

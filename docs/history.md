@@ -1,5 +1,14 @@
 # Histórico
 
+## 26.10.31b — catálogo completo de plugins ALP
+
+A inspeção do registro real productPlugins encontrou12 formatos existentes.
+O teto inicial de8 descritores foi substituído por32, sem remover capacidades
+do ALP. Limites de composição agora constam no JSON canônico compositionLimits;
+mantidos32KiB por descritor e65536 caracteres no texto final. Novo teste cobre
+catálogo maior que8, teto32 e estouro agregado. Nenhuma mudança nos drivers
+anteriores de render ou no contrato CES1. Esta é a revisão para a integração ALP.
+
 ## 26.10.31a — prompt canônico e capacidades do host
 
 O CCR publica config/prompts/render.prompt.json e MD de mesmo nome-base. O JSON

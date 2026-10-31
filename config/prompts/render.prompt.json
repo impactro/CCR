@@ -1,10 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "ccr.render",
-  "version": "26.10.31a",
-  "packageVersion": "26.10.31-a",
+  "version": "26.10.31b",
+  "packageVersion": "26.10.31-b",
   "renderer": {"name": "CCR", "version": 1},
   "limits": {"textChars": 150000, "blockChars": 120000, "visuals": 4, "columns": 16, "rows": 1000, "cellChars": 2000, "chartRows": 100, "mapPoints": 500, "documentBytes": 1048576, "htmlChars": 120000},
+  "compositionLimits": {"plugins": 32, "pluginBytes": 32768, "outputChars": 65536, "depth": 16, "nodes": 10000},
   "instructions": [
     "Use the language requested by the host or human. Markdown is the baseline for prose, lists, code and ordinary tables.",
     "Produce one message body. The host owns conversation identity, authors, bubbles, timestamps, receipts and action buttons; do not recreate that shell inside the content.",

@@ -2,15 +2,16 @@ import canonical from '../config/prompts/render.prompt.json' with {type:'json'};
 
 export const RENDER_PROMPT_VERSION = canonical.version;
 export const RENDER_PROMPT_SCHEMA_VERSION = canonical.schemaVersion;
+export const MAX_RENDER_PROMPT_PLUGINS = canonical.compositionLimits.plugins;
 const object = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 const fail = code => { throw new TypeError(code); };
 const names = value => typeof value === 'string' && /^[a-z][a-z0-9_.-]{0,79}$/.test(value);
 const fenceName = value => typeof value === 'string' && /^[a-z][a-z0-9-]{0,63}$/.test(value);
 
-function jsonCopy(input, maxBytes = 32768) {
+function jsonCopy(input, maxBytes = canonical.compositionLimits.pluginBytes) {
   let count = 0; const seen = new Set();
   function check(value, depth) {
-    if (++count > 10000 || depth > 16) fail('prompt_descriptor_limit');
+    if (++count > canonical.compositionLimits.nodes || depth > canonical.compositionLimits.depth) fail('prompt_descriptor_limit');
     if (value === null || ['string','boolean'].includes(typeof value)) return;
     if (typeof value === 'number' && Number.isFinite(value)) return;
     if (typeof value !== 'object' || seen.has(value)) fail('prompt_descriptor_json_required');
@@ -63,7 +64,7 @@ export function buildRenderPrompt(options = {}) {
   if (!object(options) || Object.keys(options).some(k => !['capabilities','plugins','limits'].includes(k))) fail('prompt_options_invalid');
   const {capabilities = [], plugins = [], limits = {}} = options;
   if (!Array.isArray(capabilities) || capabilities.length > 32 || capabilities.some(id => !canonical.capabilities.some(c => c.id === id))
-      || !Array.isArray(plugins) || plugins.length > 8 || !object(limits)) fail('prompt_capabilities_invalid');
+      || !Array.isArray(plugins) || plugins.length > MAX_RENDER_PROMPT_PLUGINS || !object(limits)) fail('prompt_capabilities_invalid');
   const effective = {...canonical.limits};
   for (const [key, value] of Object.entries(limits)) {
     if (!Object.hasOwn(effective,key) || !Number.isSafeInteger(value) || value < (key === 'visuals' ? 0 : 1) || value > effective[key]) fail('prompt_limits_invalid');
@@ -92,6 +93,6 @@ export function buildRenderPrompt(options = {}) {
     for (const e of p.examples) parts.push(example(p.fence,e.content));
   }
   const text = parts.join('\n\n') + '\n';
-  if (text.length > 65536) fail('prompt_output_limit');
+  if (text.length > canonical.compositionLimits.outputChars) fail('prompt_output_limit');
   return text;
 }

@@ -79,7 +79,8 @@ continuam sujeitos à configuração do host.
 ## Prompt canônico do render
 
 O CCR é dono da instrução que ensina a IA a produzir seus formatos a partir da
-release26.10.31a. Fonte canônica em `config/prompts/render.prompt.json`, acompanhada
+release26.10.31a; a revisão26.10.31b comporta o catálogo completo de plugins ALP.
+Fonte canônica em `config/prompts/render.prompt.json`, acompanhada
 de `render.prompt.md`, com exports `/prompt`, `/prompt.json` e `/prompt.md`.
 O JSON, a release e o pacote registram versões coerentes; os exemplos são
 validados pelo decoder/render real. [Contrato e integração](../config/prompts/render.prompt.md).
@@ -101,7 +102,7 @@ O pacote26.10.30b anterior não possuía esse export.
 A evolução começa com CWH WhatsApp, CWH Assistente e CCI Explorador; ALP contribui
 os plugins sob os mesmos contratos; CAW entra depois. O teste do núcleo é comum,
 mas o aceite de cada adaptador e sua versão permanecem identificados.
-Na adoção específica dos prompts26.10.31a, a orientação humana mais recente
+Na adoção específica dos prompts26.10.31b, a orientação humana mais recente
 restringe esta rodada a CCR e ALP nesta máquina. Não sincronizar os outros
 produtos/servidores por consequência da publicação; revisões antigas continuam
 funcionais, e adoção posterior exige atualizar o consumidor correspondente.

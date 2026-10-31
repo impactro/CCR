@@ -1,10 +1,12 @@
 # CCR — Crânio Chat Render
 
-**26.10.31a:** prompts canônicos de formato no próprio CCR, selecionados pelas
+**26.10.31b:** prompts canônicos de formato no próprio CCR, selecionados pelas
 capacidades e plugins reais do host. Exports `/prompt`, `/prompt.json` e
 `/prompt.md`; fonte única em [render.prompt.json](config/prompts/render.prompt.json)
 e [contrato de integração](config/prompts/render.prompt.md). O render anterior
 permanece compatível. A adoção desta rodada é coordenada com o ALP.
+O compositor comporta o catálogo completo de plugins do ALP, sem reduzir os
+formatos existentes; a revisão31a anterior tinha um limite inicial menor.
 
 ```js
 import {buildRenderPrompt} from '@crania/chat-render/prompt';

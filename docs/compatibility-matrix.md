@@ -6,7 +6,7 @@ histórica abaixo não declara paridade atual; consultar também
 [RICH-CONTENT-CONSUMERS.md](RICH-CONTENT-CONSUMERS.md) para tipos, capacidades
 geográficas, prompt canônico e integração futura de email.
 
-Em31/10/2026, CCR26.10.31a disponibiliza o prompt canônico JSON/MD e o builder
+Em31/10/2026, CCR26.10.31b disponibiliza o prompt canônico JSON/MD e o builder
 `@crania/chat-render/prompt`. Capacidade/plugin precisa ser declarada pelo host;
 exemplos são exercitados pelo decoder e render real. Esta rodada de integração
 abrange CCR+ALP, sem mudar os demais adaptadores. Histórico abaixo preservado.

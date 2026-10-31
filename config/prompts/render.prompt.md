@@ -2,7 +2,7 @@
 
 Fonte canônica: `render.prompt.json` neste mesmo diretório. Este Markdown explica
 o contrato e a configuração; não é uma segunda cópia da instrução para o modelo.
-Release CES26.10.31a, npm26.10.31-a, prompt schema1, documento CES/renderer1.
+Release CES26.10.31b, npm26.10.31-b, prompt schema1, documento CES/renderer1.
 
 ## Campos do JSON
 
@@ -12,6 +12,7 @@ Release CES26.10.31a, npm26.10.31-a, prompt schema1, documento CES/renderer1.
 | id/version/packageVersion | Identidade ccr.render e versões exatas do prompt/pacote distribuído. |
 | renderer | Nome CCR e versão do documento CES, independente da versão de release. |
 | limits | Tetos do núcleo. O host pode reduzir; aumentar requer outro contrato/teste. |
+| compositionLimits | Limites de composição de plugins/contexto; comporta o catálogo ALP sem remover formatos existentes. |
 | instructions | Instrução comum de formato, envelope, dados e recursos. |
 | capabilities | Catálogo fechado de formatos do núcleo. Presença no catálogo não habilita o formato no host. |
 | capabilities[].id/fences | Nome da capacidade e linguagens de bloco reconhecidas. |
@@ -80,7 +81,7 @@ instalados/habilitados. O CCR não descobre, baixa, instala ou autoriza plugins.
 
 `id`, `version` SemVer, `fence`, schema JSON inline, 1..8 instruções e 1..4
 exemplos são obrigatórios. São aceitos schemas raiz object/array/string, sem
-`$ref`/`$dynamicRef`; o builder não resolve rede. Limites:8 plugins, descritor
+`$ref`/`$dynamicRef`; o builder não resolve rede. Limites:32 plugins, descritor
 32KiB UTF-8, profundidade16 e10000 nós; texto final até65536 caracteres.
 
 `validateRenderPromptPlugin` valida o descritor, não executa JSON Schema sobre
