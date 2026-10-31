@@ -2,6 +2,9 @@
 
 **CCR** é o nome curto de CChatRender, aprovado por Fábio em29/10/2026.
 O nome técnico `@crania/chat-render`, os caminhos e imports continuam estáveis.
+Origem oficial pública: **[impactro/CCR](https://github.com/impactro/CCR)**.
+O diretório local pode continuar `CM/CChatRender`. Dependências Git devem fixar
+o SHA completo, conforme [origem e consumo pelo Git](docs/GIT-ORIGIN.md).
 Artefatos ricos CES JSON/HTML usam o contrato v1 do CCR26.10.29-c, descrito em
 [documentos ricos CES](docs/CCR-RICH-DOCUMENT.md). O host fornece recurso autorizado.
 
@@ -10,8 +13,9 @@ As quatro superfícies do produto e os limites de cada tipo rico estão no
 WhatsApp, CWH Assistente e CCI Explorador ativos; CAW na próxima migração.
 ALP permanece laboratório e referência de extensões.
 
-Versões CES e npm atuais estão em package.json/release.json. Componente local,
-distribuído por artefatos identificados, sem publicação em registry.
+Versões CES e npm atuais estão em package.json/release.json. Fonte publicada
+no Git oficial; pacote sem publicação em registry npm. Artefatos antigos
+identificados conservam seus hashes e não são reempacotados nesta publicação.
 
 Leitura de dados: gráficos locais usam rótulos e valores maiores, números em
 negrito e linhas de barras mais altas. Em telas estreitas, a figura mantém uma
@@ -97,8 +101,11 @@ Sem uploads, persistência, conta, perfil, busca, dependência de CA/CAW ou acer
 Instalação: Node24, `npm ci`; testes: `npm test`. Empacotar com `npm pack`.
 Prévia sintética independente: `node scripts/preview.mjs`, loopback4271.
 Áudio/vídeo de teste opcionais pertencem a `.agents/fixtures/`, fora do pacote.
-O consumidor fixa versão e integridade do tarball. Código canônico em CM/;
-o tarball versionado no consumidor é distribuição imutável, não um fork.
+O consumidor fixa o commit completo do Git oficial no manifesto/lockfile e
+compila seus assets a partir dessa dependência. O runtime usa os assets fechados
+do produto, sem buscar Git/npm na inicialização. Tarballs já distribuídos são
+registros imutáveis das versões anteriores; a migração de origem é documentada
+por cada consumidor, sem criar uma cópia independente do render.
 
 Origem: extração e generalização do render do Pergunte Aí, inspirado nos
 conceitos content-viewer/showdata do CrânIA Agent. Não importa seu runtime.

@@ -4,6 +4,14 @@
   "private": true,
   "type": "module",
   "description": "Host-independent rich chat presentation with bounded plugins and isolated media",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/impactro/CCR.git"
+  },
+  "homepage": "https://github.com/impactro/CCR#readme",
+  "bugs": {
+    "url": "https://github.com/impactro/CCR/issues"
+  },
   "exports": {
     ".": "./src/index.js",
     "./styles.css": "./src/styles.css",
@@ -20,6 +28,7 @@
   "files": [
     "src",
     "README.md",
+    "docs/GIT-ORIGIN.md",
     "examples/rich-documents",
     "docs/CCR-RICH-DOCUMENT.md",
     "docs/CCR-ACTIONS.md"

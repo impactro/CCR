@@ -1,5 +1,20 @@
 # Histórico
 
+## 31/10/2026 — origem pública oficial impactro/CCR
+
+Histórico existente publicado em https://github.com/impactro/CCR, branch main,
+incluindo o antigo HEAD local0d0abca. O repositório é público; o pacote técnico
+continua @crania/chat-render e private no registry npm. Nome, imports, código
+de render e versão funcional26.10.30-b permanecem. Metadados repository,
+homepage e bugs agora apontam à origem oficial. Procedência, SHAs das versões
+consumidas e regras de migração em [GIT-ORIGIN.md](GIT-ORIGIN.md).
+
+Fábio pediu que os consumidores usem a versão Git real, fixada por SHA completo.
+AIstein ALP recebeu a fatia ALP; DEV CWH recebeu a fatia CWH; AIstein CCI recebeu
+a fatia CCI. Cada dono altera manifesto/lock/build/docs e devolve evidência.
+Não atualizar tarballs históricos, relaxar CSP ou confundir origem publicada
+com atualização instalada. Nenhum serviço ou cliente foi alterado nesta publicação.
+
 ## 25/10/2026 — planejamento da evolução paralela dos renders
 
 Fábio definiu preservar CAW atual e ALP atual, preparar um terceiro render

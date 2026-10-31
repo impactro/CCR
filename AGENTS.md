@@ -1,5 +1,10 @@
 # CChatRender
 
+Nome curto CCR; origem canônica pública `https://github.com/impactro/CCR.git`.
+O nome técnico `@crania/chat-render` e os imports não mudam. Ver
+`docs/GIT-ORIGIN.md` para SHAs, fronteiras e consumo. Não usar checkout virtual,
+cópia local como fonte canônica ou dependência main flutuante.
+
 Biblioteca JavaScript de apresentação em CM/. Herdar ../../CServer/AGENTS.md e
 ../../CServer/CES/padroes/README.md, TEAM.md e guidelines.md.
 Não contém motor de IA, autenticação, acesso a bancos ou identidade de produto.
