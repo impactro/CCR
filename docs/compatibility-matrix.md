@@ -4,7 +4,12 @@ Direção atual30/10/2026: três superfícies ativas (CWH WhatsApp, CWH Assisten
 CCI Explorador) e CAW como quarta futura. ALP é laboratório/referência. A matriz
 histórica abaixo não declara paridade atual; consultar também
 [RICH-CONTENT-CONSUMERS.md](RICH-CONTENT-CONSUMERS.md) para tipos, capacidades
-geográficas, prompt canônico planejado e integração futura de email.
+geográficas, prompt canônico e integração futura de email.
+
+Em31/10/2026, CCR26.10.31a disponibiliza o prompt canônico JSON/MD e o builder
+`@crania/chat-render/prompt`. Capacidade/plugin precisa ser declarada pelo host;
+exemplos são exercitados pelo decoder e render real. Esta rodada de integração
+abrange CCR+ALP, sem mudar os demais adaptadores. Histórico abaixo preservado.
 
 Inventário original de25/10/2026 do [plano compartilhado](shared-render-plan.md). CAW significa a
 fonte local de referência; ALP significa o pacote 26.10.25-a com os plugins do

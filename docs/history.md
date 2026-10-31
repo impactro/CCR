@@ -1,5 +1,20 @@
 # Histórico
 
+## 26.10.31a — prompt canônico e capacidades do host
+
+O CCR publica config/prompts/render.prompt.json e MD de mesmo nome-base. O JSON
+é fonte única dos formatos, limites, exemplos e instrução; MD explica sua gestão.
+Novo entry point puro /prompt compõe só as capacidades declaradas e plugins
+confiáveis versionados do host, com schema/exemplos, conflitos explícitos e
+tetos reduzíveis. Exports /prompt.json e /prompt.md fecham o pacote para outros
+consumidores. O entry point principal e o código anterior de render não mudam.
+
+Fábio confirmou a adoção no ALP com uso real no contexto do motor e restringiu
+a coordenação desta rodada a CCR+ALP. O responsável pelo ALP integra/publica
+o produto; não houve edição de ALP/CWH nem sincronização de outros serviços
+no trabalho do CCR. Exemplos do prompt, versões, descritores, isolamento de
+capacidades e compatibilidade são verificados por testes sintéticos sem IA paga.
+
 ## 31/10/2026 — pasta física CCR e fonte Git dos compilados
 
 Por orientação posterior de Fábio, o clone local CM/CChatRender foi renomeado

@@ -78,15 +78,19 @@ continuam sujeitos à configuração do host.
 
 ## Prompt canônico do render
 
-O CCR será dono também da instrução que ensina a IA a produzir seus formatos.
-O artefato deve ser versionado em JSON e Markdown de mesmo nome-base, consumível
-por Python/JavaScript e coerente com a versão instalada, schemas e fixtures.
-Ainda não há export de prompt no pacote26.10.30b.
+O CCR é dono da instrução que ensina a IA a produzir seus formatos a partir da
+release26.10.31a. Fonte canônica em `config/prompts/render.prompt.json`, acompanhada
+de `render.prompt.md`, com exports `/prompt`, `/prompt.json` e `/prompt.md`.
+O JSON, a release e o pacote registram versões coerentes; os exemplos são
+validados pelo decoder/render real. [Contrato e integração](../config/prompts/render.prompt.md).
+O pacote26.10.30b anterior não possuía esse export.
 
 - Núcleo CCR descreve exclusivamente formatos, tipos, visualizações, limites,
   exemplos validados e alternativas de conteúdo disponíveis nessa release.
 - Plugins acrescentam schemas, validação, prompt e fixtures na mesma entrega;
   só entram no contexto quando o host declara que estão instalados/habilitados.
+  O builder valida o descritor JSON do plugin, não implementa seu validador de
+  payload; este e suas fixtures continuam pertencendo ao consumidor.
 - Host acrescenta persona, ferramentas, fontes, política do canal, caminhos de
   arquivos, transporte e permissões. Esses textos não devem migrar cegamente do
   ASSIST-RENDER.md do CWH para uma instrução universal.
@@ -97,6 +101,10 @@ Ainda não há export de prompt no pacote26.10.30b.
 A evolução começa com CWH WhatsApp, CWH Assistente e CCI Explorador; ALP contribui
 os plugins sob os mesmos contratos; CAW entra depois. O teste do núcleo é comum,
 mas o aceite de cada adaptador e sua versão permanecem identificados.
+Na adoção específica dos prompts26.10.31a, a orientação humana mais recente
+restringe esta rodada a CCR e ALP nesta máquina. Não sincronizar os outros
+produtos/servidores por consequência da publicação; revisões antigas continuam
+funcionais, e adoção posterior exige atualizar o consumidor correspondente.
 
 ## Aceite compartilhado
 

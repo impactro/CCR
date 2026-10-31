@@ -7,6 +7,12 @@ rico em documentos CES está mapeado em [CCR-RICH-DOCUMENT.md](CCR-RICH-DOCUMENT
 
 ## Objetivo e direção
 
+Entrega31/10/2026: o prompt canônico agora pertence ao CCR26.10.31a, em
+config/prompts/render.prompt.json+MD, com seleção explícita de capacidades e
+descritores de plugins do host. APIs do render existentes preservadas. Nesta
+rodada, somente CCR e ALP coordenam a adoção; outros consumidores não são
+sincronizados automaticamente. Contrato em [render.prompt.md](../config/prompts/render.prompt.md).
+
 Atualização30/10/2026: as quatro superfícies do produto são CWH WhatsApp,
 CWH Assistente e CCI Explorador (ativas), mais CAW (próxima migração).
 ALP continua laboratório/consumidor de referência. O estado e as capacidades

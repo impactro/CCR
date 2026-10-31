@@ -1,5 +1,17 @@
 # CCR — Crânio Chat Render
 
+**26.10.31a:** prompts canônicos de formato no próprio CCR, selecionados pelas
+capacidades e plugins reais do host. Exports `/prompt`, `/prompt.json` e
+`/prompt.md`; fonte única em [render.prompt.json](config/prompts/render.prompt.json)
+e [contrato de integração](config/prompts/render.prompt.md). O render anterior
+permanece compatível. A adoção desta rodada é coordenada com o ALP.
+
+```js
+import {buildRenderPrompt} from '@crania/chat-render/prompt';
+const instructions = buildRenderPrompt({capabilities: ['data', 'chart', 'ccr.data']});
+// O host inclui instructions no contexto efetivo do seu motor, também no resume.
+```
+
 **CCR** é o nome curto de CChatRender, aprovado por Fábio em29/10/2026.
 O nome técnico `@crania/chat-render` e os imports continuam estáveis.
 Origem oficial pública: **[impactro/CCR](https://github.com/impactro/CCR)**.
