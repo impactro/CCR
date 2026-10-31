@@ -1,5 +1,14 @@
 # Histórico
 
+## 31/10/2026 — pasta física CCR e fonte Git dos compilados
+
+Por orientação posterior de Fábio, o clone local CM/CChatRender foi renomeado
+para CM/CCR, igual a impactro/CCR, preservando histórico, árvore limpa e arquivos
+locais. README, AGENTS e guia Git documentam clonagem real e revisão fixada.
+Os próximos commits dos consumidores devem apontar a essa origem e registrar
+o build dos compilados vendor; não criar implementação ou origem virtual.
+Pacote/imports @crania/chat-render e código funcional permanecem iguais.
+
 ## 31/10/2026 — origem pública oficial impactro/CCR
 
 Histórico existente publicado em https://github.com/impactro/CCR, branch main,

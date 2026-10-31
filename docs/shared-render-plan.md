@@ -1,7 +1,8 @@
 # CCR — evolução gradual do render de chat compartilhado
 
-CCR significa **Crânio Chat Render**, nome curto humano do CChatRender. Nome do
-pacote `@crania/chat-render` e caminhos permanecem estáveis. O próximo conteúdo
+CCR significa **Crânio Chat Render**, anteriormente chamado CChatRender. Nome do
+pacote `@crania/chat-render` e imports permanecem estáveis; a pasta física foi
+padronizada como `CM/CCR` em31/10/2026, origem `impactro/CCR`. O próximo conteúdo
 rico em documentos CES está mapeado em [CCR-RICH-DOCUMENT.md](CCR-RICH-DOCUMENT.md).
 
 ## Objetivo e direção
@@ -59,7 +60,7 @@ Esta árvore é o destino planejado. As pastas não são criadas vazias, e a
 distribuição atual permanece intacta até o ciclo de extração e empacotamento.
 
 ```text
-CChatRender/
+CCR/
   src/
     contracts/             # interfaces mínimas e capacidades de apresentação
     drivers/

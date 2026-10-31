@@ -18,13 +18,29 @@ e não devem ser usadas como orientação operacional atual.
 - Repositório GitHub: `impactro/CCR`.
 - Nome humano: CCR — Crânio Chat Render.
 - Pacote JavaScript: `@crania/chat-render`.
-- Diretório local existente: `CM/CChatRender`; não é obrigatório renomeá-lo.
+- Diretório físico padronizado: `CM/CCR`, igual ao repositório GitHub.
+- O antigo clone `CM/CChatRender` no LAB foi renomeado preservando .git e
+  arquivos locais. Isso não muda imports, pacote npm ou contratos de runtime.
 - `private: true` em package.json impede publicação acidental no registry npm;
   não indica a visibilidade do GitHub, que é pública.
 - A origem Git recebe commits de código e de documentação. Uma mudança só de
   procedência não cria uma nova versão funcional nem muda os tarballs históricos.
 
 ## Como consumir
+
+Obter uma fonte Git real. A partir da pasta `CM`:
+
+```sh
+git clone https://github.com/impactro/CCR.git CCR
+git -C CCR rev-parse HEAD
+git -C CCR remote -v
+```
+
+Se já existir um clone, conferir remoto, alterações e worktrees antes de atualizar
+ou renomear. Não sobrescrever um diretório `CCR` existente nem criar outra cópia
+para contornar trabalho em andamento. Documentação atual dos consumidores deve
+apontar para esse clone e para a revisão utilizada; snapshots históricos ficam
+inalterados. Recursos compilados em vendor são saídas de build da fonte Git.
 
 No package.json do consumidor, fixar uma revisão completa já publicada:
 

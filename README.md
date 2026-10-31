@@ -1,10 +1,21 @@
 # CCR — Crânio Chat Render
 
 **CCR** é o nome curto de CChatRender, aprovado por Fábio em29/10/2026.
-O nome técnico `@crania/chat-render`, os caminhos e imports continuam estáveis.
+O nome técnico `@crania/chat-render` e os imports continuam estáveis.
 Origem oficial pública: **[impactro/CCR](https://github.com/impactro/CCR)**.
-O diretório local pode continuar `CM/CChatRender`. Dependências Git devem fixar
+O diretório local padronizado é **`CM/CCR`**, igual ao repositório. Dependências Git devem fixar
 o SHA completo, conforme [origem e consumo pelo Git](docs/GIT-ORIGIN.md).
+
+Para obter a fonte, executar a partir da pasta de componentes `CM`:
+
+```sh
+git clone https://github.com/impactro/CCR.git CCR
+```
+
+Quem já tem o antigo clone `CChatRender` deve renomear a pasta para `CCR`,
+preservando o Git e o trabalho local; se `CCR` já existir, conferir os dois
+checkouts antes de qualquer movimentação. Assets compilados em `vendor/` dos
+consumidores devem registrar origem oficial, commit e build; a fonte é este clone.
 Artefatos ricos CES JSON/HTML usam o contrato v1 do CCR26.10.29-c, descrito em
 [documentos ricos CES](docs/CCR-RICH-DOCUMENT.md). O host fornece recurso autorizado.
 
