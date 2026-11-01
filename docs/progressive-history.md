@@ -58,6 +58,35 @@ existentes, IDs estáveis, descritores de ação, estados pending/error/disabled
 metadados e callbacks. Não criar HTML arbitrário ou JavaScript executável vindo
 do JSON para implementar uma ação. A mensagem/modelo não concede capacidades.
 
+### Apagar mensagem no CWH — complemento de 01/11/2026
+
+Implementar a ação de apagar mensagem no CWH, integrada à barra flutuante do
+CCR. Capacidades variam por produto, conversa e mensagem: só exibir apagar
+quando o host informar suporte e permissão naquele contexto. Ausência da
+capacidade significa botão ausente, inclusive ao hover/foco; não oferecer uma
+ação genérica de delete em todos os consumidores. A mesma regra vale para
+encaminhar, responder e demais ações opcionais.
+
+CCR apresenta o descritor e chama o callback autorizado. CWH determina a
+elegibilidade e executa pelo contrato oficial do transporte CWB/WhatsApp,
+revalidando conta, conversa, mensagem e permissões no servidor. Não implementar
+apagamento como remoção direta de linha do banco nem como simples ocultação
+no DOM. Não presumir suporte de transporte a partir da existência do botão.
+
+Distinguir os alcances realmente suportados, como apagar para mim e apagar
+para todos, com rótulo claro antes da execução e confirmação proporcional à
+ação destrutiva. Não escolher outro alcance como fallback. Restrições reais
+do WhatsApp, autoria, papel no grupo e elegibilidade da mensagem são resolvidas
+pelo provedor; não inventar prazo ou regra universal no CCR.
+
+Exibir execução pendente/erro e reconciliar a interface somente com resultado
+confirmado; timeout ou resultado incerto não autoriza repetição automática.
+Preservar os recibos/auditoria necessários sem anunciar sucesso antecipado.
+Testar ação ausente, permitida, permissão revogada após render, isolamento entre
+contas, alcance escolhido, erro/incerteza e atualização da mensagem sem remontar
+toda a timeline. Usar fixtures; esta especificação não autoriza apagar mensagens
+reais durante desenvolvimento, inspeção ou SYNC.
+
 ### Navegação contextual e piloto de e-mail — complemento da revisão 2
 
 Primeiro piloto: **CMAIL integrado ao CWH**. Depois adaptar ao CAW e demais

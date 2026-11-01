@@ -1,5 +1,12 @@
 # Histórico
 
+## 01/11/2026 — capacidades por mensagem e exclusão CWH
+
+Pedido consolidado complementado com apagar mensagem no CWH, apresentado
+somente quando a conversa/mensagem suportar a ação. Mantida a fronteira entre
+descritor/callback CCR e autorização/execução do host. Aceite inclui alcance,
+permissão revogada e resultado incerto; nenhuma mensagem real foi apagada.
+
 ## 01/11/2026 — pedido integrado de renderização, revisão 2
 
 Timeline progressiva, composição do hospedeiro, ações flutuantes desktop e
