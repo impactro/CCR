@@ -21,6 +21,7 @@
     "./conversation": "./src/conversation.mjs",
     "./conversation.css": "./src/conversation.css",
     "./progressive-history": "./src/progressive-history.mjs",
+    "./contextual-views": "./src/contextual-views.mjs",
     "./document": "./src/document-renderer.mjs",
     "./document.css": "./src/document.css",
     "./clipboard": "./src/clipboard.mjs",
@@ -37,7 +38,9 @@
     "config/prompts",
     "examples/rich-documents",
     "docs/CCR-RICH-DOCUMENT.md",
-    "docs/CCR-ACTIONS.md"
+    "docs/CCR-ACTIONS.md",
+    "docs/PROGRESSIVE-HISTORY-CONTRACT.md",
+    "docs/CONTEXTUAL-VIEWS-CONTRACT.md"
   ],
   "scripts": {
     "test": "node --test tests/*.test.mjs"

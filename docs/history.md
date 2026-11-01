@@ -15,6 +15,11 @@ mensagem real foi apagada. A autorização local de 01/11 exclui CMAIL/CVideo;
 a sequência global de e-mail da revisão 2 permanece como demanda separada.
 As integrações dos consumidores têm evidência e promoção próprias.
 
+Preparação adicional: createContextualViewHost gerencia loading/cancelamento,
+retry e descarte separados para lateral e conteúdo. Testes sintéticos incluem
+troca de conta/pasta e callback antigo. Contrato em CONTEXTUAL-VIEWS-CONTRACT.md;
+nenhum conector, conta ou integração CMAIL foi habilitado por essa composição.
+
 ## 01/11/2026 — capacidades por mensagem e exclusão CWH
 
 Pedido consolidado complementado com apagar mensagem no CWH, apresentado

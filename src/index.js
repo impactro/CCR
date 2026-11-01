@@ -11,3 +11,4 @@ export {createDocumentRenderer,decodeRichDocument,richDocumentText,RICH_DOCUMENT
 export {copyText} from './clipboard.mjs';
 export {renderMessageActions,createMessageActionRail} from './actions.mjs';
 export {createProgressiveHistory,PROGRESSIVE_HISTORY_VERSION} from './progressive-history.mjs';
+export {createContextualViewHost} from './contextual-views.mjs';

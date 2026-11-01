@@ -1,5 +1,11 @@
 # Renderização comum, histórico progressivo e serviços desacoplados
 
+Atualização de execução local em01/11: Fábio autorizou as frentes fora de
+CMAIL/CVideo e a preparação CWH/CAW para e-mail sem teste integrado neste host.
+CCR26.11.1a é candidata de núcleo, com contratos e fixtures próprios; não
+comprova adoção/instalação nos consumidores nem encerra o pedido integrado.
+As seções seguintes preservam o pedido consolidado e seus critérios de aceite.
+
 ## Pedido consolidado para desenvolvimento em outra máquina — revisão 2
 
 Esta revisão concilia a composição visual CAW/CWH/CCI e o histórico progressivo
