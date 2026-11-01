@@ -9,7 +9,7 @@ primeiro piloto desta fatia; o piloto de e-mail permanece entrega separada.
 
 ```js
 const view = createProgressiveHistory(mount, {
-  source: {loadPage}, pageSize: 20, maxPageSize: 100,
+  source: {loadPage}, pageSize: 20, maxPageSize: 100, scrollContainer: mount,
   renderMessage(message, {signal, previousMessage, scope}) {
     return {element, dispose, update, updateMetadata};
   },
@@ -71,7 +71,8 @@ CCR mantém controles acessíveis estáveis para loading inicial/anteriores,
 vazio, erro, retry explícito e fim. Uma requisição por contexto; sem polling ou
 scroll automático para buscar páginas. Retry repete a mesma página sem repetir
 efeitos do host. Códigos de erro são limitados; mensagens brutas não entram no DOM.
-Prepend preserva a âncora por diferença de offset do primeiro nó anterior,
+scrollContainer opcional é o mount ou um ancestral do mesmo Document.
+Prepend preserva a âncora pela posição visual do primeiro nó anterior,
 sem medir scrollHeight por mensagem. Recursos pesados continuam sob demanda.
 Todas as páginas abertas podem permanecer no DOM; não há promessa de memória
 constante ou virtualização. Scroll/consulta nunca produzem ACK de leitura.

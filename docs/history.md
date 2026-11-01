@@ -1,5 +1,11 @@
 # Histórico
 
+## 26.11.1f — viewport explícito da timeline
+
+O host pode fornecer o ancestral que faz a rolagem. A âncora usa posição visual,
+mesmo quando envelopes têm offset parents distintos; mount é o padrão.
+Nenhuma consulta ou autoridade adicionada ao renderer.
+
 ## 26.11.1e — ações contextuais acessíveis por teclado
 
 Mensagens com ações fornecidas pelo host oferecem foco no envelope contextual,

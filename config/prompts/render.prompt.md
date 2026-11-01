@@ -2,7 +2,7 @@
 
 Fonte canônica: `render.prompt.json` neste mesmo diretório. Este Markdown explica
 o contrato e a configuração; não é uma segunda cópia da instrução para o modelo.
-Release CES26.11.1e, npm26.11.1-e, prompt schema1, documento CES/renderer1.
+Release CES26.11.1f, npm26.11.1-f, prompt schema1, documento CES/renderer1.
 
 ## Campos do JSON
 

@@ -14,7 +14,7 @@ function fixture(loadPage,options={}){
   renderMessage(message,{signal}){
    rendered.push(message.messageId);signals.push(signal);
    const element=document.createElement('article');element.dataset.id=message.messageId;element.textContent=JSON.stringify(message.value);
-   Object.defineProperty(element,'offsetTop',{get(){return [...mount.querySelectorAll('article')].indexOf(element)*30;}});
+   element.getBoundingClientRect=()=>({top:[...mount.querySelectorAll('article')].indexOf(element)*30});
    return {element,dispose(){released.push(message.messageId);},update(next){element.textContent=JSON.stringify(next.value);},
     updateMetadata({previousMessage}){element.dataset.previous=previousMessage?.messageId||'';}};
   },onState:state=>states.push(state),...options});
@@ -307,4 +307,22 @@ test('default message key and diagnostics work with a native Element callback',a
   renderMessage(){return dom.window.document.createElement('article');}});
  try{assert.equal(await view.select(scope()),true);assert.equal(view.size,1);}
  finally{view.dispose();dom.window.close();}
+});
+
+
+test('a host scroller preserves the visual anchor even when message wrappers have distinct offset parents',async()=>{
+ const dom=new JSDOM('<main><section></section><textarea>draft</textarea></main>');
+ const document=dom.window.document,scroll=document.querySelector('main'),mount=document.querySelector('section');
+ const oldItem=row('old'),newItem=row('new');
+ const view=createProgressiveHistory(mount,{scrollContainer:scroll,pageSize:2,
+  source:{async loadPage({olderCursor}){return olderCursor===null?page([newItem],'before'):page([oldItem]);}},
+  renderMessage(message){const el=document.createElement('div');el.dataset.id=message.messageId;
+   el.getBoundingClientRect=()=>({top:[...mount.querySelectorAll('[data-id]')].indexOf(el)*40-scroll.scrollTop});return el;}});
+ try{await view.select(scope());scroll.scrollTop=9;const original=mount.querySelector('[data-id=new]');await view.loadOlder();
+  assert.equal(scroll.scrollTop,49);assert.equal(mount.scrollTop,0);assert.equal(original.isConnected,true);
+  scroll.scrollTop=9;const oldest=mount.querySelector('[data-id=old]');oldest.getBoundingClientRect=()=>{if(mount.querySelector('[data-id=before]'))scroll.scrollTop=49;return {top:[...mount.querySelectorAll('[data-id]')].indexOf(oldest)*40-scroll.scrollTop};};
+  view.reconcileMessages([row('before'),oldItem,newItem],scope());assert.equal(scroll.scrollTop,49);
+  assert.equal(document.querySelector('textarea').value,'draft');
+  assert.throws(()=>createProgressiveHistory(mount,{source:{loadPage(){}},renderMessage(){},scrollContainer:document.createElement('div')}),/scroll_container_invalid/);
+ }finally{view.dispose();dom.window.close();}
 });

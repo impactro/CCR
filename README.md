@@ -1,6 +1,6 @@
 # CCR — Crânio Chat Render
 
-**26.11.1e — candidata:** reconciliação ordenada de eventos nativos sem
+**26.11.1f — candidata:** reconciliação ordenada de eventos nativos sem
 remontar nós existentes, preservando cursores e retry. Fronteira autorizada
 de anteriores pode ser atualizada após nova captura. O host continua dono
 dos dados e efeitos; fonte e testes não declaram adoção instalada.

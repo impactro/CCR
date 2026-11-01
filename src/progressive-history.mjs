@@ -9,9 +9,10 @@ const invalid=()=>Object.assign(Error('Invalid history page'),{code:'history_pag
 export const PROGRESSIVE_HISTORY_VERSION=1;
 
 export function createProgressiveHistory(mount,{
- source,renderMessage,messageKey=message=>message.messageId,pageSize=20,maxPageSize=100,onState=()=>{},onIssue=()=>{},
+ source,renderMessage,messageKey=message=>message.messageId,pageSize=20,maxPageSize=100,onState=()=>{},onIssue=()=>{},scrollContainer=mount,
 }={}){
  if(mount?.nodeType!==1||!mount.ownerDocument||typeof source?.loadPage!=='function'||typeof renderMessage!=='function')throw Error('history_adapter_required');
+ if(scrollContainer?.nodeType!==1||scrollContainer.ownerDocument!==mount.ownerDocument||!scrollContainer.contains(mount))throw Error('history_scroll_container_invalid');
  if(!Number.isSafeInteger(pageSize)||!Number.isSafeInteger(maxPageSize)||pageSize<1||pageSize>maxPageSize||maxPageSize>10000)throw Error('history_page_size_invalid');
  const document=mount.ownerDocument,window=document.defaultView;
  const disposeInteractions=bindConversationInteractions(mount);
@@ -83,7 +84,7 @@ export function createProgressiveHistory(mount,{
  }
  function commitPage(current,result,older){
   const previous=[...current.items.values()],anchor=previous[0]?.element;
-  const anchorOffset=older&&anchor?anchor.offsetTop:0,scrollTop=mount.scrollTop;
+  const anchorOffset=older&&anchor?anchor.getBoundingClientRect().top+scrollContainer.scrollTop:0,scrollTop=scrollContainer.scrollTop;
   const additions=[];const elements=new Set(previous.map(handle=>handle.element));
   try{
    for(const message of result.messages){
@@ -98,7 +99,7 @@ export function createProgressiveHistory(mount,{
   current.items=new Map(older?[...additions,...current.items]:[...current.items,...additions]);
   current.page={...result.page};if(result.page.hasMore)current.cursors.add(result.page.olderCursor);metadata(current);
   publish(current,current.items.size?'ready':'empty');
-  if(live(current)&&older&&anchor)mount.scrollTop=scrollTop+anchor.offsetTop-anchorOffset;
+  if(live(current)&&older&&anchor)scrollContainer.scrollTop=scrollTop+anchor.getBoundingClientRect().top+scrollContainer.scrollTop-anchorOffset;
  }
  function request(current,older){
   if(!live(current))return Promise.resolve(false);
@@ -160,7 +161,7 @@ export function createProgressiveHistory(mount,{
   if(entries.some(([,message,handle])=>handle&&handle.message!==message&&typeof handle.update!=='function'))return false;
   if(nextPage.hasMore===current.page.hasMore&&nextPage.olderCursor===current.page.olderCursor&&entries.length===previous.length&&entries.every(([key,message],index)=>previous[index][0]===key&&previous[index][1].message===message))return true;
   const additions=[],next=new Map(),elements=new Set(),anchor=previous.find(([key])=>keys.has(key))?.[1].element;
-  const offset=anchor?.offsetTop||0,top=mount.scrollTop;let committed=false;
+  const offset=anchor?anchor.getBoundingClientRect().top+scrollContainer.scrollTop:0,top=scrollContainer.scrollTop;let committed=false;
   try{
    for(const [key,message,existing]of entries){
     const handle=existing||makeHandle(current,message);
@@ -184,7 +185,7 @@ export function createProgressiveHistory(mount,{
    if(!live(current))return false;
    metadata(current);
    publish(current,current.failedRequest?'error':next.size?'ready':'empty',current.errorCode);
-   if(live(current)&&anchor)mount.scrollTop=top+anchor.offsetTop-offset;
+   if(live(current)&&anchor)scrollContainer.scrollTop=top+anchor.getBoundingClientRect().top+scrollContainer.scrollTop-offset;
    return true;
   }finally{if(!committed)for(const handle of additions)release(handle);}
  }
