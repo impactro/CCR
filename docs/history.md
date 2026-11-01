@@ -1,5 +1,11 @@
 # Histórico
 
+## 26.11.1h — metadados do documento CES sem ambiguidade
+
+Prompt e exemplo colocam source/period/note dentro de data, como exige o
+decoder. O exemplo completo passa pelo render real; campos no cabeçalho
+continuam recusados, sem relaxar o contrato.
+
 ## 26.11.1g — orientação de formatos e mapas por cidade
 
 Prompt canônico escolhe o visual pela pergunta, preserva cidade/UF e quantidade,

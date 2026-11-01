@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "ccr.render",
-  "version": "26.11.1g",
-  "packageVersion": "26.11.1-g",
+  "version": "26.11.1h",
+  "packageVersion": "26.11.1-h",
   "renderer": {
     "name": "CCR",
     "version": 1
@@ -240,7 +240,7 @@
         "ccr"
       ],
       "instructions": [
-        "For a portable CES document use exactly owner=CES, format=ccr.document, version=1, renderer={name:CCR,version:1}, type=data, a nonempty title of at most 180 characters, view and data. Data contains columns of {label,type} with unique nonempty labels up to 120 characters and equally sized positional rows. Types are string,number,boolean,date,datetime,html; respect configured table/cell limits. Optional source,period,note are strings of at most 800 characters. Unknown header/data fields are rejected. Views: table,bar,column,line,area,heatmap,map. Charts use the first column as labels and a later numeric metric, falling back to a table above chartRows. Heatmap colors numeric cells. Map requires numeric Latitude/Longitude columns (aliases lat,lon,lng), valid coordinates and at most mapPoints; no geocoding or basemap is provided. Respect documentBytes and block limits. For a file transport the host wraps this same document as an attachment; do not invent another send protocol or message envelope. The marker is not authentication."
+        "For a portable CES document use exactly owner=CES, format=ccr.document, version=1, renderer={name:CCR,version:1}, type=data, a nonempty title of at most 180 characters, view and data. Data contains columns of {label,type} with unique nonempty labels up to 120 characters and equally sized positional rows. Types are string,number,boolean,date,datetime,html; respect configured table/cell limits. Optional data.source, data.period and data.note are strings of at most 800 characters, nested inside data alongside columns/rows; never put them at the document header. Unknown header/data fields are rejected. Views: table,bar,column,line,area,heatmap,map. Charts use the first column as labels and a later numeric metric, falling back to a table above chartRows. Heatmap colors numeric cells. Map requires numeric Latitude/Longitude columns (aliases lat,lon,lng), valid coordinates and at most mapPoints; no geocoding or basemap is provided. Respect documentBytes and block limits. For a file transport the host wraps this same document as an attachment; do not invent another send protocol or message envelope. The marker is not authentication."
       ],
       "examples": [
         {
@@ -276,7 +276,10 @@
                   "Missing",
                   null
                 ]
-              ]
+              ],
+              "source": "Synthetic supplied fixture",
+              "period": "Synthetic period",
+              "note": "Zero and missing values remain distinct."
             }
           }
         }
