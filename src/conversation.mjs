@@ -79,7 +79,7 @@ export function renderChatMessage(message,{
  const contextual=`<div class="chat-message-content">${bubble}${toggle}${actions}${insights}</div>`;
  const content=contextualActions?(outgoing?`${contextual}${metadata}${avatar}`:`<div class="message-leading">${avatar}${metadata}</div>${contextual}`):
   outgoing?`${bubble}${actions}${metadata}${avatar}${insights}`:`<div class="message-leading">${avatar}${metadata}</div>${bubble}${actions}${insights}`;
- return `${day}<div class="message-row chat-message-row ${contextualActions?'chat-contextual-actions':''} ${group?'group-message-row':'private-message-row'} ${outgoing?'out':'in'} ${continuation?'continuation':''} ${totals.length?'has-reactions':''} ${actions?'has-actions':''}" data-message-row="${escape(message.messageId)}:${outgoing?'out':'in'}">${content}</div>`;
+ return `${day}<div class="message-row chat-message-row ${contextualActions?'chat-contextual-actions ':''}${group?'group-message-row':'private-message-row'} ${outgoing?'out':'in'} ${continuation?'continuation':''} ${totals.length?'has-reactions':''} ${actions?'has-actions':''}" data-message-row="${escape(message.messageId)}:${outgoing?'out':'in'}">${content}</div>`;
 }
 
 /** replyTo {conversationId,messageId,authorId,preview:{text}} is resolved by

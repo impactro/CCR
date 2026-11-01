@@ -1,5 +1,13 @@
 # Histórico
 
+## 26.11.1d — envelope legado sem alteração quando a opção está desligada
+
+Preservado o espaçamento exato das classes do envelope sem ações contextuais.
+A suíte de compatibilidade do CWH detectou a diferença contra a fixture anterior
+à extração; a opção desligada conserva o HTML instalado. Sem alteração do modo
+contextual ou de capacidades.
+
+
 ## 26.11.1c — fronteira nativa após nova captura
 
 A reconciliação aceita page opcional validada para atualizar a fronteira de
