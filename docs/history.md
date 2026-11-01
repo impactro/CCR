@@ -1,5 +1,12 @@
 # Histórico
 
+## 26.11.1g — orientação de formatos e mapas por cidade
+
+Prompt canônico escolhe o visual pela pergunta, preserva cidade/UF e quantidade,
+exige coordenadas com origem e informa linhas não mapeadas. Explicita que
+marcadores nativos têm tamanho fixo e que referência urbana não localiza máquinas.
+Exemplo sintético com zero e coordenada ausente passa pelo render real.
+
 ## 26.11.1f — viewport explícito da timeline
 
 O host pode fornecer o ancestral que faz a rolagem. A âncora usa posição visual,

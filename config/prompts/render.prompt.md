@@ -2,7 +2,7 @@
 
 Fonte canônica: `render.prompt.json` neste mesmo diretório. Este Markdown explica
 o contrato e a configuração; não é uma segunda cópia da instrução para o modelo.
-Release CES26.11.1f, npm26.11.1-f, prompt schema1, documento CES/renderer1.
+Release CES26.11.1g, npm26.11.1-g, prompt schema1, documento CES/renderer1.
 
 ## Campos do JSON
 
@@ -110,3 +110,13 @@ compatíveis por descritores de plugins. Artefatos desconhecidos mantêm fallbac
 Pedido mais recente de Fábio: coordenação desta adoção entre CCR e ALP nesta
 máquina. Outros módulos continuam em suas revisões fixadas até adoção própria;
 publicar um prompt no CCR não injeta texto automaticamente em versões antigas.
+
+## Escolha do visual e mapas por cidade
+
+O prompt orienta escolher formatos disponíveis pela pergunta, preservar a
+granularidade pedida e explorar recursos somente quando fizer sentido.
+Mapa por cidade combina rótulo cidade/UF + quantidade, métrica numérica e
+coordenadas verificadas. Centro/referência da cidade deve ser identificado;
+não representa cada máquina. Marcadores nativos têm tamanho fixo.
+Geocodificação/agregação são capacidades do host, não do render. Sem coordenada
+ou identidade inequívoca, conservar a linha na tabela e informar a cobertura.

@@ -41,7 +41,7 @@ test('canonical rich examples are accepted by the actual decoder and renderer, n
     renderer.render(root,{text:'```'+sample.fence+'\n'+source+'\n```'});
     assert.equal(root.querySelector('.chat-render-error'),null,capability.id);assert.deepEqual(issues,[],capability.id);
     if(capability.id==='chart')assert.ok(root.querySelector('svg'),capability.id);
-    if(capability.id==='map')assert.equal(root.querySelectorAll('circle').length,1);
+    if(capability.id==='map'){const rows=sample.content.rows;assert.equal(root.querySelectorAll('circle').length,rows.filter(row=>row.at(-2)!==null&&row.at(-1)!==null).length);assert.equal(root.querySelectorAll('tbody tr').length,rows.length);}
     if(['html','spa','ccr.html'].includes(capability.id))assert.ok(root.querySelector('iframe'));
     renderer.dispose(root);
   }
@@ -83,4 +83,15 @@ test('the full ALP-sized registry fits without dropping plugins, while aggregate
   assert.throws(()=>buildRenderPrompt({plugins:[...plugins,{...plugin(),id:'example.extra',fence:'extra'}]}),/prompt_capabilities_invalid/);
   const large=plugins.slice(0,5).map(p=>({...p,instructions:Array.from({length:8},()=> 'x'.repeat(1800))}));
   assert.throws(()=>buildRenderPrompt({plugins:large}),/prompt_output_limit/);
+});
+
+
+test('city quantity example retains zero and unmapped rows without pretending that map markers encode magnitude',()=>{
+ const example=getRenderPromptContract().capabilities.find(c=>c.id==='map').examples.at(-1).content;
+ const dom=new JSDOM('<main></main>'),root=dom.window.document.querySelector('main');
+ const renderer=createChatRenderer();renderer.render(root,{text:'```map\n'+JSON.stringify(example)+'\n```'});
+ assert.equal(root.querySelectorAll('circle').length,2);assert.equal(root.querySelectorAll('tbody tr').length,3);
+ assert.match(root.textContent,/0 máquinas/);assert.match(root.textContent,/sem coordenadas/);
+ const text=buildRenderPrompt({capabilities:['map']});assert.match(text,/city-level/);assert.match(text,/fixed-size markers/);assert.match(text,/coverage/);
+ renderer.dispose(root);dom.window.close();
 });
