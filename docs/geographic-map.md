@@ -1,4 +1,4 @@
-# Mapa geográfico do Brasil no CCR
+# Bases auxiliares e mapas geográficos no CCR
 
 ## Procedimento de adoção
 
@@ -34,10 +34,40 @@ não atende a esse caso. CCR apresenta; hosts conservam autorização e dados.
 - Estados: https://servicodados.ibge.gov.br/api/v1/localidades/estados
 - Sedes: https://geo.infrasa.gov.br/server/rest/services/Hosted/Sedes_Municipais/FeatureServer
 
-## Limites do primeiro corte
+## Ampliação aprovada — CSV consultável e recortes globais
 
-Brasil é a base nominal/cartográfica incluída. Localidades fora dessa base
-continuam na tabela com cobertura explícita; não prometer resolução mundial,
+Três fontes CSV públicas e versionadas em `data/geography/` são a fonte
+consultável: `cities-br.csv` (código IBGE, cidade, UF, país, latitude/longitude
+sede), `states-br.csv` (código IBGE, nome, UF, país, latitude/longitude de
+referência geométrica) e `countries.csv` (códigos ISO, nome, continente e
+latitude/longitude de referência). Referência geográfica não é GPS de cliente.
+
+O build valida as três tabelas e gera dados compilados a partir delas, junto
+com malhas UF/países públicas e identificadas. Não manter catálogo de nomes
+independente no JavaScript. Os consumidores distribuem os CSV com o pacote,
+expondo somente os próprios dados públicos pela capacidade autorizada do host;
+a IA consulta o arquivo pertinente, sem carregar milhares de linhas no prompt.
+Prompt do CCR indica nomes, campos, seleção por nível e desambiguação.
+
+Adotar mapas de pontos por cidade/GPS e mapas de intensidade por estado/país,
+com legenda numérica e zero/nulo distintos. Continente deriva do campo do CSV
+de países, sem inventar uma quarta fonte concorrente. Recorte automático deve
+abranger a região dos dados; manter opção de retorno ao mapa completo.
+Não somar linhas repetidas silenciosamente: a IA/consulta fornece o agregado
+no nível pedido. Homônimos, ausência de UF e lugar fora da base ficam explícitos.
+
+Código e testes seguem a ordem: bases/contratos → resolução e render comum →
+prompts e distribuição nos hosts → instalação/inspeção. Cada consumidor fixa
+um SHA publicado e conserva configuração, dados e permissões. A consulta ao
+CSV público é independente do banco do cliente; os fatos e totais continuam
+vindo da fonte operacional autorizada. Inferência de cidade a partir de nome
+de grupo é uma associação com evidência e incerteza, nunca prova de cliente.
+
+## Limites
+
+Cidades/estados brasileiros e países/continentes são as bases nominais
+planejadas. Cidades estrangeiras ou localidades fora dessa base
+continuam na tabela com cobertura explícita; não prometer catálogo mundial de cidades,
 endereços, rotas, imagens de satélite, mapa de ruas ou coordenadas ao vivo.
 Dados públicos versionados podem ficar desatualizados; atualização é um build,
 não uma chamada durante o render. Pontos enviados pelo host continuam sujeitos
