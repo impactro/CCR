@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "ccr.render",
-  "version": "26.11.1d",
-  "packageVersion": "26.11.1-d",
+  "version": "26.11.1e",
+  "packageVersion": "26.11.1-e",
   "renderer": {"name": "CCR", "version": 1},
   "limits": {"textChars": 150000, "blockChars": 120000, "visuals": 4, "columns": 16, "rows": 1000, "cellChars": 2000, "chartRows": 100, "mapPoints": 500, "documentBytes": 1048576, "htmlChars": 120000},
   "compositionLimits": {"plugins": 32, "pluginBytes": 32768, "outputChars": 65536, "depth": 16, "nodes": 10000},

@@ -1,5 +1,11 @@
 # Histórico
 
+## 26.11.1e — ações contextuais acessíveis por teclado
+
+Mensagens com ações fornecidas pelo host oferecem foco no envelope contextual,
+revelando os controles via focus-within no desktop. Mensagens sem ações não
+ganham parada de Tab; markup legado continua inalterado. Regressão em DOM real.
+
 ## 26.11.1d — envelope legado sem alteração quando a opção está desligada
 
 Preservado o espaçamento exato das classes do envelope sem ações contextuais.

@@ -86,6 +86,15 @@ test('touch action toggle and metadata Escape are local, keyboard accessible and
  dispose();dispose();toggle.click();assert.equal(toggle.getAttribute('aria-expanded'),'false');
 });
 
+test('plain text contextual actions have a desktop keyboard entry without adding empty tab stops',()=>{
+ const node=doc(renderChatMessage(first,{...options,contextualActions:true,actionsMarkup:'<button>Copiar</button>'}));
+ const content=node.querySelector('.chat-message-content');
+ assert.equal(content.tabIndex,0);content.focus();assert.equal(node.activeElement,content);
+ assert.equal(doc(renderChatMessage(first,{...options,contextualActions:true})).querySelector('[tabindex]'),null);
+ assert.equal(doc(renderChatMessage(first,{...options,actionsMarkup:'<button>Copiar</button>'})).querySelector('.chat-message-content'),null);
+ node.defaultView.close();
+});
+
 test('metrics preserve real zero values and omit absent, malformed or negative values',()=>{
  assert.equal(messageDetails(null),'');assert.equal(messageDetails('untrusted'), '');
  assert.equal(messageDetails({model:' ',durationSeconds:-1,inputTokens:1.5,outputTokens:Infinity,credits:NaN,cost:1,currency:'usd'}),'');
