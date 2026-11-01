@@ -1,9 +1,11 @@
 # CCR — Crânio Chat Render
 
-Demanda aprovada, ainda não implementada no núcleo comum:
-[histórico progressivo por fonte injetada](docs/progressive-history.md),
-[CCR#1](https://github.com/impactro/CCR/issues/1). CAW, CWH e CCI mantêm seus
-backends e autorização; a implementação externa volta para inspeção integrada.
+**26.11.1a — candidata:** timeline progressiva por fonte injetada, escopo
+composto, cancelamento, retry e prepend sem remontagem. Envelope contextual e
+metadados opcionais são apresentação do núcleo; ações dependem do host.
+Contrato em [PROGRESSIVE-HISTORY-CONTRACT.md](docs/PROGRESSIVE-HISTORY-CONTRACT.md).
+CAW, CWH e CCI mantêm backends e autorização. Integração/homologação de cada
+consumidor continuam separadas; CMAIL/CVideo fora desta fatia autorizada.
 
 **26.10.31b:** prompts canônicos de formato no próprio CCR, selecionados pelas
 capacidades e plugins reais do host. Exports `/prompt`, `/prompt.json` e

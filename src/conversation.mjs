@@ -3,6 +3,45 @@ import {messageTime, sequenceFor} from './presentation.mjs';
 const escapeText=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 export const isAuthorColor=value=>typeof value==='string'&&/^#[0-9a-f]{6}$/i.test(value);
 const colorStyle=color=>isAuthorColor(color)?` style="--author-color:${color}"`:'';
+const nonnegative=value=>typeof value==='number'&&Number.isFinite(value)&&value>=0;
+/** Metrics are optional host facts; absence is never converted into zero. */
+export function messageDetails(metrics){
+ if(!metrics||typeof metrics!=='object')return '';
+ const parts=[];
+ if(typeof metrics.model==='string'&&metrics.model.trim())parts.push('Modelo: '+metrics.model.trim().slice(0,160));
+ if(nonnegative(metrics.durationSeconds))parts.push('Duração: '+metrics.durationSeconds+' s');
+ for(const [key,label]of [['inputTokens','Tokens de entrada'],['outputTokens','Tokens de saída']])
+  if(Number.isSafeInteger(metrics[key])&&metrics[key]>=0)parts.push(label+': '+metrics[key]);
+ if(nonnegative(metrics.credits))parts.push((metrics.creditsEstimated===true?'Créditos estimados: ':'Créditos: ')+metrics.credits);
+ if(nonnegative(metrics.cost)&&typeof metrics.currency==='string'&&/^[A-Z]{3}$/.test(metrics.currency))
+  parts.push((metrics.costEstimated===true?'Custo estimado: ':'Custo: ')+metrics.cost+' '+metrics.currency);
+ return parts.join(' · ');
+}
+
+/** Local presentation listeners; no clipboard, network or transport effects. */
+export function bindConversationInteractions(root,{signal}={}){
+ const controller=new root.ownerDocument.defaultView.AbortController();
+ const dispose=()=>{controller.abort();signal?.removeEventListener('abort',dispose);};
+ if(signal?.aborted){dispose();return dispose;}
+ signal?.addEventListener('abort',dispose,{once:true});
+ const insight=event=>event.target?.closest?.('.chat-message-insights');
+ root.addEventListener('keydown',event=>{const node=insight(event);
+  if(event.key==='Escape'&&node&&root.contains(node)){node.dataset.detailsDismissed='true';event.stopPropagation();}
+  if(event.key==='Escape'){
+   const content=event.target?.closest?.('.chat-message-content');
+   const toggle=content?.querySelector('.chat-actions-toggle[aria-expanded="true"]');
+   if(toggle&&root.contains(toggle)){toggle.setAttribute('aria-expanded','false');toggle.focus();event.stopPropagation();}
+  }
+ },{signal:controller.signal});
+ root.addEventListener('click',event=>{
+  const toggle=event.target?.closest?.('.chat-actions-toggle');
+  if(toggle&&root.contains(toggle))toggle.setAttribute('aria-expanded',String(toggle.getAttribute('aria-expanded')!=='true'));
+ },{signal:controller.signal});
+ for(const type of ['focusout','pointerout'])root.addEventListener(type,event=>{
+  const node=insight(event);if(node&&!node.contains(event.relatedTarget))delete node.dataset.detailsDismissed;
+ },{signal:controller.signal});
+ return dispose;
+}
 
 /**
  * Render the message envelope, independent of transport and rich-body syntax.
@@ -20,7 +59,7 @@ export function renderChatMessage(message,{
  previousMessage,author={},layout='private',showAuthor=layout==='group',
  showIncomingAvatar=showAuthor,showOutgoingAvatar=false,automated=false,
  avatarMarkup='',bodyMarkup='',actionsMarkup='',beforeBodyMarkup='',deliveryMarkup='',
- reactions=[],escape=escapeText,timeZone,locale='pt-BR'
+ reactions=[],escape=escapeText,timeZone,locale='pt-BR',contextualActions=false,metrics=null
 }={}){
  const outgoing=message.direction==='outgoing',group=layout==='group';
  const {date,continuation}=sequenceFor(message,previousMessage,{timeZone,locale});
@@ -34,8 +73,13 @@ export function renderChatMessage(message,{
  const day=date?`<div class="message-day" role="separator" aria-label="${escape(date)}"><strong>${escape(date)}</strong></div>`:'';
  const actions=actionsMarkup?`<div class="message-actions">${actionsMarkup}</div>`:'';
  const avatar=!continuation&&(outgoing?showOutgoingAvatar:showIncomingAvatar)?avatarMarkup:'';
- const content=outgoing?`${bubble}${actions}${metadata}${avatar}`:`<div class="message-leading">${avatar}${metadata}</div>${bubble}${actions}`;
- return `${day}<div class="message-row chat-message-row ${group?'group-message-row':'private-message-row'} ${outgoing?'out':'in'} ${continuation?'continuation':''} ${totals.length?'has-reactions':''} ${actions?'has-actions':''}" data-message-row="${escape(message.messageId)}:${outgoing?'out':'in'}">${content}</div>`;
+ const details=messageDetails(metrics);
+ const insights=details?`<span class="chat-message-insights" tabindex="0" role="note" aria-label="${escape(details)}"><span aria-hidden="true">ⓘ</span><span class="chat-message-tooltip" role="tooltip">${escape(details)}</span></span>`:'';
+ const toggle=actions?'<button type="button" class="chat-actions-toggle" aria-label="Ações da mensagem" aria-expanded="false">⋯</button>':'';
+ const contextual=`<div class="chat-message-content">${bubble}${toggle}${actions}${insights}</div>`;
+ const content=contextualActions?(outgoing?`${contextual}${metadata}${avatar}`:`<div class="message-leading">${avatar}${metadata}</div>${contextual}`):
+  outgoing?`${bubble}${actions}${metadata}${avatar}${insights}`:`<div class="message-leading">${avatar}${metadata}</div>${bubble}${actions}${insights}`;
+ return `${day}<div class="message-row chat-message-row ${contextualActions?'chat-contextual-actions':''} ${group?'group-message-row':'private-message-row'} ${outgoing?'out':'in'} ${continuation?'continuation':''} ${totals.length?'has-reactions':''} ${actions?'has-actions':''}" data-message-row="${escape(message.messageId)}:${outgoing?'out':'in'}">${content}</div>`;
 }
 
 /** replyTo {conversationId,messageId,authorId,preview:{text}} is resolved by

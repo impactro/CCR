@@ -1,6 +1,6 @@
 {
   "name": "@crania/chat-render",
-  "version": "26.10.31-b",
+  "version": "26.11.1-a",
   "private": true,
   "type": "module",
   "description": "Host-independent rich chat presentation with bounded plugins and isolated media",
@@ -19,6 +19,8 @@
     "./sandbox-host": "./src/sandbox-host.js",
     "./presentation": "./src/presentation.mjs",
     "./conversation": "./src/conversation.mjs",
+    "./conversation.css": "./src/conversation.css",
+    "./progressive-history": "./src/progressive-history.mjs",
     "./document": "./src/document-renderer.mjs",
     "./document.css": "./src/document.css",
     "./clipboard": "./src/clipboard.mjs",
@@ -48,5 +50,5 @@
     "esbuild": "0.28.2",
     "jsdom": "29.1.1"
   },
-  "cesVersion": "26.10.31b"
+  "cesVersion": "26.11.1a"
 }

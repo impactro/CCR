@@ -29,7 +29,9 @@ rail.dispose();
 Cada descritor: `actionId` único e estável, `kind`, `label`, `visible?`,
 `enabled?`, `pending?`, `resourceId?`, `scope?` (inclui `partId?`), `invoke?`,
 `dispose?`. Ordem comum: reply, react, copy, preview, open, download, export,
-forward. Ausente/visible=false omite; enabled=false/pending=true desabilita.
+forward, delete. Delete é opcional, somente mediante descritor autorizado do
+host; nunca é adicionado por padrão. Ausente/visible=false omite;
+enabled=false/pending=true desabilita.
 Vários exports usam IDs distintos. Copiar local pode continuar disponível sem
 conexão. `invoke({scope,actionId,resourceId,signal,event})` começa dentro do clique;
 pending impede duplicação até terminar. Erro recebe somente action_failed;

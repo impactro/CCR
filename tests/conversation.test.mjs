@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {renderChatMessage,renderChatQuote,isAuthorColor} from '../src/conversation.mjs';
+import {renderChatMessage,renderChatQuote,isAuthorColor,messageDetails,bindConversationInteractions} from '../src/conversation.mjs';
 
 const first={conversationId:'workspace-one/chat-one',messageId:'m1',authorId:'agent-one',role:'assistant',direction:'incoming',createdAt:Date.parse('2026-10-29T13:30:00Z')};
 const options={layout:'group',author:{id:'agent-one',displayName:'Agent one',color:'#123456'},avatarMarkup:'<span class="avatar">A</span>',bodyMarkup:'<p>Text</p>'};
@@ -57,4 +57,31 @@ test('unknown original stays readable and never makes links or requests',()=>{
  assert.equal(node.querySelector('strong').textContent,'Mensagem citada');
  assert.equal(node.querySelector('span').textContent,'Conteúdo citado');
  assert.equal(node.querySelector('a,iframe,img'),null);
+});
+
+test('contextual controls wrap the original body and only show supplied metrics',()=>{
+ const node=doc(renderChatMessage(first,{...options,contextualActions:true,actionsMarkup:'<button data-action="copy">Copiar</button>',metrics:{model:'<img src=x>',durationSeconds:0,inputTokens:0,outputTokens:-1,credits:2,creditsEstimated:true,cost:.5,currency:'USD',costEstimated:true}}));
+ const content=node.querySelector('.chat-contextual-actions .chat-message-content');
+ assert.ok(content.querySelector(':scope > .bubble .message-body p'));
+ assert.ok(content.querySelector(':scope > .message-actions [data-action=copy]'));
+ assert.equal(content.querySelector('.chat-actions-toggle').getAttribute('aria-expanded'),'false');
+ const tooltip=content.querySelector('[role=tooltip]');
+ assert.match(tooltip.textContent,/Modelo: <img src=x>.*Duração: 0 s.*Tokens de entrada: 0.*Créditos estimados: 2.*Custo estimado: 0.5 USD/);
+ assert.doesNotMatch(tooltip.textContent,/Tokens de saída/);assert.equal(content.querySelector('img'),null);
+ assert.equal(messageDetails({durationSeconds:Infinity,inputTokens:1.2,cost:4,currency:'usd'}),'');
+ assert.equal(doc(renderChatMessage(first,options)).querySelector('.chat-message-content,.chat-actions-toggle,.chat-message-insights'),null);
+ assert.equal(doc(renderChatMessage(first,{...options,contextualActions:true})).querySelector('.chat-actions-toggle'),null);
+});
+
+test('touch action toggle and metadata Escape are local, keyboard accessible and disposable',()=>{
+ const node=doc(renderChatMessage(first,{...options,contextualActions:true,actionsMarkup:'<button data-action="copy">Copiar</button>',metrics:{durationSeconds:1}}));
+ const window=node.defaultView,root=node.body,dispose=bindConversationInteractions(root);
+ const toggle=node.querySelector('.chat-actions-toggle'),action=node.querySelector('[data-action=copy]'),insight=node.querySelector('.chat-message-insights');
+ toggle.click();assert.equal(toggle.getAttribute('aria-expanded'),'true');
+ action.focus();action.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+ assert.equal(toggle.getAttribute('aria-expanded'),'false');assert.equal(node.activeElement,toggle);
+ insight.focus();insight.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+ assert.equal(insight.dataset.detailsDismissed,'true');
+ toggle.focus();assert.equal(insight.hasAttribute('data-details-dismissed'),false);
+ dispose();dispose();toggle.click();assert.equal(toggle.getAttribute('aria-expanded'),'false');
 });

@@ -51,8 +51,10 @@ os testes descritos são critérios futuros e não resultados já produzidos.
 
 ### R35 — Histórico progressivo comum (demanda de 01/11/2026)
 
-Planejado, não entregue no CCR: fonte paginada injetada, loading, erro/retry,
-prepend com âncora de leitura e cancelamento por contexto. Especificação e
+Núcleo candidato26.11.1a: fonte paginada injetada, loading, erro/retry,
+prepend com âncora de leitura e cancelamento por contexto, cobertos por
+fixtures DOM em progressive-history.test.mjs. Ainda não comprova integração
+ou instalação dos consumidores. Especificação e
 aceite em [progressive-history.md](progressive-history.md),
 [CCR#1](https://github.com/impactro/CCR/issues/1). CAW26.11.1c já possui janela
 e produtor paginado próprios; isso não comprova adoção comum em CWH/CCI ou

@@ -1,0 +1,32 @@
+/* Shared conversation geometry. Hosts supply tokens and authorization. */
+.chat-contextual-actions{position:relative;display:flex;align-items:flex-start;gap:.35rem;min-width:0}
+.chat-contextual-actions .chat-message-content{position:relative;min-width:0;max-width:calc(100% - 3rem)}
+.chat-contextual-actions.has-actions .chat-message-content{max-width:calc(100% - var(--ca-chat-action-space,9rem))}
+.chat-contextual-actions:has(.message-actions:not(:empty)) .chat-message-content{max-width:calc(100% - var(--ca-chat-action-space,9rem))}
+.chat-contextual-actions .chat-message-content>.bubble{max-width:100%;width:100%;margin:0;box-sizing:border-box;overflow-wrap:anywhere}
+.chat-contextual-actions .chat-message-content>.message-actions{position:absolute;inset-block-start:0;inset-inline-start:calc(100% + .25rem);display:flex;align-items:center;flex-wrap:wrap;gap:.15rem;width:max-content;max-width:var(--ca-chat-action-space,9rem);padding:.2rem;margin:0;opacity:0;visibility:hidden;pointer-events:none;background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#20252b);border:1px solid var(--ca-ui-border,#d5dae0);border-radius:var(--ca-ui-radius,.3rem);z-index:2}
+.chat-contextual-actions.out .chat-message-content>.message-actions{inset-inline-start:auto;inset-inline-end:calc(100% + .25rem)}
+.chat-contextual-actions .message-actions::before{content:'';position:absolute;inset-block:0;inset-inline-end:100%;width:.35rem}
+.chat-contextual-actions.out .message-actions::before{inset-inline-end:auto;inset-inline-start:100%}
+.chat-contextual-actions .chat-message-content:hover>.message-actions,.chat-contextual-actions .chat-message-content:focus-within>.message-actions{opacity:1;visibility:visible;pointer-events:auto}
+.chat-contextual-actions .message-actions:empty{display:none}
+.chat-actions-toggle{display:none}
+.chat-message-insights{position:relative;display:inline-block;color:var(--ca-ui-muted,#626b75);font-size:.8rem;cursor:help}
+.chat-message-tooltip{position:absolute;inset-block-end:100%;inset-inline-start:0;display:none;width:max-content;max-width:min(28rem,75vw);padding:.55rem .7rem;border:1px solid var(--ca-ui-border,#d5dae0);border-radius:var(--ca-ui-radius,.3rem);background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#20252b);white-space:normal;z-index:4;box-shadow:0 .2rem .7rem #0002}
+.chat-contextual-actions.out .chat-message-tooltip{inset-inline-start:auto;inset-inline-end:0}
+.chat-message-insights:hover>.chat-message-tooltip,.chat-message-insights:focus>.chat-message-tooltip{display:block}
+.chat-message-insights:focus-visible{outline:2px solid var(--ca-ui-focus,#64748b);outline-offset:2px}
+.chat-message-insights[data-details-dismissed]>.chat-message-tooltip{display:none!important}
+.chat-history-controls{display:flex;flex-direction:column;align-items:center;gap:.4rem;flex-shrink:0;padding:.35rem;color:var(--ca-ui-muted,#626b75)}
+.chat-history-status:empty{display:none}
+.chat-history-status[role=alert]{color:var(--ca-ui-danger,#9b2727)}
+.chat-history-older{padding:.4rem .7rem;border:1px solid var(--ca-ui-border,#d5dae0);border-radius:var(--ca-ui-radius,.3rem);background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#20252b);font:inherit;cursor:pointer}
+.chat-history-older[hidden]{display:none}
+.chat-history-older:disabled{cursor:default;opacity:.7}
+@media(hover:none),(pointer:coarse){
+ .chat-contextual-actions.has-actions .chat-message-content,.chat-contextual-actions:has(.message-actions:not(:empty)) .chat-message-content{max-width:calc(100% - 3rem)}
+ .chat-contextual-actions .chat-message-content>.chat-actions-toggle{display:block;background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#20252b);border:1px solid var(--ca-ui-border,#d5dae0);border-radius:var(--ca-ui-radius,.3rem);min-width:2.75rem;min-height:2.75rem;font:inherit}
+ .chat-contextual-actions .chat-message-content>.message-actions{position:static;max-width:100%;width:auto;display:none;opacity:1;visibility:visible;pointer-events:auto}
+ .chat-contextual-actions .chat-actions-toggle[aria-expanded=true]+.message-actions{display:flex}
+}
+@media(prefers-reduced-motion:reduce){.chat-contextual-actions *,.chat-history-controls *{scroll-behavior:auto;transition:none;animation:none}}

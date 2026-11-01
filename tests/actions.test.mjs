@@ -7,6 +7,12 @@ const action=(kind,extra={})=>({actionId:kind,kind,label:kind,invoke:()=>{},...e
 const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
 function setup(){const dom=new JSDOM('<main><audio></audio><iframe></iframe><textarea>draft</textarea><aside></aside></main>');return {dom,document:dom.window.document,root:dom.window.document.querySelector('aside')};}
 
+test('delete is absent without a host descriptor and carries no implicit transport behavior',()=>{
+ assert.equal(renderMessageActions([action('copy')]).includes('data-chat-action-id="delete"'),false);
+ let calls=0;const html=renderMessageActions([action('delete',{label:'Apagar para todos',invoke:()=>calls++})]);
+ assert.equal(calls,0);assert.match(html,/aria-label="Apagar para todos"/);assert.match(html,/M3 6h18/);
+});
+
 test('pure rail orders capabilities, escapes labels and excludes ungranted links',()=>{
  const html=renderMessageActions([action('forward'),action('download',{resolveLink:()=>({href:'blob:authorized',download:'a.pdf'})}),action('reply'),action('react'),action('copy',{label:'<unsafe>'}),action('preview',{visible:false}),action('open',{resolveLink:()=>({href:'javascript:evil()'})})]);
  const dom=new JSDOM(html),nodes=[...dom.window.document.querySelectorAll('button,a')];

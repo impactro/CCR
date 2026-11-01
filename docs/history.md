@@ -1,5 +1,20 @@
 # Histórico
 
+## 26.11.1a — timeline progressiva e envelope contextual
+
+Contrato público registrado antes do código em eaaab39. Novo entry point
+progressive-history recebe fonte paginada e callbacks do host: loading antes
+da consulta, erro/retry, cursores opacos, deduplicação, cancelamento por
+contexto e prepend conservando os corpos e a âncora existentes. Não consulta
+banco, autentica, envia, confirma leitura nem executa ferramentas.
+
+Envelope contextual opt-in com ações externas ao balão e metadados factuais
+em tooltip; teclado, Escape e acionador explícito em dispositivos sem hover.
+Apagar é somente um tipo opcional de descritor autorizado pelo host. Nenhuma
+mensagem real foi apagada. A autorização local de 01/11 exclui CMAIL/CVideo;
+a sequência global de e-mail da revisão 2 permanece como demanda separada.
+As integrações dos consumidores têm evidência e promoção próprias.
+
 ## 01/11/2026 — capacidades por mensagem e exclusão CWH
 
 Pedido consolidado complementado com apagar mensagem no CWH, apresentado
