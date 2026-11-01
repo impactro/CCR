@@ -1,5 +1,14 @@
 # Histórico
 
+## 26.11.1b — reconciliação ordenada para eventos nativos
+
+reconcileMessages recebe o conjunto autorizado já carregado pelo host e
+preserva nós ao inserir eventos fora de ordem, atualizar ou retirar projeções.
+Metadados recalculados uma vez, retry anterior preservado, contexto e descarte
+revalidados. Novos testes cobrem mídia/listeners, ordem/âncora, escopo, carga,
+callback ausente, erro, handle compartilhado e reentrada. Cobertura focal:
+100% linhas/93,30% ramos/97,37% funções. Adoção por consumidor segue separada.
+
 ## 01/11/2026 — revisão unitária e ciclos de vida
 
 Suíte Node/JSDOM organizada em tests/unit, com helpers separados e comando

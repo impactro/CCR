@@ -49,6 +49,13 @@ view.dispose();
 - appendMessage/removeMessage são projeções de evento confirmado pelo host,
   nunca executores de transporte. Remover visualmente não comprova apagar no
   provedor. Nenhum callback é derivado do conteúdo da mensagem.
+- reconcileMessages(messages,scope) recebe somente o conjunto ordenado já
+  carregado e autorizado pelo host. Insere eventos atrasados entre nós existentes,
+  remove projeções ausentes e recalcula metadados uma vez. O mesmo objeto de
+  mensagem indica ausência de alteração; objetos modificados exigem update no
+  handle. Não busca dados nem executa exclusão. Retorna false durante carga,
+  após descarte, para outro escopo ou sem suporte de atualização. Erro de um
+  callback do host não promete rollback de efeitos que esse callback já produziu.
 - dispose é idempotente; aborta requisição/escopo e cada handle, remove somente
   nós próprios. Fonte que ignore AbortSignal ainda tem resposta tardia rejeitada.
 - select em novo key/conversationId/fonte cancela e descarta o contexto antigo.

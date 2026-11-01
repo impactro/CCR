@@ -21,6 +21,86 @@ function fixture(loadPage,options={}){
  return {dom,document,mount,view,rendered,released,signals,states,close(){view.dispose();dom.window.close();}};
 }
 
+test('native reconciliation inserts late events in order, updates metadata once and preserves live nodes',async()=>{
+ const first=row('2'),last=row('4');const f=fixture(async()=>page([first,last],'older'));
+ try{
+  const current=scope();await f.view.select(current);
+  const existing=f.mount.querySelector('[data-id="4"]'),states=f.states.length;
+  const media=f.document.createElement('video');existing.append(media);let clicks=0;media.addEventListener('click',()=>clicks++);
+  f.mount.scrollTop=13;
+  assert.equal(f.view.reconcileMessages([row('1'),first,row('3'),last],current),true);
+  assert.deepEqual([...f.mount.querySelectorAll('article')].map(n=>n.dataset.id),['1','2','3','4']);
+  assert.equal(f.mount.querySelector('video'),media);media.click();assert.equal(clicks,1);
+  assert.equal(existing.dataset.previous,'3');assert.equal(f.mount.scrollTop,43);
+  assert.equal(f.states.length,states+1);assert.equal(f.states.at(-1).hasMore,true);
+  const same=[row('1'),first,row('3'),last];f.view.reconcileMessages(same,current);
+  const before=f.states.length;assert.equal(f.view.reconcileMessages(same,current),true);assert.equal(f.states.length,before);
+  assert.deepEqual(f.released,[]);
+ }finally{f.close();}
+});
+
+test('native reconciliation handles reordered/removed items and clears only owned nodes',async()=>{
+ const one=row('1'),two=row('2');const f=fixture(async()=>page([one,two]));
+ try{
+  const current=scope();await f.view.select(current);
+  assert.equal(f.view.reconcileMessages([two,one],current),true);
+  assert.deepEqual([...f.mount.querySelectorAll('article')].map(n=>n.dataset.id),['2','1']);
+  assert.equal(f.view.reconcileMessages([row('2','updated')],current),true);
+  assert.deepEqual(f.released,['1']);assert.equal(f.mount.querySelector('article').textContent,'"updated"');
+  assert.equal(f.view.reconcileMessages([],current),true);assert.equal(f.states.at(-1).phase,'empty');
+  assert.equal(f.view.size,0);assert.equal(f.mount.querySelectorAll('.chat-history-controls').length,1);
+ }finally{f.close();}
+});
+
+test('native reconciliation rejects crossed scopes, malformed sets and loading contexts',async()=>{
+ const pending=deferred();const f=fixture(()=>pending.promise);
+ try{
+  const current=scope();assert.equal(f.view.reconcileMessages([],current),false);
+  const loading=f.view.select(current);assert.equal(f.view.reconcileMessages([],current),false);
+  pending.resolve(page([row('1')]));await loading;
+  assert.equal(f.view.reconcileMessages([],scope('foreign')),false);
+  for(const invalid of [null,[row('')],[row('same'),row('same')]])assert.throws(()=>f.view.reconcileMessages(invalid,current));
+  assert.equal(f.view.size,1);f.view.dispose();assert.equal(f.view.reconcileMessages([],current),false);
+ }finally{f.close();}
+});
+
+test('native reconciliation cannot invent update support or mask an older-page error',async()=>{
+ let calls=0;const original=row('one');const f=fixture(async()=>++calls===1?page([original],'older'):Promise.reject({code:'source_failed'}));
+ try{
+  const current=scope();await f.view.select(current);await f.view.loadOlder();
+  assert.equal(f.view.reconcileMessages([original,row('two')],current),true);
+  assert.equal(f.states.at(-1).phase,'error');assert.equal(f.states.at(-1).errorCode,'source_failed');
+  assert.equal(f.mount.querySelector('button').textContent,'Tentar novamente');
+ }finally{f.close();}
+ const noUpdate=fixture(async()=>page([original]),{renderMessage(){return noUpdate.document.createElement('article');}});
+ try{await noUpdate.view.select(scope());assert.equal(noUpdate.view.reconcileMessages([row('one','changed')],scope()),false);}
+ finally{noUpdate.close();}
+});
+
+test('native reconciliation releases new handles on render/update failure or context redirection',async()=>{
+ for(const failure of ['render','update','redirect','dispose','alias']){
+  const dom=new JSDOM('<main></main>'),mount=dom.window.document.querySelector('main'),released=[];
+  let view,shared,changed=false;
+  const original=row('old');
+  view=createProgressiveHistory(mount,{source:{loadPage:async()=>page([original])},pageSize:2,renderMessage(message){
+   if(changed&&failure==='render'&&message.messageId==='bad')throw Error('fixture');
+   const element=failure==='alias'&&changed?(shared||=dom.window.document.createElement('article')):dom.window.document.createElement('article');
+   return {element,dispose(){released.push(message.messageId);},update(){
+    if(failure==='update')throw Error('fixture');
+    if(failure==='redirect')void view.select(scope('next'));
+    if(failure==='dispose')view.dispose();
+   }};
+  }});
+  try{
+   await view.select(scope());changed=true;
+   const messages=failure==='alias'?[row('new'),row('bad')]:[row('new'),...(failure==='render'?[row('bad')]:[row('old','changed')])];
+   if(['render','update','alias'].includes(failure))assert.throws(()=>view.reconcileMessages(messages,scope()));
+   else assert.equal(view.reconcileMessages(messages,scope()),false);
+   assert.ok(released.includes('new'));await flush();
+  }finally{view.dispose();dom.window.close();}
+ }
+});
+
 test('initial loading precedes the source, opaque cursor/order and zero/null are preserved',async()=>{
  let called=false;
  const f=fixture(async args=>{called=true;assert.equal(f.mount.getAttribute('aria-busy'),'true');assert.equal(args.olderCursor,null);

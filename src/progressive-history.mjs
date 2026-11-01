@@ -147,8 +147,47 @@ export function createProgressiveHistory(mount,{
   const handle=context.items.get(key);if(!handle)return false;
   context.items.delete(key);release(handle);metadata(context);publish(context,context.items.size?'ready':'empty');return true;
  }
+ function reconcileMessages(messages,scope){
+  if(!context||!live(context)||!sameScope(context.scope,scope)||context.pending||!context.page)return false;
+  if(!Array.isArray(messages))throw invalid();
+  const current=context,previous=[...current.items],keys=new Set();
+  const entries=messages.map(message=>{
+   const key=messageKey(message);if(!id(key)||keys.has(key))throw invalid();keys.add(key);
+   return [key,message,current.items.get(key)];
+  });
+  if(entries.some(([,message,handle])=>handle&&handle.message!==message&&typeof handle.update!=='function'))return false;
+  if(entries.length===previous.length&&entries.every(([key,message],index)=>previous[index][0]===key&&previous[index][1].message===message))return true;
+  const additions=[],next=new Map(),elements=new Set(),anchor=previous.find(([key])=>keys.has(key))?.[1].element;
+  const offset=anchor?.offsetTop||0,top=mount.scrollTop;let committed=false;
+  try{
+   for(const [key,message,existing]of entries){
+    const handle=existing||makeHandle(current,message);
+    if(!existing)additions.push(handle);
+    if(elements.has(handle.element))throw invalid();elements.add(handle.element);
+    if(!live(current))return false;
+    if(existing&&handle.message!==message){
+     handle.update(message,{signal:handle.controller.signal,scope:current.scope});
+     if(!live(current))return false;
+     handle.message=message;
+    }
+    next.set(key,handle);
+   }
+   let cursor=controls.nextSibling;
+   for(const handle of next.values()){
+    if(handle.element!==cursor)mount.insertBefore(handle.element,cursor);
+    cursor=handle.element.nextSibling;
+   }
+   current.items=next;committed=true;
+   for(const [key,handle]of previous)if(!next.has(key))release(handle);
+   if(!live(current))return false;
+   metadata(current);
+   publish(current,current.failedRequest?'error':next.size?'ready':'empty',current.errorCode);
+   if(live(current)&&anchor)mount.scrollTop=top+anchor.offsetTop-offset;
+   return true;
+  }finally{if(!committed)for(const handle of additions)release(handle);}
+ }
  function dispose(){if(disposed)return;disposed=true;clear(context);context=null;disposeInteractions();more.removeEventListener('click',click);controls.remove();mount.removeAttribute('aria-busy');}
  const click=()=>{void(context?.failedRequest?retry():loadOlder());};more.addEventListener('click',click);
- return {select,loadOlder,retry,updateMessage,appendMessage,removeMessage,dispose,
+ return {select,loadOlder,retry,updateMessage,appendMessage,removeMessage,reconcileMessages,dispose,
   get scope(){return context?.scope||null;},get size(){return context?.items.size||0;}};
 }
