@@ -1,5 +1,13 @@
 # Histórico
 
+## 26.11.1c — fronteira nativa após nova captura
+
+A reconciliação aceita page opcional validada para atualizar a fronteira de
+anteriores sem remontar a conversa. Permite que o host descubra histórico novo
+após o fim observado anteriormente. Testes recusam fronteira inválida e provam
+retomada da paginação com identidade do nó preservada. Sem consulta ou efeito
+no núcleo; o host continua responsável pelo cursor e pela autorização.
+
 ## 26.11.1b — reconciliação ordenada para eventos nativos
 
 reconcileMessages recebe o conjunto autorizado já carregado pelo host e

@@ -147,16 +147,18 @@ export function createProgressiveHistory(mount,{
   const handle=context.items.get(key);if(!handle)return false;
   context.items.delete(key);release(handle);metadata(context);publish(context,context.items.size?'ready':'empty');return true;
  }
- function reconcileMessages(messages,scope){
+ function reconcileMessages(messages,scope,{page}={}){
   if(!context||!live(context)||!sameScope(context.scope,scope)||context.pending||!context.page)return false;
   if(!Array.isArray(messages))throw invalid();
   const current=context,previous=[...current.items],keys=new Set();
+  if(page!==undefined&&(!page||typeof page.hasMore!=='boolean'||(page.hasMore?!id(page.olderCursor):page.olderCursor!==null)))throw invalid();
+  const nextPage=page===undefined?current.page:{...page};
   const entries=messages.map(message=>{
    const key=messageKey(message);if(!id(key)||keys.has(key))throw invalid();keys.add(key);
    return [key,message,current.items.get(key)];
   });
   if(entries.some(([,message,handle])=>handle&&handle.message!==message&&typeof handle.update!=='function'))return false;
-  if(entries.length===previous.length&&entries.every(([key,message],index)=>previous[index][0]===key&&previous[index][1].message===message))return true;
+  if(nextPage.hasMore===current.page.hasMore&&nextPage.olderCursor===current.page.olderCursor&&entries.length===previous.length&&entries.every(([key,message],index)=>previous[index][0]===key&&previous[index][1].message===message))return true;
   const additions=[],next=new Map(),elements=new Set(),anchor=previous.find(([key])=>keys.has(key))?.[1].element;
   const offset=anchor?.offsetTop||0,top=mount.scrollTop;let committed=false;
   try{
@@ -177,7 +179,7 @@ export function createProgressiveHistory(mount,{
     if(handle.element!==cursor)mount.insertBefore(handle.element,cursor);
     cursor=handle.element.nextSibling;
    }
-   current.items=next;committed=true;
+   current.items=next;current.page=nextPage;committed=true;
    for(const [key,handle]of previous)if(!next.has(key))release(handle);
    if(!live(current))return false;
    metadata(current);

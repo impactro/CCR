@@ -64,6 +64,18 @@ test('native reconciliation rejects crossed scopes, malformed sets and loading c
  }finally{f.close();}
 });
 
+test('authorized page metadata can reopen older history after new capture without remounting current nodes',async()=>{
+ const latest=row('new');let calls=0;const f=fixture(async()=>++calls===1?page([latest]):page([row('old')]));
+ try{
+  const current=scope();await f.view.select(current);const node=f.mount.querySelector('article');
+  for(const invalid of [null,{}, {hasMore:true,olderCursor:null},{hasMore:false,olderCursor:'invalid'}])
+   assert.throws(()=>f.view.reconcileMessages([latest],current,{page:invalid}));
+  assert.equal(f.view.reconcileMessages([latest],current,{page:{hasMore:true,olderCursor:'newly-captured'}}),true);
+  assert.equal(f.mount.querySelector('article'),node);assert.equal(await f.view.loadOlder(),true);
+  assert.deepEqual([...f.mount.querySelectorAll('article')].map(n=>n.dataset.id),['old','new']);
+ }finally{f.close();}
+});
+
 test('native reconciliation cannot invent update support or mask an older-page error',async()=>{
  let calls=0;const original=row('one');const f=fixture(async()=>++calls===1?page([original],'older'):Promise.reject({code:'source_failed'}));
  try{

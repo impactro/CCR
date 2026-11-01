@@ -56,6 +56,10 @@ view.dispose();
   handle. Não busca dados nem executa exclusão. Retorna false durante carga,
   após descarte, para outro escopo ou sem suporte de atualização. Erro de um
   callback do host não promete rollback de efeitos que esse callback já produziu.
+  O terceiro argumento opcional {page} atualiza a fronteira autorizada da fonte,
+  inclusive quando uma nova captura descobre anteriores após chegar ao início.
+  hasMore/olderCursor seguem o mesmo contrato da página; não inferir cursor no
+  navegador nem confundir uma projeção removida com exclusão no provedor.
 - dispose é idempotente; aborta requisição/escopo e cada handle, remove somente
   nós próprios. Fonte que ignore AbortSignal ainda tem resposta tardia rejeitada.
 - select em novo key/conversationId/fonte cancela e descarta o contexto antigo.

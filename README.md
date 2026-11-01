@@ -1,7 +1,8 @@
 # CCR — Crânio Chat Render
 
-**26.11.1b — candidata:** reconciliação ordenada de eventos nativos sem
-remontar nós existentes, preservando cursores e retry. O host continua dono
+**26.11.1c — candidata:** reconciliação ordenada de eventos nativos sem
+remontar nós existentes, preservando cursores e retry. Fronteira autorizada
+de anteriores pode ser atualizada após nova captura. O host continua dono
 dos dados e efeitos; fonte e testes não declaram adoção instalada.
 
 **26.11.1a — candidata:** timeline progressiva por fonte injetada, escopo
