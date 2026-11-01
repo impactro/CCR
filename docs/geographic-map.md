@@ -72,3 +72,18 @@ endereços, rotas, imagens de satélite, mapa de ruas ou coordenadas ao vivo.
 Dados públicos versionados podem ficar desatualizados; atualização é um build,
 não uma chamada durante o render. Pontos enviados pelo host continuam sujeitos
 à autorização dele. Não extrair coordenadas de texto operacional arbitrário.
+
+## Candidata26.11.1i
+
+Três CSV implementados:5570 sedes,27 UFs/DF e242 países/territórios. Malhas
+UF do IBGE e países Natural Earth50m. CSV e JSON compilado têm teste de
+igualdade de nomes/coordenadas e hashes. Mapa aceita Cidade/UF, Estado, País,
+Continente ou GPS numérico; intensidade por país/estado colore polígonos e
+por cidade usa pontos coloridos, sem alegar contorno municipal ou densidade.
+Referência geométrica UF e ponto cartográfico país não são GPS de cliente.
+Contagem ainda vem da fonte operacional; mapas não conciliam cadastro.
+
+País usa recorte principal no enquadramento automático; Mundo mostra a base
+completa. Continente segue a classificação dos países da Natural Earth, sem
+cortar um país transcontinental. Homônimos e nomes fora do catálogo ficam
+explícitos. Fontes/obtenção e hashes em data/geography/sources.json.

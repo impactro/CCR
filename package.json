@@ -1,6 +1,6 @@
 {
   "name": "@crania/chat-render",
-  "version": "26.11.1-h",
+  "version": "26.11.1-i",
   "private": true,
   "type": "module",
   "description": "Host-independent rich chat presentation with bounded plugins and isolated media",
@@ -29,18 +29,26 @@
     "./actions.css": "./src/actions.css",
     "./prompt": "./src/prompt.mjs",
     "./prompt.json": "./config/prompts/render.prompt.json",
-    "./prompt.md": "./config/prompts/render.prompt.md"
+    "./prompt.md": "./config/prompts/render.prompt.md",
+    "./geography": "./src/geography.mjs",
+    "./geography/cities-br.csv": "./data/geography/cities-br.csv",
+    "./geography/states-br.csv": "./data/geography/states-br.csv",
+    "./geography/countries.csv": "./data/geography/countries.csv",
+    "./geography/sources.json": "./data/geography/sources.json",
+    "./geography/skill": "./skills/geographic-map/SKILL.md"
   },
   "files": [
     "src",
     "README.md",
     "docs/GIT-ORIGIN.md",
     "config/prompts",
+    "data/geography",
     "examples/rich-documents",
     "docs/CCR-RICH-DOCUMENT.md",
     "docs/CCR-ACTIONS.md",
     "docs/PROGRESSIVE-HISTORY-CONTRACT.md",
-    "docs/CONTEXTUAL-VIEWS-CONTRACT.md"
+    "docs/CONTEXTUAL-VIEWS-CONTRACT.md",
+    "skills/geographic-map/SKILL.md"
   ],
   "scripts": {
     "test": "node --test tests/unit/*.test.mjs",
@@ -55,5 +63,5 @@
     "esbuild": "0.28.2",
     "jsdom": "29.1.1"
   },
-  "cesVersion": "26.11.1h"
+  "cesVersion": "26.11.1i"
 }

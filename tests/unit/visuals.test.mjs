@@ -11,10 +11,11 @@ test('heatmap keeps zero, null and accessible text with deterministic relative c
  assert.equal(cells[0].dataset.heatValue,'0');assert.equal(cells[1].dataset.heatValue,undefined);
  assert.notEqual(cells[0].style.backgroundColor,cells[2].style.backgroundColor);assert.equal(node.querySelectorAll('tbody tr').length,3);dom.window.close();
 });
-test('coordinate map rejects invalid coordinates, uses text labels and only explicit HTTPS map links',()=>{
+test('geographic map rejects invalid coordinates and treats labels as text',()=>{
  const dom=new JSDOM();const node=createGeoMap(dom.window.document,{title:'Mapa',columns:['Name','Latitude','Longitude'],rows:[['<script>bad</script>',-23.5,-46.6],['Invalid',100,200],['Missing',null,null]]});
  assert.equal(node.querySelectorAll('circle').length,1);assert.equal(node.querySelector('script'),null);
- assert.match(node.querySelector('svg a').getAttribute('href'),/^https:\/\/www\.google\.com\/maps\?q=-23.5,-46.6$/);assert.equal(node.querySelectorAll('tbody tr').length,3);dom.window.close();
+ assert.equal(node.querySelectorAll('path[data-uf]').length,27);assert.equal(node.querySelectorAll('tbody tr').length,3);
+ node.querySelector('[data-row="0"]').dispatchEvent(new dom.window.Event('click'));assert.match(node.querySelector('.chat-geographic-detail').textContent,/<script>bad<\/script>/);node.dispose();dom.window.close();
 });
 test('CCR protocol and Markdown share map and heatmap primitives without host services',()=>{
  const dom=new JSDOM('<main></main>',{url:'https://host.test/'}),root=dom.window.document.querySelector('main');

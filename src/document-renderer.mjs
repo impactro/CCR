@@ -35,6 +35,7 @@ export function createDocumentRenderer({locale='pt-BR'}={}){
      const data={...value.data,title:value.title};
      content=value.type==='html'?createHtmlFrame(document,value.data.html,{scripts:false,title:value.title}):value.view==='table'?createDataTable(document,data,{locale}):value.view==='map'?createGeoMap(document,data,{locale}):value.view==='heatmap'?createHeatmap(document,data,{locale}):createDataChart(document,data,{view:value.view,locale});
      if(value.type==='html')scope.cleanup(()=>{content.removeAttribute('srcdoc');content.removeAttribute('src');});
+     if(typeof content.dispose==='function')scope.cleanup(()=>content.dispose());
     }catch{result={status:'invalid',code:'render_failed'};}
    }
    if(result.status!=='ready'){content=document.createElement('p');content.className='chat-render-error';content.setAttribute('role','status');content.textContent='Prévia indisponível. O arquivo original continua disponível.';}

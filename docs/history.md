@@ -1,5 +1,17 @@
 # Histórico
 
+## 26.11.1i — mapa geográfico por nomes ou GPS
+
+Três CSV auxiliares:5570 sedes brasileiras,27 UFs/DF e242 países/territórios.
+Mapa com malhas IBGE e Natural Earth, países/continentes e recorte regional,
+resolução local por cidade/UF e nome/código de estado ou país. Intensidade
+por estado/país preenche polígonos; cidade usa ponto colorido.
+GPS numérico explícito tem precedência. Zoom, navegação, detalhes e tabela
+acessíveis; marcadores por quantidade, zero/nulo e cobertura preservados.
+Homônimos sem UF e localidades ausentes ficam na tabela. Sem geocoder/CDN,
+mapa de ruas, consulta operacional ou envio de dados a terceiros.
+Procedimento e limites em geographic-map.md; adoção exige build dos hosts.
+
 ## 26.11.1h — metadados do documento CES sem ambiguidade
 
 Prompt e exemplo colocam source/period/note dentro de data, como exige o

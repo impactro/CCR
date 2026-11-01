@@ -210,3 +210,12 @@ a brand migration must not recolor document pixels or change authorization.
 CWH CSS-MIGRATION.md and CA VISUAL-IDENTITY.md describe consumer migration.
 This CSS-only release preserves renderer APIs and disposal. Immutable earlier
 packages remain available; consumers explicitly pin the new artifact hash.
+
+
+##26.11.1i — geografia auxiliar
+
+Núcleo oferece três CSV públicos e JSON derivados, malhas UF/países e
+resolução nominal local. Mapas de intensidade por estado/país e pontos por
+cidade/GPS têm zoom, recorte e cobertura; não dependem de plugin ALP.
+Não há mapa de ruas, contorno municipal ou catálogo mundial de cidades.
+Publicação e inspeção de cada consumidor continuam separadas.

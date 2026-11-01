@@ -1,5 +1,9 @@
 # CCR — Crânio Chat Render
 
+**26.11.1i:** mapa geográfico brasileiro por cidade/UF, estado ou GPS, com
+malhas reais, zoom e detalhes; resolução local sem rede.
+[Procedimento, fontes e limites](docs/geographic-map.md).
+
 **26.11.1h — candidata:** reconciliação ordenada de eventos nativos sem
 remontar nós existentes, preservando cursores e retry. Fronteira autorizada
 de anteriores pode ser atualizada após nova captura. O host continua dono

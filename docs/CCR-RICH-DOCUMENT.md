@@ -154,4 +154,4 @@ A confirmação acima refere-se à primeira adaptação26.10.29-b, anterior ao
 decoder26.10.29-c. A cópia de proposta ada9fd7 no vendor CWH permanece snapshot
 histórico. Cada host confirma separadamente sua adoção da nova versão.
 
-Since26.10.30a, data views also include `heatmap` and `map`. Maps use numeric Latitude/Longitude columns and do not geocode or fetch a basemap. The Markdown rich renderer accepts the same CES document in a fenced `ccr` block. Existing unsupported-view fallbacks remain valid for older consumers.
+Since26.10.30a, data views also include `heatmap` and `map`. Since26.11.1i, maps resolve Brazilian Cidade/UF or Estado names against bundled public municipal seats and state boundaries, or use explicit numeric Latitude/Longitude. They include zoom/pan/details and preserve unresolved rows; there is no network geocoder or street map. See geographic-map.md. The Markdown rich renderer accepts the same CES document in a fenced `ccr` block. Existing unsupported-view fallbacks remain valid for older consumers.

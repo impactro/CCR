@@ -1,0 +1,28 @@
+ibge_code,name,state,country,region,latitude,longitude,reference
+11,Rondônia,RO,BR,Norte,-10.91046,-62.84125,geometry_centroid
+12,Acre,AC,BR,Norte,-9.21465,-70.47464,geometry_centroid
+13,Amazonas,AM,BR,Norte,-4.1535,-64.65326,geometry_centroid
+14,Roraima,RR,BR,Norte,2.08453,-61.38973,geometry_centroid
+15,Pará,PA,BR,Norte,-3.98312,-53.07322,geometry_centroid
+16,Amapá,AP,BR,Norte,1.44515,-51.96496,geometry_centroid
+17,Tocantins,TO,BR,Norte,-10.14778,-48.32965,geometry_centroid
+21,Maranhão,MA,BR,Nordeste,-5.07592,-45.28941,geometry_centroid
+22,Piauí,PI,BR,Nordeste,-7.38617,-42.96966,geometry_centroid
+23,Ceará,CE,BR,Nordeste,-5.09403,-39.61192,geometry_centroid
+24,Rio Grande do Norte,RN,BR,Nordeste,-5.83805,-36.67197,geometry_centroid
+25,Paraíba,PB,BR,Nordeste,-7.12204,-36.83255,geometry_centroid
+26,Pernambuco,PE,BR,Nordeste,-8.32788,-38.00574,geometry_centroid
+27,Alagoas,AL,BR,Nordeste,-9.51609,-36.62255,geometry_centroid
+28,Sergipe,SE,BR,Nordeste,-10.58052,-37.4429,geometry_centroid
+29,Bahia,BA,BR,Nordeste,-12.47571,-41.72104,geometry_centroid
+31,Minas Gerais,MG,BR,Sudeste,-18.45531,-44.67427,geometry_centroid
+32,Espírito Santo,ES,BR,Sudeste,-19.57438,-40.67466,geometry_centroid
+33,Rio de Janeiro,RJ,BR,Sudeste,-22.19739,-42.67067,geometry_centroid
+35,São Paulo,SP,BR,Sudeste,-22.26699,-48.73028,geometry_centroid
+41,Paraná,PR,BR,Sul,-24.63513,-51.61821,geometry_centroid
+42,Santa Catarina,SC,BR,Sul,-27.24639,-50.47243,geometry_centroid
+43,Rio Grande do Sul,RS,BR,Sul,-29.71002,-53.31568,geometry_centroid
+50,Mato Grosso do Sul,MS,BR,Centro-Oeste,-20.32784,-54.84519,geometry_centroid
+51,Mato Grosso,MT,BR,Centro-Oeste,-12.9492,-55.91238,geometry_centroid
+52,Goiás,GO,BR,Centro-Oeste,-16.04076,-49.62506,geometry_centroid
+53,Distrito Federal,DF,BR,Centro-Oeste,-15.78146,-47.7998,geometry_centroid

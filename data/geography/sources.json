@@ -1,0 +1,47 @@
+{
+  "obtainedAt": "2026-11-01",
+  "sources": [
+    {
+      "url": "https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR?intrarregiao=UF&formato=application/vnd.geo%2Bjson&qualidade=minima",
+      "sha256": "07c671aa87aa1ab296c446de6294df9827112782537b996c0a160284907e7c0f"
+    },
+    {
+      "url": "https://servicodados.ibge.gov.br/api/v1/localidades/estados",
+      "sha256": "7ca1368dea3af83cba1af84ae8a7e88f1173c97586831d086cc8b3c1ba9c6596"
+    },
+    {
+      "url": "https://geo.infrasa.gov.br/server/rest/services/Hosted/Sedes_Municipais/FeatureServer/17/query?where=1%3D1&outFields=geocodigo_%2Cuf%2Csede_municipal&returnGeometry=true&outSR=4326&orderByFields=objectid&resultOffset=0&resultRecordCount=2000&f=json",
+      "sha256": "6280438c3982c3f2ec1ede9f476ff7d768f447bfd8616e4bfe64e63499da31ba"
+    },
+    {
+      "url": "https://geo.infrasa.gov.br/server/rest/services/Hosted/Sedes_Municipais/FeatureServer/17/query?where=1%3D1&outFields=geocodigo_%2Cuf%2Csede_municipal&returnGeometry=true&outSR=4326&orderByFields=objectid&resultOffset=2000&resultRecordCount=2000&f=json",
+      "sha256": "3075278b6cd7a4234a97af48e766b2c1a3df8dd9a6d1ab1cbacaf088cb97113e"
+    },
+    {
+      "url": "https://geo.infrasa.gov.br/server/rest/services/Hosted/Sedes_Municipais/FeatureServer/17/query?where=1%3D1&outFields=geocodigo_%2Cuf%2Csede_municipal&returnGeometry=true&outSR=4326&orderByFields=objectid&resultOffset=4000&resultRecordCount=2000&f=json",
+      "sha256": "5eb03127740838a309f63907a3f8fa03ecff7aa3e7268a140a095f10f44230b8"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/9380cca83db5f9aef52d5e762765100745f84b27/geojson/ne_50m_admin_0_countries.geojson",
+      "sha256": "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb"
+    }
+  ],
+  "license": {
+    "ibge": "Dados públicos; crédito IBGE e Infra S.A.",
+    "naturalEarth": "Public domain — https://www.naturalearthdata.com/about/terms-of-use/"
+  },
+  "files": {
+    "cities-br.csv": {
+      "sha256": "b7e053d131f946cb1aacf0953fecdb95d1abbd8eeaf4d69eb89d97a574b70834",
+      "rows": 5570
+    },
+    "countries.csv": {
+      "sha256": "9d1259ea46b519b329bdcd1b77667d09987c40fbcc250c4118e3dedc999f98a6",
+      "rows": 242
+    },
+    "states-br.csv": {
+      "sha256": "8e703e4bfe997b46d310455e93a079b72bd644de66c71d4174438b8e55645b85",
+      "rows": 27
+    }
+  }
+}
