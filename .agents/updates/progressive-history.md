@@ -1,19 +1,17 @@
-# CCR-PROGRESSIVE-HISTORY — revisão 1
+# CCR-PROGRESSIVE-HISTORY — revisão 2
 
-- Tipo: handoff de desenvolvimento planejado; não é migração ou capacidade entregue.
-- Decisão: Fábio, 01/11/2026. Dono: CCR; execução na frente responsável externa
-  ao chat solicitante, que fará a inspeção posterior.
-- Controle: [CCR#1](https://github.com/impactro/CCR/issues/1).
-- Fonte única: [especificação e aceite](../../docs/progressive-history.md).
-- Baseline documental: CCR ab93c05; CAW26.11.1c já possui implementação própria,
-  não export comum. Nenhuma versão funcional é alterada por este aviso.
-- Aplicabilidade/detecção somente leitura: manutenção do CCR e consumidores
-  interessados no histórico progressivo. Conferir exports, versão fixada e
-  testes da candidata; a existência deste arquivo não prova implementação.
-- Ação: reconciliar referência na fila local e entregar contrato/controlador
-  na frente dona. CAW/CWH/CCI têm issues de integração vinculadas na especificação.
-- Validação: contrato, limites, isolamento, scroll/dispose, páginas reais por
-  backend e evidências por consumidor; solicitar inspeção antes da promoção.
-- Recuperação: aviso documental não muda runtime/dados. Futura implantação
-  exige retorno por artefato anterior; não executar migração inexistente.
-- Substitui: nenhum aviso. Não substitui o plano de composição visual.
+- Tipo: handoff de desenvolvimento externo; não é funcionalidade instalada.
+- Decisão: Fábio, 01/11/2026. Iniciativa única: renderização comum, histórico
+  progressivo, navegação contextual e serviços JSON desacoplados.
+- Fonte única: [pedido consolidado e aceite](../../docs/progressive-history.md).
+- Controle existente: [CCR#1](https://github.com/impactro/CCR/issues/1).
+- Executar em outra máquina; devolver commits/artefatos/testes/métricas para
+  inspeção neste chat e depois teste de Fábio, antes de promoção neste ambiente.
+- CCR fornece render/hover/tooltip/timeline; hosts fornecem áreas/contexto;
+  CCI/CWH/CMAIL fornecem dados e ações autorizadas. Piloto: CMAIL no CWH, depois CAW.
+- Barra sem limite fixo de atalhos, conforme viabilidade. Navegação e conteúdo
+  possuem estados de carga independentes. Tokens de serviço não vão aos assets.
+- Loading CAW e migração CMAIL são antecedentes concluídos, não tarefas novas.
+- Substitui a revisão 1 deste aviso; concilia o mapa de composição CAW na mesma iniciativa.
+- Não alterar runtime, dados, versões instaladas, sessões ou mensagens por
+  aplicar este aviso. A recuperação desta publicação é documental pelo Git.

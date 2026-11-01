@@ -1,5 +1,14 @@
 # Histórico
 
+## 01/11/2026 — pedido integrado de renderização, revisão 2
+
+Timeline progressiva, composição do hospedeiro, ações flutuantes desktop e
+metadados em tooltip conciliados numa iniciativa com entregas por dono.
+Inclui modo conteúdo isolado, serviços JSON autenticados e inspeção após
+implementação em outra máquina. Loading CAW e migração CMAIL são antecedentes
+concluídos. DEV CCI confirmou limites da paginação atual, registrados no contrato.
+Nenhum código, pacote, dado ou serviço foi alterado nesta conciliação.
+
 ## 01/11/2026 — registro da demanda de histórico progressivo comum
 
 Fábio pediu CCR mais padronizado, com funções comuns de timeline e páginas
