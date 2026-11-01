@@ -1,5 +1,15 @@
 # Histórico
 
+## 01/11/2026 — registro da demanda de histórico progressivo comum
+
+Fábio pediu CCR mais padronizado, com funções comuns de timeline e páginas
+entregues sob demanda por cada backend. Registrados contrato proposto, divisão
+de responsabilidades, limites e aceite em progressive-history.md; CCR#1 é a
+demanda principal, com integrações próprias CAW/CWH/CCI. Avisos versionados
+seguem o padrão CES; a fila local guarda somente referências. Execução fica
+fora do chat solicitante, que inspecionará a candidata depois. Esta publicação
+é documental: não adiciona export, muda versão funcional, instala ou reinicia.
+
 ## 26.10.31b — catálogo completo de plugins ALP
 
 A inspeção do registro real productPlugins encontrou12 formatos existentes.

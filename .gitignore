@@ -1,4 +1,7 @@
 node_modules/
-.agents/
+.agents/*
+!.agents/updates/
+.agents/updates/*
+!.agents/updates/*.md
 *.tgz
 dist/

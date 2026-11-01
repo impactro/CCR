@@ -7,6 +7,15 @@ rico em documentos CES está mapeado em [CCR-RICH-DOCUMENT.md](CCR-RICH-DOCUMENT
 
 ## Objetivo e direção
 
+Direção aprovada em 01/11/2026: centralizar também o ciclo de carregamento
+progressivo da timeline no CCR. Cada host injeta a fonte de páginas estruturadas
+e conserva backend/autorização. A especificação única está em
+[progressive-history.md](progressive-history.md), demanda
+[CCR#1](https://github.com/impactro/CCR/issues/1). A janela, paginação e loading
+já feitos no CAW são referência, não prova de um controlador comum entregue.
+Esta rodada registra handoffs para implementação externa e inspeção posterior;
+não altera exports, consumidores ou runtimes. Composição do shell é outra demanda.
+
 Entrega31/10/2026: o prompt canônico agora pertence ao CCR26.10.31b, em
 config/prompts/render.prompt.json+MD, com seleção explícita de capacidades e
 descritores de plugins do host. APIs do render existentes preservadas. Nesta

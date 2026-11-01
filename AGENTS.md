@@ -1,5 +1,8 @@
 # CCR
 
+Em manutenção/SYNC, ler `.agents/updates/README.md`. Avisos planejados são
+handoffs, não capacidades entregues; reconciliar a referência na fila local.
+
 Nome curto CCR; origem canônica pública `https://github.com/impactro/CCR.git`.
 O nome técnico `@crania/chat-render` e os imports não mudam. Ver
 `docs/GIT-ORIGIN.md` para SHAs, fronteiras e consumo. Não usar checkout virtual,

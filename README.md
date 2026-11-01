@@ -1,5 +1,10 @@
 # CCR — Crânio Chat Render
 
+Demanda aprovada, ainda não implementada no núcleo comum:
+[histórico progressivo por fonte injetada](docs/progressive-history.md),
+[CCR#1](https://github.com/impactro/CCR/issues/1). CAW, CWH e CCI mantêm seus
+backends e autorização; a implementação externa volta para inspeção integrada.
+
 **26.10.31b:** prompts canônicos de formato no próprio CCR, selecionados pelas
 capacidades e plugins reais do host. Exports `/prompt`, `/prompt.json` e
 `/prompt.md`; fonte única em [render.prompt.json](config/prompts/render.prompt.json)

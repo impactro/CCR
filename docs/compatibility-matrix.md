@@ -49,6 +49,17 @@ os testes descritos são critérios futuros e não resultados já produzidos.
 
 ## Registro de evidência por capacidade
 
+### R35 — Histórico progressivo comum (demanda de 01/11/2026)
+
+Planejado, não entregue no CCR: fonte paginada injetada, loading, erro/retry,
+prepend com âncora de leitura e cancelamento por contexto. Especificação e
+aceite em [progressive-history.md](progressive-history.md),
+[CCR#1](https://github.com/impactro/CCR/issues/1). CAW26.11.1c já possui janela
+e produtor paginado próprios; isso não comprova adoção comum em CWH/CCI ou
+paginação do feed combinado do Modo Agente. A candidata deve registrar versão,
+adaptador, backend, fixture e evidência de cada consumidor antes de declarar
+paridade. O estado da execução pertence à issue, não a uma segunda fila aqui.
+
 Ao desenvolver uma fatia, registrar nesta seção o ID Rxx, revisão do módulo,
 driver, adaptador e consumidor, fixture sintética, teste funcional, conferência
 visual, limites e decisão. Não inserir conversas, identificadores reais de
