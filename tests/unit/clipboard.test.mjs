@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {copyText} from '../src/clipboard.mjs';
-import {richDocumentText} from '../src/document-renderer.mjs';
+import {copyText} from '../../src/clipboard.mjs';
+import {richDocumentText} from '../../src/document-renderer.mjs';
 
 test('copy sends plain text to the clipboard and never HTML',async()=>{
  const writes=[];assert.equal(await copyText('<strong>Text</strong>',{clipboard:{writeText:async text=>writes.push(text)}}),true);assert.deepEqual(writes,['<strong>Text</strong>']);

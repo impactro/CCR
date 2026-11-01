@@ -11,7 +11,7 @@ export const PROGRESSIVE_HISTORY_VERSION=1;
 export function createProgressiveHistory(mount,{
  source,renderMessage,messageKey=message=>message.messageId,pageSize=20,maxPageSize=100,onState=()=>{},onIssue=()=>{},
 }={}){
- if(!mount?.ownerDocument||typeof source?.loadPage!=='function'||typeof renderMessage!=='function')throw Error('history_adapter_required');
+ if(mount?.nodeType!==1||!mount.ownerDocument||typeof source?.loadPage!=='function'||typeof renderMessage!=='function')throw Error('history_adapter_required');
  if(!Number.isSafeInteger(pageSize)||!Number.isSafeInteger(maxPageSize)||pageSize<1||pageSize>maxPageSize||maxPageSize>10000)throw Error('history_page_size_invalid');
  const document=mount.ownerDocument,window=document.defaultView;
  const disposeInteractions=bindConversationInteractions(mount);
@@ -59,7 +59,9 @@ export function createProgressiveHistory(mount,{
   catch(error){controller.abort();current.controller.signal.removeEventListener('abort',abort);throw error;}
   const handle=rendered?.nodeType?{element:rendered}:rendered;
   if(!handle?.element||handle.element.ownerDocument!==document||handle.element.nodeType!==1){
-   controller.abort();current.controller.signal.removeEventListener('abort',abort);throw invalid();
+   controller.abort();current.controller.signal.removeEventListener('abort',abort);
+   try{handle?.dispose?.();}catch{}
+   throw invalid();
   }
   if([...current.items.values()].some(old=>old.element===handle.element)){
    controller.abort();current.controller.signal.removeEventListener('abort',abort);throw invalid();

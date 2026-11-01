@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {renderMessageActions,createMessageActionRail} from '../src/actions.mjs';
+import {renderMessageActions,createMessageActionRail} from '../../src/actions.mjs';
 const scope={conversationId:'conversation',messageId:'message'};
 const action=(kind,extra={})=>({actionId:kind,kind,label:kind,invoke:()=>{},...extra});
 const tick=()=>new Promise(resolve=>setTimeout(resolve,0));

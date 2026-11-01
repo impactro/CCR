@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {decodeRichDocument,createDocumentRenderer,RICH_DOCUMENT_MAX_BYTES} from '../src/document-renderer.mjs';
-import {createChatRenderer} from '../src/renderer.js';
+import {decodeRichDocument,createDocumentRenderer,RICH_DOCUMENT_MAX_BYTES} from '../../src/document-renderer.mjs';
+import {createChatRenderer} from '../../src/renderer.js';
 const example=()=>({owner:'CES',format:'ccr.document',version:1,renderer:{name:'CCR',version:1},type:'data',view:'table',title:'Typed data',data:{columns:[{label:'Name',type:'string'},{label:'Total',type:'number'},{label:'Active',type:'boolean'},{label:'Day',type:'date'},{label:'When',type:'datetime'},{label:'Rich',type:'html'}],rows:[['One',0,false,'2026-10-29','2026-10-29T13:00:00Z','<strong>Safe</strong>'],['Two',null,true,null,null,null]],source:'Synthetic fixture'}});
 const fixture=()=>{const dom=new JSDOM('<main></main>',{url:'https://host.test/'});return {dom,element:dom.window.document.querySelector('main')};};
 

@@ -8,7 +8,7 @@ CAW, CWH e CCI mantêm backends e autorização. Integração/homologação de c
 consumidor continuam separadas; CMAIL/CVideo fora desta fatia autorizada.
 Preparação de lateral/conteúdo por callbacks confiáveis em
 [CONTEXTUAL-VIEWS-CONTRACT.md](docs/CONTEXTUAL-VIEWS-CONTRACT.md), sem conector
-de e-mail implícito. Suíte de apresentação:67 testes sintéticos aprovados.
+de e-mail implícito. Organização, comandos e cobertura em [tests/README.md](tests/README.md).
 
 **26.10.31b:** prompts canônicos de formato no próprio CCR, selecionados pelas
 capacidades e plugins reais do host. Exports `/prompt`, `/prompt.json` e

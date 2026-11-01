@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {JSDOM} from 'jsdom';
-import {createChatRenderer,createHtmlFrame} from '../src/index.js';
-const bootstrap=await readFile(new URL('../src/sandbox-runtime.js',import.meta.url),'utf8');
+import {createChatRenderer,createHtmlFrame} from '../../src/index.js';
+const bootstrap=await readFile(new URL('../../src/sandbox-runtime.js',import.meta.url),'utf8');
 test('sandbox accepts one parent payload, removes navigation and preserves form controls',()=>{
  const dom=new JSDOM('<main id="content"></main>',{url:'https://host.test/rich-content.html',runScripts:'outside-only'}),w=dom.window;
  w.eval(bootstrap);

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {sequenceFor,messageTime,createConversationState,createChatRenderer,resourceUrl} from '../src/index.js';
+import {sequenceFor,messageTime,createConversationState,createChatRenderer,resourceUrl} from '../../src/index.js';
 const first={conversationId:'one',messageId:'a',authorId:'author',direction:'incoming',role:'user',createdAt:Date.parse('2026-10-29T02:59:00Z')};
 test('groups by local day, conversation and known author, separating events and directions',()=>{
  assert.equal(messageTime(first.createdAt),'23:59');

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {createChatRenderer,createHtmlFrame,resourceUrl,createDataChart} from '../src/index.js';
+import {createChatRenderer,createHtmlFrame,resourceUrl,createDataChart} from '../../src/index.js';
 const fixture=()=>{const dom=new JSDOM('<main></main>',{url:'https://host.test'});return {dom,element:dom.window.document.querySelector('main')};};
 
 test('markdown remains inert; unsafe links and raw HTML are removed',()=>{

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {renderChatMessage,renderChatQuote,isAuthorColor,messageDetails,bindConversationInteractions} from '../src/conversation.mjs';
+import {renderChatMessage,renderChatQuote,isAuthorColor,messageDetails,bindConversationInteractions} from '../../src/conversation.mjs';
 
 const first={conversationId:'workspace-one/chat-one',messageId:'m1',authorId:'agent-one',role:'assistant',direction:'incoming',createdAt:Date.parse('2026-10-29T13:30:00Z')};
 const options={layout:'group',author:{id:'agent-one',displayName:'Agent one',color:'#123456'},avatarMarkup:'<span class="avatar">A</span>',bodyMarkup:'<p>Text</p>'};
@@ -84,4 +84,21 @@ test('touch action toggle and metadata Escape are local, keyboard accessible and
  assert.equal(insight.dataset.detailsDismissed,'true');
  toggle.focus();assert.equal(insight.hasAttribute('data-details-dismissed'),false);
  dispose();dispose();toggle.click();assert.equal(toggle.getAttribute('aria-expanded'),'false');
+});
+
+test('metrics preserve real zero values and omit absent, malformed or negative values',()=>{
+ assert.equal(messageDetails(null),'');assert.equal(messageDetails('untrusted'), '');
+ assert.equal(messageDetails({model:' ',durationSeconds:-1,inputTokens:1.5,outputTokens:Infinity,credits:NaN,cost:1,currency:'usd'}),'');
+ assert.equal(messageDetails({credits:0,cost:0,currency:'BRL'}),'Créditos: 0 · Custo: 0 BRL');
+ assert.equal(messageDetails({outputTokens:0}),'Tokens de saída: 0');
+});
+
+test('external cancellation removes interaction listeners, including an already aborted signal',()=>{
+ for(const alreadyAborted of [false,true]){
+  const node=doc(renderChatMessage(first,{...options,contextualActions:true,actionsMarkup:'<button>Copiar</button>'}));
+  const controller=new node.defaultView.AbortController();if(alreadyAborted)controller.abort();
+  const dispose=bindConversationInteractions(node.body,{signal:controller.signal});controller.abort();
+  const toggle=node.querySelector('.chat-actions-toggle');toggle.click();
+  assert.equal(toggle.getAttribute('aria-expanded'),'false');dispose();node.defaultView.close();
+ }
 });

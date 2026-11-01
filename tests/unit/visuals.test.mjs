@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {createHeatmap,createGeoMap} from '../src/visuals.mjs';
-import {createChatRenderer} from '../src/renderer.js';
-import {decodeRichDocument,createDocumentRenderer} from '../src/document-renderer.mjs';
+import {createHeatmap,createGeoMap} from '../../src/visuals.mjs';
+import {createChatRenderer} from '../../src/renderer.js';
+import {decodeRichDocument,createDocumentRenderer} from '../../src/document-renderer.mjs';
 
 const grid={title:'Calor',columns:[{label:'Nome',type:'string'},{label:'Valor',type:'number'}],rows:[['Zero',0],['Ausente',null],['Máximo',10]]};
 test('heatmap keeps zero, null and accessible text with deterministic relative colors',()=>{

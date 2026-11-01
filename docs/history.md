@@ -1,5 +1,15 @@
 # Histórico
 
+## 01/11/2026 — revisão unitária e ciclos de vida
+
+Suíte Node/JSDOM organizada em tests/unit, com helpers separados e comando
+de cobertura V8/LCOV com gate. Três componentes passaram de98,79% linhas e
+82,07% ramos para100% linhas/92,82% ramos. Casos antes falhos reproduziram e
+corrigiram callbacks em dispose, dispatch após suspensão, descarte de handle
+inválido, reentrada de seleção e descarte repetido. Suíte passa de67 para90 casos.
+Procedimento, baseline e limites em tests/README.md. Não comprova instalação
+ou integração da candidata nos consumidores, que continuam com SHA próprio.
+
 ## 26.11.1a — timeline progressiva e envelope contextual
 
 Contrato público registrado antes do código em eaaab39. Novo entry point

@@ -24,8 +24,10 @@ export function createContextualViewHost({navigation,content,onState=()=>{}}={})
   try{onState(Object.freeze({region:name,phase,errorCode:code,context}));}catch{}
  }
  function release(region){
-  region.request++;region.controller?.abort();region.controller=null;
-  try{region.handle?.dispose?.();}catch{}region.handle=null;region.body.replaceChildren();
+  region.request++;
+  const handle=region.handle,controller=region.controller;
+  region.handle=null;region.controller=null;region.body.replaceChildren();
+  controller?.abort();try{handle?.dispose?.();}catch{}
  }
  async function run(name){
   if(disposed||!context)return false;
@@ -34,18 +36,22 @@ export function createContextualViewHost({navigation,content,onState=()=>{}}={})
   const render=name==='navigation'?adapter.renderNavigation:adapter.renderContent;
   if(name==='content'&&!snapshot.itemId){release(region);publish(name,'empty');return false;}
   release(region);const request=region.request,controller=new window.AbortController();region.controller=controller;
-  const live=()=>!disposed&&context?.revision===snapshot.revision&&(name==='navigation'||context===snapshot)&&region.request===request&&!controller.signal.aborted;
+  const current=()=>!disposed&&context?.revision===snapshot.revision&&(name==='navigation'||context===snapshot)&&region.request===request&&region.controller===controller;
+  const live=()=>current()&&!controller.signal.aborted;
   publish(name,'loading');
+  if(!live())return false;
   try{
    const value=await load({scope:snapshot,signal:controller.signal});if(!live())return false;
    const rendered=render(value,{scope:snapshot,signal:controller.signal,
     selectItem:itemId=>context?.revision===snapshot.revision?selectItem(itemId):Promise.resolve(false)});
    const handle=rendered?.nodeType?{element:rendered}:rendered;
-   if(!handle?.element||handle.element.nodeType!==1||handle.element.ownerDocument!==document)
+   if(!handle?.element||handle.element.nodeType!==1||handle.element.ownerDocument!==document){
+    controller.abort();try{handle?.dispose?.();}catch{}
     throw Object.assign(Error('Invalid view handle'),{code:'view_handle_invalid'});
+   }
    if(!live()){try{handle.dispose?.();}catch{}return false;}
    region.handle=handle;region.body.append(handle.element);publish(name,'ready');return true;
-  }catch(error){if(live())publish(name,'error',codeOf(error));return false;}
+  }catch(error){if(current()){controller.abort();publish(name,'error',codeOf(error));}return false;}
  }
  function register(areaId,adapter){
   if(disposed)throw Error('view_disposed');
@@ -60,7 +66,8 @@ export function createContextualViewHost({navigation,content,onState=()=>{}}={})
   for(const region of Object.values(regions))release(region);
   context=Object.freeze({areaId,key:scope.key,accountId:scope.accountId,collectionId:scope.collectionId,
    workspaceId:opaque(scope.workspaceId)?scope.workspaceId:null,itemId:null,revision:++revision});
-  publish('content','empty');return run('navigation');
+  const selected=context;publish('content','empty');
+  return context===selected?run('navigation'):Promise.resolve(false);
  }
  function selectItem(itemId){
   if(disposed||!context)return Promise.resolve(false);
@@ -75,8 +82,9 @@ export function createContextualViewHost({navigation,content,onState=()=>{}}={})
   for(const [name,region]of Object.entries(regions)){release(region);publish(name,'empty');}
  }
  function dispose(){
-  if(disposed)return;suspend();disposed=true;adapters.clear();
+  if(disposed)return;disposed=true;context=null;adapters.clear();
   for(const region of Object.values(regions)){
+   release(region);
    region.status.remove();region.retry.remove();region.body.remove();region.mount.removeAttribute('aria-busy');
   }
  }

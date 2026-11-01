@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {createProgressiveHistory} from '../src/progressive-history.mjs';
+import {createProgressiveHistory} from '../../src/progressive-history.mjs';
+import {deferred,flush} from '../helpers/async.mjs';
 
 const scope=(key='user-one/account-one/chat',conversationId='chat')=>({key,conversationId});
 const row=(messageId,value=messageId)=>({messageId,value,createdAt:1});
 const page=(messages,olderCursor=null)=>({messages,page:{hasMore:olderCursor!==null,olderCursor}});
-const deferred=()=>{let resolve,reject;const promise=new Promise((yes,no)=>{resolve=yes;reject=no;});return {promise,resolve,reject};};
 function fixture(loadPage,options={}){
  const dom=new JSDOM('<textarea>draft</textarea><main></main>',{url:'https://fixture.invalid/'});
  const document=dom.window.document,mount=document.querySelector('main'),rendered=[],released=[],signals=[],states=[];
@@ -134,4 +134,85 @@ test('cursor cycles stop before mounting a page or silently looping the source',
   assert.equal(await f.view.loadOlder(),false);assert.deepEqual(f.rendered,['3','2']);
   assert.equal(f.states.at(-1).errorCode,'history_page_invalid');assert.equal(calls,3);
  }finally{f.close();}
+});
+
+test('initial empty page exposes an empty state and no hidden follow-up fetch',async()=>{
+ let calls=0;const f=fixture(async()=>{calls++;return page([]);});
+ try{
+  assert.equal(await f.view.loadOlder(),false);assert.equal(await f.view.retry(),false);
+  await f.view.select(scope());assert.equal(f.states.at(-1).phase,'empty');
+  assert.equal(f.mount.getAttribute('aria-busy'),'false');assert.equal(f.view.size,0);
+  assert.equal(await f.view.loadOlder(),false);assert.equal(calls,1);
+ }finally{f.close();}
+});
+test('constructor and selection validate adapters, page size and scope before dispatch',()=>{
+ const dom=new JSDOM('<main></main>'),mount=dom.window.document.querySelector('main');
+ try{
+  assert.throws(()=>createProgressiveHistory(null,{}),/adapter_required/);
+  for(const pageSize of [0,-1,1.5,NaN,101])
+   assert.throws(()=>createProgressiveHistory(mount,{source:{loadPage(){}},renderMessage(){},pageSize}),/page_size_invalid/);
+  const f=fixture(()=>{throw Error('must not dispatch');});
+  try{
+   assert.throws(()=>f.view.select({key:'',conversationId:'chat'}),/scope_required/);
+   assert.throws(()=>f.view.select(scope(),{source:{}}),/scope_required/);
+   f.view.dispose();assert.throws(()=>f.view.select(scope()),/disposed/);
+  }finally{f.close();}
+ }finally{dom.window.close();}
+});
+test('a failed render rolls back only the new page; retry preserves the original nodes',async()=>{
+ let attempts=0,disposed=0;const f=fixture(async({olderCursor})=>olderCursor?page([row('1'),row('2')]):page([row('3')],'old'),
+ {renderMessage(message,{signal}){
+  if(message.messageId==='2'&&attempts++===0)throw Error('PRIVATE_RENDER_FAILURE');
+  const element=f.document.createElement('article');element.dataset.id=message.messageId;
+  return {element,dispose(){assert.equal(signal.aborted,true);disposed++;}};
+ }});
+ try{
+  await f.view.select(scope());const old=f.mount.querySelector('article');
+  assert.equal(await f.view.loadOlder(),false);assert.equal(f.mount.querySelector('article'),old);
+  assert.equal(f.view.size,1);assert.equal(disposed,1);assert.doesNotMatch(f.mount.textContent,/PRIVATE/);
+  assert.equal(await f.view.retry(),true);assert.equal(f.view.size,3);
+  assert.equal(f.mount.querySelector('[data-id="3"]'),old);
+ }finally{f.close();}
+ assert.equal(disposed,4);
+});
+test('a malformed render handle releases its allocated resources without mounting foreign DOM',async()=>{
+ const other=new JSDOM('<article></article>');let disposed=0,aborted=false;
+ const f=fixture(async()=>page([row('one')]),{renderMessage(message,{signal}){
+  return {element:other.window.document.querySelector('article'),dispose(){disposed++;aborted=signal.aborted;}};
+ }});
+ try{
+  assert.equal(await f.view.select(scope()),false);assert.equal(f.view.size,0);
+  assert.equal(f.states.at(-1).errorCode,'history_page_invalid');
+  assert.equal(disposed,1);assert.equal(aborted,true);
+  assert.ok(other.window.document.querySelector('article'));
+ }finally{f.close();other.window.close();}
+});
+test('returning an already-owned node is rejected without disposing or removing that message',async()=>{
+ let renders=0,released=0,original;
+ const f=fixture(async({olderCursor})=>olderCursor?page([row('older')]):page([row('original')],'old'),
+ {renderMessage(){renders++;original||=f.document.createElement('article');return {element:original,dispose(){released++;}};}});
+ try{
+  await f.view.select(scope());assert.equal(await f.view.loadOlder(),false);
+  assert.equal(f.view.size,1);assert.equal(f.mount.querySelector('article'),original);
+  assert.equal(released,0);assert.equal(renders,2);
+ }finally{f.close();}
+ assert.equal(released,1);
+});
+test('explicit retry button and scoped update guards do not lose the mounted body',async()=>{
+ let attempts=0;const f=fixture(async()=>{if(!attempts++)throw {code:'source_busy'};return page([row('one')]);});
+ try{
+  await f.view.select(scope());assert.equal(f.states.at(-1).errorCode,'source_busy');
+  f.mount.querySelector('button').click();await flush();
+  assert.equal(f.view.size,1);assert.equal(f.view.updateMessage(row('missing'),scope()),false);
+  assert.equal(f.view.appendMessage(row('two'),scope('other')),false);
+  assert.equal(f.view.removeMessage('missing',scope()),false);
+ }finally{f.close();}
+});
+
+test('default message key and diagnostics work with a native Element callback',async()=>{
+ const dom=new JSDOM('<main></main>'),mount=dom.window.document.querySelector('main');
+ const view=createProgressiveHistory(mount,{source:{loadPage:async()=>page([row('opaque')])},
+  renderMessage(){return dom.window.document.createElement('article');}});
+ try{assert.equal(await view.select(scope()),true);assert.equal(view.size,1);}
+ finally{view.dispose();dom.window.close();}
 });

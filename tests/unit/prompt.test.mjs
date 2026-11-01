@@ -3,18 +3,18 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {JSDOM} from 'jsdom';
 import {buildRenderPrompt,getRenderPromptContract,validateRenderPromptPlugin,RENDER_PROMPT_VERSION,RENDER_PROMPT_SCHEMA_VERSION,MAX_RENDER_PROMPT_PLUGINS} from '@crania/chat-render/prompt';
-import {decodeRichDocument,RICH_DOCUMENT_VIEWS} from '../src/rich-document.mjs';
-import {createChatRenderer} from '../src/renderer.js';
+import {decodeRichDocument,RICH_DOCUMENT_VIEWS} from '../../src/rich-document.mjs';
+import {createChatRenderer} from '../../src/renderer.js';
 
 const plugin=()=>({id:'example.summary',version:'1.0.0',fence:'summary',schema:{type:'object',properties:{title:{type:'string'}},required:['title'],additionalProperties:false},instructions:['Use a supplied title.'],examples:[{content:{title:'Synthetic example'}}]});
 
 test('package, release, prompt and its exported files have matching versions',async()=>{
-  const contract=getRenderPromptContract(),pkg=JSON.parse(await readFile(new URL('../package.json',import.meta.url))),release=JSON.parse(await readFile(new URL('../release.json',import.meta.url)));
+  const contract=getRenderPromptContract(),pkg=JSON.parse(await readFile(new URL('../../package.json',import.meta.url))),release=JSON.parse(await readFile(new URL('../../release.json',import.meta.url)));
   assert.equal(contract.version,pkg.cesVersion);assert.equal(RENDER_PROMPT_VERSION,release.promptVersion);
   assert.equal(contract.packageVersion,pkg.version);assert.equal(RENDER_PROMPT_SCHEMA_VERSION,1);assert.equal(release.promptSchemaVersion,1);
-  const raw=JSON.parse(await readFile(new URL('../config/prompts/render.prompt.json',import.meta.url),'utf8'));
-  assert.deepEqual(contract,raw);assert.equal(import.meta.resolve('@crania/chat-render/prompt.json'),new URL('../config/prompts/render.prompt.json',import.meta.url).href);
-  assert.match(await readFile(new URL('../config/prompts/render.prompt.md',import.meta.url),'utf8'),/render\.prompt\.json/);
+  const raw=JSON.parse(await readFile(new URL('../../config/prompts/render.prompt.json',import.meta.url),'utf8'));
+  assert.deepEqual(contract,raw);assert.equal(import.meta.resolve('@crania/chat-render/prompt.json'),new URL('../../config/prompts/render.prompt.json',import.meta.url).href);
+  assert.match(await readFile(new URL('../../config/prompts/render.prompt.md',import.meta.url),'utf8'),/render\.prompt\.json/);
   contract.instructions.length=0;contract.capabilities[0].instructions.length=0;
   assert.ok(getRenderPromptContract().instructions.length);assert.ok(getRenderPromptContract().capabilities[0].instructions.length);
 });
