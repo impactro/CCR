@@ -50,6 +50,29 @@ def center(geometry):
     return round(ysum/total,5),round(xsum/total,5)
 
 
+def simplify_ring(points, tolerance=0.03):
+    """Bound coastline detail at build time; preserve closed rings/country identity."""
+    if len(points)<=4:
+        return points
+    keep={0,len(points)-1};stack=[(0,len(points)-1)]
+    while stack:
+        first,last=stack.pop();a,b=points[first],points[last]
+        vx,vy=b[0]-a[0],b[1]-a[1];length=vx*vx+vy*vy;furthest=None;maximum=tolerance*tolerance
+        for index in range(first+1,last):
+            p=points[index];ratio=max(0,min(1,((p[0]-a[0])*vx+(p[1]-a[1])*vy)/length)) if length else 0
+            distance=(p[0]-a[0]-ratio*vx)**2+(p[1]-a[1]-ratio*vy)**2
+            if distance>maximum:maximum=distance;furthest=index
+        if furthest is not None:keep.add(furthest);stack.extend(((first,furthest),(furthest,last)))
+    result=[points[index] for index in sorted(keep)]
+    return result if len(result)>=4 else points
+
+
+def simplified_geometry(geometry):
+    polygons=[geometry['coordinates']] if geometry['type']=='Polygon' else geometry['coordinates']
+    simplified=[[simplify_ring(ring) for ring in polygon] for polygon in polygons]
+    return {'type':geometry['type'],'coordinates':rounded(simplified[0] if geometry['type']=='Polygon' else simplified)}
+
+
 data_root = ROOT/'data/geography'
 data_root.mkdir(parents=True,exist_ok=True)
 
@@ -108,7 +131,7 @@ world=get(WORLD)
 continents={'Europe':'Europa','Asia':'Ásia','Africa':'África','North America':'América do Norte','South America':'América do Sul','Oceania':'Oceania','Antarctica':'Antártida','Seven seas (open ocean)':'Ilhas oceânicas'}
 country_rows=[];geometries={}
 for f in world['features']:
-    p=f['properties'];code=p['ADM0_A3'];geometries[code]={'type':f['geometry']['type'],'coordinates':rounded(f['geometry']['coordinates'])}
+    p=f['properties'];code=p['ADM0_A3'];geometries[code]=simplified_geometry(f['geometry'])
     iso3=p['ISO_A3'] if p['ISO_A3']!='-99' else p['ISO_A3_EH'] if p['ISO_A3_EH']==code else ''
     iso2=p['ISO_A2'] if p['ISO_A2']!='-99' else p['ISO_A2_EH'] if iso3 and p['ISO_A2_EH']!='-99' else ''
     country_rows.append({'natural_earth_code':code,'iso2':iso2,'iso3':iso3,'name':p.get('NAME_PT') or p['ADMIN'],'name_en':p.get('NAME_EN') or p['ADMIN'],'continent':continents[p['CONTINENT']],'latitude':p['LABEL_Y'],'longitude':p['LABEL_X'],'reference':'cartographic_label'})
@@ -121,7 +144,7 @@ payload = {'attribution': 'IBGE — malhas UF; sedes municipais disponibilizadas
            'cities': sorted(cities, key=lambda item: item[4])}
 target = ROOT / 'src' / 'geography-brazil.json'
 target.write_text(json.dumps(payload, ensure_ascii=False, separators=(',', ':')) + '\n', encoding='utf-8')
-world_payload={'attribution':'Natural Earth — países e territórios, domínio público','countries':countries,'source':sources[-1],'obtainedAt':payload['obtainedAt']}
+world_payload={'attribution':'Natural Earth — países e territórios, domínio público','countries':countries,'source':sources[-1],'obtainedAt':payload['obtainedAt'],'geometryTransform':{'algorithm':'Ramer-Douglas-Peucker','toleranceDegrees':0.03,'coordinateDecimals':5}}
 (ROOT/'src/geography-world.json').write_text(json.dumps(world_payload,ensure_ascii=False,separators=(',',':'))+'\n',encoding='utf-8')
 manifest={'obtainedAt':payload['obtainedAt'],'sources':sources,'license':{'ibge':'Dados públicos; crédito IBGE e Infra S.A.','naturalEarth':'Public domain — https://www.naturalearthdata.com/about/terms-of-use/'},'files':{p.name:{'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'rows':len(city_rows) if p.name=='cities-br.csv' else len(state_rows) if p.name=='states-br.csv' else len(country_rows)} for p in data_root.glob('*.csv')}}
 (data_root/'sources.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

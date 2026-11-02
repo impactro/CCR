@@ -1,5 +1,11 @@
 # Histórico
 
+## 26.11.1j — contornos mundiais limitados no build
+
+Simplificação determinística RDP0,03 grau nas malhas Natural Earth, com
+parâmetro registrado. Mantém242 entidades, anéis e coordenadas CSV; reduz
+carga de costa desnecessária a mapas agregados. Sem download em render.
+
 ## 26.11.1i — mapa geográfico por nomes ou GPS
 
 Três CSV auxiliares:5570 sedes brasileiras,27 UFs/DF e242 países/territórios.
