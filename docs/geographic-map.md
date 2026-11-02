@@ -96,16 +96,17 @@ independente do operador.
 
 ### Validação instalada em02/11/2026
 
-CCR26.11.2d e Python26.11.2.post4 adotados em CAW, CWH e CCI. Gates completos
-da candidata b:104 testes Node e9 Python no CCR; consumidores e núcleo somaram
-736 testes e53 subtestes. Depois passaram10 testes Python CCR, incluindo nova
-regressão de pixels do PNG no backend real,14 testes Node focais da revisão d
-e seis verificações focais CAW/proveniência. Não são uma nova execução integral
-de todas as suítes na revisão d, nem uma medida de cobertura global.
+CCR26.11.2e e Python26.11.2.post5 adotados em CAW, CWH e CCI. Os quatro
+perfis de validação foram executados novamente na revisão e:738 testes e53
+subtestes aprovados. CCR teve105 testes Node e10 Python, incluindo pixels PNG
+no backend real e projeção de polígonos menores que um grau. Não representa
+cobertura global de todos os módulos de todos os produtos.
 
-Navegador na revisão d: CAW com dois mapas/269 polígonos, Assistente CWH com
+Navegador na revisão e: CAW com dois mapas/269 polígonos, Assistente CWH com
 oito mapas/9.336 polígonos e fixture transitória CCI com112 bairros oficiais,
-zero preservado e nenhum rótulo undefined/erro. Fixture removida sem persistir
-mensagem. Runner instalado gerou PNG sintético em1,204s; cache quente SP foi
-consultado em30,948ms. São amostras locais, sem modelo nem envio WhatsApp.
-Oito bases PNG/SVG e suas origens foram preparadas fora do Git para inspeção.
+zero preservado e nenhum rótulo undefined/erro. Os bairros ocupam619×492 no
+canvas800×540; o piso antigo de um grau que reduzia recortes locais foi removido.
+Fixture removida sem persistir mensagem. Runner instalado gerou PNG sintético
+em1,704s; cache quente SP foi consultado em29,205ms. São amostras locais, sem
+modelo nem envio WhatsApp. Oito bases PNG/SVG e suas origens foram preparadas
+fora do Git para inspeção.
