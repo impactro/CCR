@@ -5,6 +5,10 @@ Há duas entregas: `@crania/chat-render` (JavaScript, incorporado no host) e
 não atualiza o bundle Web do CAW/CWH/CCI. O renderer não autentica, consulta
 banco ou envia mensagens; o host fornece dados, recursos e ações autorizados.
 
+O pacote JavaScript também entrega este guia em `docs/installed-package.md`,
+com os contratos referenciados. Consulte a revisão do pacote incorporado pelo
+host; atualizar apenas o npm ou apenas o wheel não recompõe outros hosts.
+
 ## Uso Python sem checkout
 
 Instale o wheel aprovado e o extra `png` quando precisar rasterizar/exportar.

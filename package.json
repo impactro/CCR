@@ -35,6 +35,9 @@
     "./geography/recipes": "./python/ccr/recipes/geography.json"
   },
   "files": [
+    "docs/installed-package.md",
+    "docs/history.md",
+    "docs/CHAT-PRESENTATION-CONTRACT.md",
     "src",
     "README.md",
     "docs/GIT-ORIGIN.md",
