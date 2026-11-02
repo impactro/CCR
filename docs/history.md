@@ -1,5 +1,11 @@
 # Histórico
 
+## 26.11.1l — proporção do mapa responsivo
+
+Canvas mantém a proporção40/27 limitando largura conforme altura disponível;
+fundo cartográfico cobre o viewport. Evita faixas transparentes e geometrias
+fora da área útil quando o host limita altura. Sem alteração de dados/CSV.
+
 ## 26.11.1k — prioridade das colunas geográficas
 
 Cidade/UF, Estado, País e Continente explícitos têm precedência sobre outras

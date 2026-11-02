@@ -6,7 +6,7 @@
 .chat-file-toolbar{display:flex;justify-content:flex-end;gap:12px;padding:8px;border-bottom:1px solid var(--ca-ui-border,#dbe5df)}
 .chat-file-document{flex:1;width:100%;min-height:0;border:0}
 .chat-day{font-weight:700;text-align:center}.chat-message-time{color:var(--ca-ui-muted,#53675d);font-size:.75rem}
-.chat-geographic-canvas{display:block;width:100%;height:auto;min-height:260px;max-height:70vh;touch-action:pan-y;border:1px solid var(--ca-ui-border,#748478);border-radius:.4rem}
+.chat-geographic-canvas{display:block;width:min(100%,calc(70vh * 40 / 27));height:auto;aspect-ratio:40 / 27;max-height:none;background:var(--ca-map-water,#dcebf3);touch-action:pan-y;border:1px solid var(--ca-ui-border,#748478);border-radius:.4rem}
 .chat-geographic-controls{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0}.chat-geographic-controls button{min-width:44px;min-height:44px;padding:.4rem .7rem;background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#17202a);border:1px solid var(--ca-ui-border,#748478);border-radius:.3rem;cursor:pointer}
 .chat-geographic-canvas [role=button]{cursor:pointer}.chat-geographic-canvas [data-selected=true]{stroke:#cf6024;stroke-width:2}.chat-geographic-canvas [role=button]:focus{outline:none;filter:drop-shadow(0 0 2px #cf6024)}.chat-geographic-controls button:focus-visible,.chat-geographic-canvas:focus-visible{outline:3px solid var(--ca-ui-action,#087f8c);outline-offset:2px}
 .chat-geographic-detail{padding:.5rem;border-left:3px solid var(--ca-ui-action,#087f8c);color:var(--ca-ui-text,#17202a);overflow-wrap:anywhere}.chat-geographic-summary,.chat-geographic-attribution{font-size:.85rem;color:var(--ca-ui-muted,#53675d)}.chat-geographic-unresolved{display:block}
