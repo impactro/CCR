@@ -1,0 +1,3 @@
+# Runtime hashes are byte-sensitive on every supported host.
+python/ccr/runtime/*.mjs text eol=lf
+python/ccr/runtime/*.json text eol=lf

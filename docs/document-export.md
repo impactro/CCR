@@ -156,6 +156,8 @@ absoluto. `node tools/build-export-runtime.mjs --check` recompila em memória
 e recusa divergência de fonte/build. Rodar antes de empacotar; o Python
 confere versão e hash do runtime a cada export. Hash não é assinatura de
 segurança: publicação/autorização do pacote continua do integrador.
+O Git conserva runtime e proveniência em LF por `.gitattributes`, inclusive
+em checkouts Windows com autocrlf, pois o hash do bundle depende dos bytes.
 
 Wheel inclui runtime/*.mjs, runtime/*.json, skills e prompts por package-data.
 Runtime precisa de Node22+ (host atual24) e PyMuPDF1.24+ provisionados;
