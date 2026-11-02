@@ -1,5 +1,11 @@
 # Histórico
 
+## 26.11.2e — escala de município e bairro
+
+A projeção usa o tamanho real do recorte, com epsilon apenas para extensão
+degenerada. O piso anterior de um grau reduzia mapas locais a poucos pixels;
+regressão cobre polígonos menores que um grau e ocupação útil do canvas.
+
 ## 26.11.2d — detalhe regional sem metadado ausente
 
 Rótulos acessíveis de fronteiras usam nome/UF ou nível bairro quando a fonte

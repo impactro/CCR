@@ -1,6 +1,6 @@
 # CCR — Crânio Chat Render
 
-**26.11.2d:** receitas cartográficas e tools CM compartilhadas: `prepare-map`,
+**26.11.2e:** receitas cartográficas e tools CM compartilhadas: `prepare-map`,
 `lookup-place`, `render-map`. Git contém código, URLs, skill e prompt; vetores,
 catálogos e desenhos são cache permanente local criado sob demanda. Fronteiras
 reais do mundo ao bairro: SP com municípios, Santo André com bairros oficiais.

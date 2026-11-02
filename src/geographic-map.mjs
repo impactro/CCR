@@ -28,7 +28,7 @@ export function createGeographicMap(document,value,{locale='pt-BR'}={}){
  const viewport=make('g'),land=make('g'),markers=make('g');viewport.append(land,markers);svg.append(viewport);
  const coordinates=worldwide?[[-180,-60],[180,85]]:territories.flatMap(s=>rings(s.geometry).flat());
  const extent=coordinates,xs=extent.map(p=>p[0]),ys=extent.map(p=>mercator(p[1]));
- const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys),scale=Math.min((W-48)/Math.max(1,maxX-minX),(H-48)/Math.max(1,maxY-minY));
+ const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys),scale=Math.min((W-48)/Math.max(1e-9,maxX-minX),(H-48)/Math.max(1e-9,maxY-minY));
  const project=(lon,lat)=>[(W-(maxX-minX)*scale)/2+(lon-minX)*scale,(H-(maxY-minY)*scale)/2+(maxY-mercator(lat))*scale];
  const details=document.createElement('div');details.className='chat-geographic-detail';details.setAttribute('role','status');details.setAttribute('aria-live','polite');details.textContent='Selecione um ponto ou território para ver os dados.';
  const fmt=new Intl.NumberFormat(locale,{maximumFractionDigits:6});

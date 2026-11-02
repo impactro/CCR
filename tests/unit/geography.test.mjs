@@ -12,6 +12,22 @@ function fixture(key='injected'){
 }
 const value={columns:['Cidade','UF','Clientes'],rows:[['Cidade Alfa','SP',7],['Cidade Beta','SP',0]]};
 
+test('sub-degree local boundaries fill the canvas instead of inheriting a one-degree floor',()=>{
+ const data=fixture();
+ for(const region of [...data.states,...data.municipalities]){
+  region.geometry.coordinates=region.geometry.coordinates.map(r=>r.map(([x,y])=>[x*.01,y*.01]));
+  region.latitude*=.01;region.longitude*=.01;
+ }
+ data.cities=data.cities.map(([name,uf,lat,lon,code])=>[name,uf,lat*.01,lon*.01,code]);
+ installGeography(data);const dom=new JSDOM(),node=createGeoMap(dom.window.document,value);
+ const coordinates=[...node.querySelectorAll('svg path')].flatMap(p=>[...p.getAttribute('d').matchAll(/[ML]([\d.-]+) ([\d.-]+)/g)].map(m=>[Number(m[1]),Number(m[2])]));
+ const xs=coordinates.map(p=>p[0]),ys=coordinates.map(p=>p[1]);
+ assert.ok(Math.max(...xs)-Math.min(...xs)>600,'local longitude extent must use the canvas');
+ assert.ok(Math.max(...ys)-Math.min(...ys)>350,'local latitude extent must use the canvas');
+ assert.ok(coordinates.every(([x,y])=>Number.isFinite(x)&&Number.isFinite(y)));
+ node.dispose();dom.window.close();
+});
+
 test('municipal polygons replace seat dots; zero, details and disposal remain',()=>{
  installGeography(fixture());const dom=new JSDOM(),node=createGeoMap(dom.window.document,value);
  assert.equal(node.querySelectorAll('path').length,2);assert.equal(node.querySelectorAll('circle').length,0);
