@@ -1,4 +1,4 @@
-# Histórico
+# Histórico resumido do CCR
 
 ## 02/11/2026 — fechamento da fase compartilhada
 
@@ -8,333 +8,57 @@ CM já entregues; os consumidores preservam autorização, dados e efeitos.
 Revisão oficial1334ec0/26.11.2g permanece fixada nos bundles: consolidação
 textual não exige reconstruir o núcleo ou trocar o pin dos consumidores.
 
-## 26.11.2g — séries, composição e exportação local (fonte)
+Marcos de contratos e compatibilidade. Registros completos permanecem no Git;
+instalação e aceite são específicos de cada consumidor.
 
-Implementados chart.series opcional (tipos/eixos/unidades/cores estritos),
-text/image/report CES v1 e scene SVG compartilhado DOM/Node, sem bibliotecas
-ou recursos externos em runtime. Tool CM export-document empacota runtime
-fechado com proveniência determinística; Python26.11.2.post7/npm26.11.2-g.
-Manifesto exato PNG/PDF; imagem lógica local, limites, criação exclusiva,
-tabelas paginadas e painéis sem truncamento. Tetos10.000 de26.11.2f preservados.
-Fixtures somente sintéticas; nenhum consumidor, serviço, dado real ou envio.
-Testes e limitações de execução em tests/README.md; contrato em
-[document-export.md](document-export.md). Na integração: 116 testes Node,
-11 de export Python e 10 de receitas geográficas aprovados. Wheel construído
-offline e extraído sem node_modules; PNG/PDF reais e criação exclusiva
-conferidos a partir do pacote. Inspeção do PNG de seis painéis, sem declarar
-homologação dos consumidores nem QA editorial independente.
+## 2026-11-02 — documentação do pacote instalado
 
+Guia distingue renderer JavaScript e tools Python. Histórico consolidado,
+sem acrescentar capacidade ou declarar adoção de consumidor.
 
-## 26.11.2e — escala de município e bairro
+## 26.11.2a–g — mapas sob demanda e exportação
 
-A projeção usa o tamanho real do recorte, com epsilon apenas para extensão
-degenerada. O piso anterior de um grau reduzia mapas locais a poucos pixels;
-regressão cobre polígonos menores que um grau e ocupação útil do canvas.
+Receitas substituem atlas embarcado: cache público por consumidor, origem/
+licença/hashes, atualização atômica e geração anterior preservada. Recortes
+vão de mundo/país a município/bairro com fonte oficial; sede não é polígono.
+Corrigidas escala local, rótulos e rasterização. Mudança só de desenho
+reutiliza vetores sem download.
 
-## 26.11.2d — detalhe regional sem metadado ausente
+26.11.2f mantém teto de 10.000 linhas/pontos. 26.11.2g acrescenta séries
+line/column com eixos/unidades, text/image/report CES v1 e export-document
+PNG/PDF pelo mesmo scene SVG, com runtime fechado, saída exclusiva,
+limites e manifesto. Imagens são recursos autorizados; sem fetch no render.
+Fonte/teste não comprova instalação universal.
 
-Rótulos acessíveis de fronteiras usam nome/UF ou nível bairro quando a fonte
-não possui região continental. Não exibir undefined em município/bairro.
-Regressão cobre os títulos gerados pelo render real.
+## 26.11.1a–n — histórico progressivo e geografia
 
-## 26.11.2c — rótulos PNG legíveis no backend real
+Timeline recebe fonte paginada/callbacks, loading, retry, cancelamento,
+deduplicação e prepend preservando âncora. Reconciliação mantém nós/recursos,
+ordena eventos e atualiza fronteira de anteriores. Viewport explícito e
+ações contextuais por teclado; opção desligada preserva envelope legado.
+Falhas de dispose/reentrada cobertas por regressão.
 
-Removido o stroke que sobrepunha os caracteres ao rasterizar SVG no PyMuPDF.
-Teste mede pixels escuros do rótulo sobre o polígono, além do XML e PNG válido.
-Prévia da candidata inspecionada antes da instalação.
+Mapas por GPS/cidade/UF/país, precedência geográfica, proporção responsiva e
+simplificação cartográfica. Atlas dessa série substituído por receitas na
+26.11.2. Consultas, cursores, identidade, autorização e efeitos ficam no host.
 
-## 26.11.2b — legibilidade e atualização de desenho sem rede
+## 26.10.31a–b — prompt e origem
 
-PNG mostra nomes/quantidades em recortes pequenos e crédito da fonte. Textos
-do render distinguem fronteiras municipais, bairros e GPS. Mudança apenas do
-desenho reaproveita vetores válidos do cache, sem baixar fontes novamente;
-teste de migração offline incluído. O hospedeiro CAW corrige separadamente a
-ligação do callback de recurso no chat real, coberta por execução do bootstrap.
+Prompt compõe capabilities/plugins reais, schemas/exemplos e limites. Teto 32
+acomoda 12 plugins ALP sem mudar drivers. Origem pública impactro/CCR, pasta
+CM/CCR e nome técnico @crania/chat-render preservado. Dependências fixam SHA
+e assets têm proveniência; Git não implica publicação npm.
 
-## 26.11.2a — receitas sob demanda e fronteiras do mundo ao bairro
+## 26.10.29b–c — apresentação e documentos CES
 
-O atlas/datasets saem da árvore versionada e dos pacotes web. Código Python,
-URLs, skill/prompt e testes sintéticos permanecem. `crania-ccr` registra tools
-CM v3 prepare-map/lookup-place/render-map, com cache permanente local e refresh
-atômico. Recortes usam polígonos: países, UFs, municípios e bairros oficiais.
-SP obtido com645 municípios; Santo André/SIGA com112 bairros e exemplo Centro.
-Cache público não recebe dados privados; PNG de cliente fica no workspace.
-Render web carrega pelo host e conserva tabela em carga/erro. Fontes e limites
-em geographic-map.md; smoke real e imagens ficam somente no cache local.
+Envelope comum com autor, sequências, datas/horas, slots, contagens e citação,
+sem transporte/banco. ccr.document v1 introduz decoder fechado, tabelas
+tipadas, gráficos e HTML passivo; zero/false/null/datas e cópia texto/TSV
+preservados. Documento rico é contrato distinto de V4.
 
-## 26.11.1n — acervo cartográfico reproduzível
+## 26.10.25a — extração
 
-Atlas offline com279 SVG e5.570 sedes por UF, catálogo de países/regiões e
-índice JSON consultável sem transferir tudo ao modelo. Origem, licença,
-projeção e hashes documentados. Download cria candidata isolada; rebuild local
-não acessa rede. Importar o downloader não executa downloads. Polígonos de
-municípios continuam fora da cobertura, distinta dos pontos de sedes.
-
-## 26.11.1m — intenção geográfica no prompt e na skill
-
-Perguntas sobre onde estão clientes, instalações ou máquinas orientam mapa
-geográfico mesmo sem a palavra mapa. Prompt e skill canônicos descrevem
-cruzamento com CSV, entidades distintas, agregação, cobertura e explicação.
-Calor exige pedido explícito; CAX/WhatsApp entrega PNG quando o host oferece
-geração/entrega de artefato. Sem novo exportador, consulta ou efeito no núcleo.
-
-## 26.11.1l — proporção do mapa responsivo
-
-Canvas mantém a proporção40/27 limitando largura conforme altura disponível;
-fundo cartográfico cobre o viewport. Evita faixas transparentes e geometrias
-fora da área útil quando o host limita altura. Sem alteração de dados/CSV.
-
-## 26.11.1k — prioridade das colunas geográficas
-
-Cidade/UF, Estado, País e Continente explícitos têm precedência sobre outras
-colunas textuais como nome de cliente. Descrição não vira localidade.
-
-## 26.11.1j — contornos mundiais limitados no build
-
-Simplificação determinística RDP0,03 grau nas malhas Natural Earth, com
-parâmetro registrado. Mantém242 entidades, anéis e coordenadas CSV; reduz
-carga de costa desnecessária a mapas agregados. Sem download em render.
-
-## 26.11.1i — mapa geográfico por nomes ou GPS
-
-Três CSV auxiliares:5570 sedes brasileiras,27 UFs/DF e242 países/territórios.
-Mapa com malhas IBGE e Natural Earth, países/continentes e recorte regional,
-resolução local por cidade/UF e nome/código de estado ou país. Intensidade
-por estado/país preenche polígonos; cidade usa ponto colorido.
-GPS numérico explícito tem precedência. Zoom, navegação, detalhes e tabela
-acessíveis; marcadores por quantidade, zero/nulo e cobertura preservados.
-Homônimos sem UF e localidades ausentes ficam na tabela. Sem geocoder/CDN,
-mapa de ruas, consulta operacional ou envio de dados a terceiros.
-Procedimento e limites em geographic-map.md; adoção exige build dos hosts.
-
-## 26.11.1h — metadados do documento CES sem ambiguidade
-
-Prompt e exemplo colocam source/period/note dentro de data, como exige o
-decoder. O exemplo completo passa pelo render real; campos no cabeçalho
-continuam recusados, sem relaxar o contrato.
-
-## 26.11.1g — orientação de formatos e mapas por cidade
-
-Prompt canônico escolhe o visual pela pergunta, preserva cidade/UF e quantidade,
-exige coordenadas com origem e informa linhas não mapeadas. Explicita que
-marcadores nativos têm tamanho fixo e que referência urbana não localiza máquinas.
-Exemplo sintético com zero e coordenada ausente passa pelo render real.
-
-## 26.11.1f — viewport explícito da timeline
-
-O host pode fornecer o ancestral que faz a rolagem. A âncora usa posição visual,
-mesmo quando envelopes têm offset parents distintos; mount é o padrão.
-Nenhuma consulta ou autoridade adicionada ao renderer.
-
-## 26.11.1e — ações contextuais acessíveis por teclado
-
-Mensagens com ações fornecidas pelo host oferecem foco no envelope contextual,
-revelando os controles via focus-within no desktop. Mensagens sem ações não
-ganham parada de Tab; markup legado continua inalterado. Regressão em DOM real.
-
-## 26.11.1d — envelope legado sem alteração quando a opção está desligada
-
-Preservado o espaçamento exato das classes do envelope sem ações contextuais.
-A suíte de compatibilidade do CWH detectou a diferença contra a fixture anterior
-à extração; a opção desligada conserva o HTML instalado. Sem alteração do modo
-contextual ou de capacidades.
-
-
-## 26.11.1c — fronteira nativa após nova captura
-
-A reconciliação aceita page opcional validada para atualizar a fronteira de
-anteriores sem remontar a conversa. Permite que o host descubra histórico novo
-após o fim observado anteriormente. Testes recusam fronteira inválida e provam
-retomada da paginação com identidade do nó preservada. Sem consulta ou efeito
-no núcleo; o host continua responsável pelo cursor e pela autorização.
-
-## 26.11.1b — reconciliação ordenada para eventos nativos
-
-reconcileMessages recebe o conjunto autorizado já carregado pelo host e
-preserva nós ao inserir eventos fora de ordem, atualizar ou retirar projeções.
-Metadados recalculados uma vez, retry anterior preservado, contexto e descarte
-revalidados. Novos testes cobrem mídia/listeners, ordem/âncora, escopo, carga,
-callback ausente, erro, handle compartilhado e reentrada. Cobertura focal:
-100% linhas/93,30% ramos/97,37% funções. Adoção por consumidor segue separada.
-
-## 01/11/2026 — revisão unitária e ciclos de vida
-
-Suíte Node/JSDOM organizada em tests/unit, com helpers separados e comando
-de cobertura V8/LCOV com gate. Três componentes passaram de98,79% linhas e
-82,07% ramos para100% linhas/92,82% ramos. Casos antes falhos reproduziram e
-corrigiram callbacks em dispose, dispatch após suspensão, descarte de handle
-inválido, reentrada de seleção e descarte repetido. Suíte passa de67 para90 casos.
-Procedimento, baseline e limites em tests/README.md. Não comprova instalação
-ou integração da candidata nos consumidores, que continuam com SHA próprio.
-
-## 26.11.1a — timeline progressiva e envelope contextual
-
-Contrato público registrado antes do código em eaaab39. Novo entry point
-progressive-history recebe fonte paginada e callbacks do host: loading antes
-da consulta, erro/retry, cursores opacos, deduplicação, cancelamento por
-contexto e prepend conservando os corpos e a âncora existentes. Não consulta
-banco, autentica, envia, confirma leitura nem executa ferramentas.
-
-Envelope contextual opt-in com ações externas ao balão e metadados factuais
-em tooltip; teclado, Escape e acionador explícito em dispositivos sem hover.
-Apagar é somente um tipo opcional de descritor autorizado pelo host. Nenhuma
-mensagem real foi apagada. A autorização local de 01/11 exclui CMAIL/CVideo;
-a sequência global de e-mail da revisão 2 permanece como demanda separada.
-As integrações dos consumidores têm evidência e promoção próprias.
-
-Preparação adicional: createContextualViewHost gerencia loading/cancelamento,
-retry e descarte separados para lateral e conteúdo. Testes sintéticos incluem
-troca de conta/pasta e callback antigo. Contrato em CONTEXTUAL-VIEWS-CONTRACT.md;
-nenhum conector, conta ou integração CMAIL foi habilitado por essa composição.
-
-## 01/11/2026 — capacidades por mensagem e exclusão CWH
-
-Pedido consolidado complementado com apagar mensagem no CWH, apresentado
-somente quando a conversa/mensagem suportar a ação. Mantida a fronteira entre
-descritor/callback CCR e autorização/execução do host. Aceite inclui alcance,
-permissão revogada e resultado incerto; nenhuma mensagem real foi apagada.
-
-## 01/11/2026 — pedido integrado de renderização, revisão 2
-
-Timeline progressiva, composição do hospedeiro, ações flutuantes desktop e
-metadados em tooltip conciliados numa iniciativa com entregas por dono.
-Inclui modo conteúdo isolado, serviços JSON autenticados e inspeção após
-implementação em outra máquina. Loading CAW e migração CMAIL são antecedentes
-concluídos. DEV CCI confirmou limites da paginação atual, registrados no contrato.
-Nenhum código, pacote, dado ou serviço foi alterado nesta conciliação.
-
-## 01/11/2026 — registro da demanda de histórico progressivo comum
-
-Fábio pediu CCR mais padronizado, com funções comuns de timeline e páginas
-entregues sob demanda por cada backend. Registrados contrato proposto, divisão
-de responsabilidades, limites e aceite em progressive-history.md; CCR#1 é a
-demanda principal, com integrações próprias CAW/CWH/CCI. Avisos versionados
-seguem o padrão CES; a fila local guarda somente referências. Execução fica
-fora do chat solicitante, que inspecionará a candidata depois. Esta publicação
-é documental: não adiciona export, muda versão funcional, instala ou reinicia.
-
-## 26.10.31b — catálogo completo de plugins ALP
-
-A inspeção do registro real productPlugins encontrou12 formatos existentes.
-O teto inicial de8 descritores foi substituído por32, sem remover capacidades
-do ALP. Limites de composição agora constam no JSON canônico compositionLimits;
-mantidos32KiB por descritor e65536 caracteres no texto final. Novo teste cobre
-catálogo maior que8, teto32 e estouro agregado. Nenhuma mudança nos drivers
-anteriores de render ou no contrato CES1. Esta é a revisão para a integração ALP.
-
-## 26.10.31a — prompt canônico e capacidades do host
-
-O CCR publica config/prompts/render.prompt.json e MD de mesmo nome-base. O JSON
-é fonte única dos formatos, limites, exemplos e instrução; MD explica sua gestão.
-Novo entry point puro /prompt compõe só as capacidades declaradas e plugins
-confiáveis versionados do host, com schema/exemplos, conflitos explícitos e
-tetos reduzíveis. Exports /prompt.json e /prompt.md fecham o pacote para outros
-consumidores. O entry point principal e o código anterior de render não mudam.
-
-Fábio confirmou a adoção no ALP com uso real no contexto do motor e restringiu
-a coordenação desta rodada a CCR+ALP. O responsável pelo ALP integra/publica
-o produto; não houve edição de ALP/CWH nem sincronização de outros serviços
-no trabalho do CCR. Exemplos do prompt, versões, descritores, isolamento de
-capacidades e compatibilidade são verificados por testes sintéticos sem IA paga.
-
-## 31/10/2026 — pasta física CCR e fonte Git dos compilados
-
-Por orientação posterior de Fábio, o clone local CM/CChatRender foi renomeado
-para CM/CCR, igual a impactro/CCR, preservando histórico, árvore limpa e arquivos
-locais. README, AGENTS e guia Git documentam clonagem real e revisão fixada.
-Os próximos commits dos consumidores devem apontar a essa origem e registrar
-o build dos compilados vendor; não criar implementação ou origem virtual.
-Pacote/imports @crania/chat-render e código funcional permanecem iguais.
-
-## 31/10/2026 — origem pública oficial impactro/CCR
-
-Histórico existente publicado em https://github.com/impactro/CCR, branch main,
-incluindo o antigo HEAD local0d0abca. O repositório é público; o pacote técnico
-continua @crania/chat-render e private no registry npm. Nome, imports, código
-de render e versão funcional26.10.30-b permanecem. Metadados repository,
-homepage e bugs agora apontam à origem oficial. Procedência, SHAs das versões
-consumidas e regras de migração em [GIT-ORIGIN.md](GIT-ORIGIN.md).
-
-Fábio pediu que os consumidores usem a versão Git real, fixada por SHA completo.
-AIstein ALP recebeu a fatia ALP; DEV CWH recebeu a fatia CWH; AIstein CCI recebeu
-a fatia CCI. Cada dono altera manifesto/lock/build/docs e devolve evidência.
-Não atualizar tarballs históricos, relaxar CSP ou confundir origem publicada
-com atualização instalada. Nenhum serviço ou cliente foi alterado nesta publicação.
-
-## 25/10/2026 — planejamento da evolução paralela dos renders
-
-Fábio definiu preservar CAW atual e ALP atual, preparar um terceiro render
-substituível no CChatRender e convergir três consumidores: ALP, chat mínimo
-CWH e CAW do CrânIA Agent. O plano shared-render-plan.md registra fronteiras,
-pastas propostas, etapas, responsáveis, decisões e retorno por instância.
-compatibility-matrix.md contém 24 capacidades para correspondência funcional,
-com critérios futuros sem declarar paridade já testada.
-
-O CWH recebe a demanda de um usuário e uma conversa, ligada a LAB-CHAT-001 e
-à migração ativa. Um CAW próprio no laboratório vem depois para validar temas,
-customizações, múltiplos usuários e conversas. A consolidação dos contratos
-finais ocorre após os três consumidores funcionarem na candidata. Autorização,
-histórico, execução e protocolos de entrega permanecem nos hosts.
-
-Documentação e referências de tarefas nesta rodada; nenhum pacote, pasta de
-implementação, versão instalada, serviço ou cliente foi alterado. As mudanças
-visuais locais não publicadas permanecem separadas da release 26.10.25-a.
-
-## 26.10.25a — extração inicial do render do Pergunte Aí
-
-Markdown, dados/gráficos SVG locais, HTML/SPA opacos, imagem, áudio/voz gravada,
-vídeo, PDF sob demanda, YouTube após clique e arquivos. Plugins e ciclo de vida
-por resposta, cancelamento idempotente e limites explícitos. Contratos eleitorais,
-marca, exportação e identidade permanecem no consumidor. Origem: conceito de
-content-viewer/showdata do CrânIA Agent; implementação independente.
-
-Validação DEV com testes determinísticos e navegador real: tabela, gráfico,
-slider/contador dentro da resposta, descarte de recurso e PDF em canvas.
-Sem chamada de IA pelo módulo. Prévia somente loopback, dados sintéticos.
-PDF.js foi adicionado após comprovar quadro vazio no plugin nativo do navegador.
-DOMPurify3.4.16 substituído por3.4.17 após auditoria de dependências; não foi
-demonstrada exploração na configuração do consumidor.
-
-Não oferece geração, gravação ou transcrição de mídia. Scripts HTML opcionais
-rodam isolados; sandbox de navegador não é garantia de cota rígida de CPU.
-Mídia externa exige política explícita do host. PDFs usam prévia visual por página,
-sem substituir o arquivo original nem certificar todos os codecs/fontes/documentos.
-
-## 26.10.29b — envelope comum com prioridade CWH
-
-Entrada conversation sem dependências pesadas: autor/cor, sequências, data/hora,
-slots do host, contagens agregadas e citação do autor correto. CWH é primeiro
-integrador nesta rodada, mantendo HTML/CSS e reconciliação atuais. ALP se adapta
-posteriormente; Crania Agent/CAW ficam fora das alterações. Testes sintéticos de
-autoria/escopo, escape e avatar configurável; integração usa fixtures anteriores
-do produto. Não extrai transporte, banco, parser WhatsApp ou despacho de ações.
-
-## 29/10/2026 — nome CCR e mapa de documentos ricos
-
-Nome curto aprovado: CCR, Crânio Chat Render, preservando nome técnico/pacote.
-ALP autorizado a adotar envelope comum já entregue no CWH. Documentado formato
-proposto de arquivo CES JSON/HTML, versões e fronteira com SEND_JSON/V4, incluindo
-lacunas de tipos CAW/CCR e fallback de arquivo. Não há decoder publicado nem
-reempacotamento do26.10.29-b por estas mudanças de documentação.
-
-## 26.10.29c — documentos CES e cópia local
-
-Contrato ccr.document v1: decoder comum, tabelas tipadas preservando null/false/
-zero/datas, quatro gráficos locais e HTML passivo marcado. Campos/versões/
-limites validados; anexo comum/incompatível não vira conteúdo executável. Entrada
-document independente e message.documents no renderer rico, com lifecycle e
-orçamento visual. CSS escopado, exemplos de arquivo e cópia em texto/TSV.
-Clipboard local com fallback que restaura foco/seleção do rascunho. Envelope
-continua único; ações externas são adaptadas pelos consumidores, CA/CAW intocados.
-
-
-##26.11.2f — teto geográfico de10.000
-
-Direção Fábio02/11: teto fixo de10.000linhas/localidades, sem opção do consumidor. Entrada acima do teto falha explicitamente. Alterados somente os limites de tabela/mapa e o contrato de prompt correspondente. Teste sintético com10.000pontos confere ausência de truncamento, zero, tabela completa e descarte;10.001linhas são rejeitadas. Não inclui dados ALP nem novas escalas.
-
-## 2026-11-02 — fila local única
-
-Referências operacionais e bootstraps usam `.agents/tasks.md`, fila local
-ignorada pelo Git, com BUG, SUGESTÃO e BACKLOG. Retiradas as referências
-ativas às filas antigas; fatos históricos continuam rastreáveis. Esta
-conciliação documental não executa tarefas nem altera contas ou serviços.
+Markdown, dados/gráficos, HTML/SPA isolados, mídia, PDF sob demanda, YouTube
+após clique, plugins e lifecycle por resposta. Conteúdo não concede acesso;
+scripts desligados por padrão. SemVer npm com hífen corresponde à versão CES.
+CAW/ALP/CWH/CCI exigem integrações e aceites próprios.

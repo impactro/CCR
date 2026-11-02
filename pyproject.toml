@@ -24,3 +24,12 @@ where = ["python"]
 
 [tool.setuptools.package-data]
 ccr = ["skills/*/SKILL.md", "recipes/*.json", "prompts/*.md", "runtime/*.mjs", "runtime/*.json"]
+
+# Portable consumer documentation; no checkout or private instance files.
+[tool.setuptools.data-files]
+"share/doc/crania-ccr" = ["README.md"]
+"share/doc/crania-ccr/config/prompts" = ["config/prompts/render.prompt.json", "config/prompts/render.prompt.md"]
+"share/doc/crania-ccr/docs" = ["docs/CCR-ACTIONS.md", "docs/CCR-RICH-DOCUMENT.md", "docs/CHAT-PRESENTATION-CONTRACT.md", "docs/CONTEXTUAL-VIEWS-CONTRACT.md", "docs/GIT-ORIGIN.md", "docs/PROGRESSIVE-HISTORY-CONTRACT.md", "docs/RICH-CONTENT-CONSUMERS.md", "docs/compatibility-matrix.md", "docs/document-export.md", "docs/geographic-map.md", "docs/geographic-recipes.md", "docs/history.md", "docs/installed-package.md", "docs/progressive-history.md", "docs/shared-render-plan.md"]
+"share/doc/crania-ccr/python/ccr/prompts" = ["python/ccr/prompts/document-export.md"]
+"share/doc/crania-ccr/python/ccr/skills/document-export" = ["python/ccr/skills/document-export/SKILL.md"]
+"share/doc/crania-ccr/python/ccr/skills/geographic-map" = ["python/ccr/skills/geographic-map/SKILL.md"]

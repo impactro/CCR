@@ -1,5 +1,8 @@
 # CCR — Crânio Chat Render
 
+Operação sem checkout: [guia do pacote instalado](docs/installed-package.md).
+Referências a fontes, build e testes são destinadas à manutenção.
+
 **26.11.2g — fonte candidata:** séries explícitas line/column combinadas,
 unidades/eixos, texto/imagem lógica e relatórios em painéis. Exportação CM
 `python -m ccr export-document` gera PNG/PDF real pelo mesmo scene SVG Web,
