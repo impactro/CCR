@@ -45,12 +45,18 @@ município sem provedor de bairros responde capacidade indisponível.
 
 ## Integração e validação
 
-CCR mantém motor/receitas; CA/CAX, CWH e CCI adaptam cache e autorização do
-host. O render web recebe dados pelo host e conserva a tabela acessível
+CCR mantém motor/receitas e distribui tools pelo contrato padrão CM, no
+pacote Python `crania-ccr` (`ccr`), além da biblioteca web. As operações são
+`prepare-map`, `lookup-place` e `render-map`; skill e prompt pertencem ao
+mesmo módulo. CA/CAX, CWH e CCI adaptam cache e autorização do host.
+O render web recebe dados pelo host e conserva a tabela acessível
 durante carga/erro. Nenhum frontend baixa vetores de provedores externos.
 O agente usa o mesmo motor, recebe só localidades/recortes relevantes e
 entrega PNG no CAX/WhatsApp. O primeiro uso pode precisar rede; os seguintes
-usam cache local sem reinferência do desenho.
+usam cache local sem reinferência do desenho. O padrão é sempre fronteira
+poligonal: países no mundo/continente, UFs no Brasil, municípios na UF,
+bairros no município. Pontos representam instalações/GPS sobre a base;
+sedes de cidades não substituem os limites municipais.
 
 Regressões: cache frio/quente, recortes independentes, concorrência, falha
 de obtenção, integridade, atualização atômica, exclusão de dados no pacote,
