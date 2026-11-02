@@ -97,4 +97,14 @@ class RecipesTest(unittest.TestCase):
         texts=[e.text for e in ET.fromstring(svg).iter() if e.tag.endswith('}text')]
         self.assertIn('Cidade Alfa: 7',texts);self.assertIn('Synthetic provider',texts)
 
+    def test_png_backend_keeps_dark_label_glyphs_over_the_quantified_polygon(self):
+        try:import fitz
+        except ImportError:self.skipTest('optional PNG dependency')
+        from ccr.drawing import render_svg
+        from ccr.geography import feature
+        svg,_=render_svg('Synthetic',[feature('1','Cidade Alfa',polygon())],values={'1':7})
+        with fitz.open(stream=svg.encode('utf8'),filetype='svg') as doc:pix=doc[0].get_pixmap(alpha=False)
+        dark=sum(1 for y in range(410,440) for x in range(500,700) if (lambda rgb:rgb[0]<80 and rgb[1]<110 and rgb[2]<130)(pix.pixel(x,y)))
+        self.assertGreater(dark,20,'The label must remain readable after real SVG-to-PNG rasterization')
+
 if __name__=='__main__':unittest.main()

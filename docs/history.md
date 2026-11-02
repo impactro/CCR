@@ -1,5 +1,11 @@
 # Histórico
 
+## 26.11.2c — rótulos PNG legíveis no backend real
+
+Removido o stroke que sobrepunha os caracteres ao rasterizar SVG no PyMuPDF.
+Teste mede pixels escuros do rótulo sobre o polígono, além do XML e PNG válido.
+Prévia da candidata inspecionada antes da instalação.
+
 ## 26.11.2b — legibilidade e atualização de desenho sem rede
 
 PNG mostra nomes/quantidades em recortes pequenos e crédito da fonte. Textos

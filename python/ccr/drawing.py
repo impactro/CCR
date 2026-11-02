@@ -50,7 +50,7 @@ def render_svg(title, features, cities=(), *, country_crop=False, region_labels=
         body.append(f'<path data-region="{escape(code)}" d="{"".join(commands)}" fill="{fill}" stroke="#657f85" stroke-width=".8" fill-rule="evenodd"><title>{escape(label)}</title></path>')
         if code in values and len(values)<=12:
             x,y=point(feature['longitude'],feature['latitude'])
-            body.append(f'<text x="{x:.2f}" y="{y:.2f}" text-anchor="middle" font-size="13" fill="#173247" stroke="#fff" stroke-width="3" paint-order="stroke">{escape(label)}</text>')
+            body.append(f'<text x="{x:.2f}" y="{y:.2f}" text-anchor="middle" font-size="13" font-weight="bold" fill="#173247">{escape(label)}</text>')
         if region_labels:
             x, y = point(feature['longitude'], feature['latitude'])
             body.append(f'<text x="{x:.2f}" y="{y:.2f}" text-anchor="middle" font-size="12" fill="#173247">{escape(str(feature.get("uf") or code))}</text>')

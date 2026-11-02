@@ -2,7 +2,7 @@
 
 Fonte canônica: `render.prompt.json` neste mesmo diretório. Este Markdown explica
 o contrato e a configuração; não é uma segunda cópia da instrução para o modelo.
-Release CES26.11.2b, npm26.11.2-b, prompt schema1, documento CES/renderer1.
+Release CES26.11.2c, npm26.11.2-c, prompt schema1, documento CES/renderer1.
 
 O JSON incorpora a interpretação de intenção geográfica: localizar clientes,
 instalações e máquinas, cruzar dados autorizados com referências em cache, deduplicar,
