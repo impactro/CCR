@@ -1,5 +1,15 @@
 # Renderização comum, histórico progressivo e serviços desacoplados
 
+## Situação após inspeção em 02/11/2026
+
+Este texto abaixo preserva o pedido original, não uma fila integralmente aberta.
+CCR1334ec0 entrega timeline, ações contextuais, regiões independentes e mapas/
+exportação; 116 testes passaram no devServer. CA, CWH e CCI já publicaram suas
+adoções da timeline. Não solicitar novamente essas implementações.
+O relatório [de inspeção](../../../Platform/CraniaAgent/docs/inspecao-renderizacao.md)
+separa fonte, testes e instalação local. Piloto e-mail, integração contextual
+completa, serviços remotos, múltiplas CCIs e delete real continuam pendentes.
+
 Atualização de execução local em01/11: Fábio autorizou as frentes fora de
 CMAIL/CVideo e a preparação CWH/CAW para e-mail sem teste integrado neste host.
 CCR26.11.1a é candidata de núcleo, com contratos e fixtures próprios; não
