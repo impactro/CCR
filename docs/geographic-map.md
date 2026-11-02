@@ -1,5 +1,30 @@
 # Bases auxiliares e mapas geográficos no CCR
 
+## Intenção geográfica e entrega por canal
+
+A skill e o prompt canônicos devem reconhecer perguntas como “onde estão meus
+clientes?”, “cadê as máquinas?”, “mapa de instalações” e distribuição por
+cidade/estado/país/GPS, mesmo sem a palavra mapa. Perguntas sobre arquivos ou
+posição de elementos de tela não acionam essa interpretação por si só.
+
+O agente usa as ferramentas autorizadas do host para obter os fatos, distingue
+cliente/instalação/máquina, cruza GPS ou localidades com os CSV auxiliares,
+deduplica por identificador e agrupa no nível adequado. Explica concentração,
+quantidades, fonte e cobertura; preserva registros não resolvidos. O CCR não
+executa consultas nem transforma nome de grupo em prova de cliente.
+
+Mapa significa geográfico por padrão; calor exige pedido explícito. Calor por
+localidade permanece geográfico, distinto da matriz numérica heatmap. A entrega
+usa mapa interativo em superfícies CCR habilitadas e PNG no CAX/WhatsApp quando
+o host disponibiliza geração e entrega de imagem. HTML pode ser intermediário
+de captura; o CCR não oferece exportação automática PNG nem concede ferramentas.
+
+Atualizar skill, JSON do prompt e contrato documental na mesma revisão. Fixar
+essa revisão nos consumidores e validar o contexto efetivo: CAW já incorpora
+o texto em turnos novos/retomados; Assistente CWH deve incorporá-lo diretamente,
+além de disponibilizar protocolo e skill no workspace. Manter personalizações
+do usuário e registrar a revisão realmente instalada.
+
 ## Procedimento de adoção
 
 Pedido: mostrar cidades reais dentro de estados/regiões, inclusive quando o dado
