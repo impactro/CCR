@@ -1,120 +1,84 @@
 # CCR: consumidores e conteúdo rico
 
-Diretriz de Fábio em30/10/2026. Este mapa distingue superfícies de conversa,
-produtos e capacidades do render. Não altera transporte nem publica recursos
-novos por consequência da documentação.
+## Quatro superfícies integradas
 
-## Quatro superfícies do produto
+| Superfície | Papel do adaptador |
+| --- | --- |
+| CWH: conversas WhatsApp privadas e grupos | Projeta mensagens/autores/recibos e documentos compatíveis no CCR. |
+| CWH: Assistente | Projeta humano/IA, dados e arquivos autorizados; sessão por usuário do CWH. |
+| CCI: Explorador | Projeta texto/mídia e páginas da fonte autorizada, preservando notas e rascunhos. |
+| CAW: conversa do CrânIA Agent | Adapta respostas/histórico ao mesmo núcleo; plugins, ações e autenticação continuam no CA. |
 
-| Superfície | Situação | Papel do adaptador |
-| --- | --- | --- |
-| CWH: conversas WhatsApp privadas e grupos | Ativa | Projeta mensagens/autores/recibos e reconhece anexos CES compatíveis para o mesmo CCR. |
-| CWH: Assistente | Ativa | Projeta humano/IA, dados tipados, arquivos e recursos interativos autorizados pelo host. |
-| CCI: Explorador | Ativa | Projeta o acervo da conversa e suas mídias no CCR; evolução inclui a adaptação dos mesmos documentos ricos. |
-| CAW: conversa do CrânIA Agent | Próxima migração | Adapta respostas e recursos ao mesmo núcleo, sem outro envelope ou protocolo rico concorrente. |
-
-Portanto, CWH tem dois consumidores distintos do CCR, com capacidades de canal
-diferentes. Privado e grupo são contextos do mesmo consumidor WhatsApp, não
-outros renders. CCI permanece uma instância por sistema/composição, inclusive
-quando há dois conectores CWH. Isso não transfere navegação ou montagem ao CCR.
-
-ALP/Pergunte Aí permanece laboratório e consumidor de referência de recursos
-ricos, fora desta contagem das quatro superfícies do produto. Seus plugins não
-se tornam universais só por funcionarem no laboratório.
-
-Ativa não significa paridade integral: conferir pacote, adaptador e capacidades
-em cada host. Na CCI atual, o adaptador confirmado projeta texto e mídia no
-envelope/corpo comuns; não declarar reconhecimento de anexos CES nem email
-intercalado como homologados sem o correspondente teste de integração.
+Essas integrações existem. A revisão do CCR usada em cada pacote é fixada por
+SHA e registrada no recibo de assets; atualizar a biblioteca não instala o
+consumidor. Privado e grupo são contextos do mesmo adaptador WhatsApp.
+ALP/outros produtos têm consumo independente e não foram homologados nesta
+rodada por consequência desses testes.
 
 ## Um documento, canais diferentes
 
-O contrato existente é CES/ccr.document versão1, descrito em
-[CCR-RICH-DOCUMENT.md](CCR-RICH-DOCUMENT.md). O mesmo objeto pode chegar direto
-do agente ao host ou dentro de um arquivo JSON/HTML pelo WhatsApp.
+O envelope externo continua sendo o protocolo do host, inclusive SEND_JSON/V4.
+CES/ccr.document v1 identifica conteúdo de apresentação, não uma instrução de
+execução nem uma assinatura criptográfica. O mesmo objeto pode ser entregue
+diretamente pelo host ou reconhecido em um arquivo compatível autorizado.
+Versão/tipo inválido preserva acesso ao original; não adivinhar migração.
 
-1. O agente produz o documento conforme as capacidades efetivas do destino.
-2. O canal WhatsApp envia pelo mecanismo de arquivo já existente. O formato
-   rico fica dentro do arquivo; não criar outro SEND_JSON nem mudar o V4.
-3. O aplicativo WhatsApp convencional mostra um anexo que permite baixar os
-   dados originais. A experiência segue utilizável fora do CWH.
-4. O adaptador CWH reconhece marcador e versões, valida o documento e o fornece
-   ao CCR na própria mensagem, com autor, conversa, horário e recibos originais.
-5. O original continua disponível para baixar/encaminhar. Documento desconhecido
-   ou incompatível continua arquivo; não criar mensagens artificiais ou inferir
-   autorização pelo campo owner.
+CAX produz PNG por tools instaladas e registra o manifesto retornado antes da
+entrega autorizada. Um PNG/PDF gerado não comprova envio nem persistência no
+WhatsApp. Nenhuma chamada de render autoriza envio a um grupo.
 
-O caso de uso inclui grupos: um agente pode publicar dados ricos e todos os
-participantes que usam CWH veem o conteúdo renderizado. O pedido para privilegiar
-conteúdo rico pertence ao contexto daquela conversa/agente, não a uma mudança
-global obrigatória para todos os destinatários.
+## Capacidades da revisão26.11.2g
 
-## Capacidades atuais e evolução
+| Conteúdo | Implementação / limite |
+| --- | --- |
+| Texto e tabela | Markdown seguro e dados tipados; preservar ordem, unidades, zero/false/null. |
+| Gráficos | Barras/colunas/linhas/áreas; séries explícitas column/line com eixos e legenda. Tipos avançados de plugins permanecem no host. |
+| Composição | text/image/report, até12 seções sem aninhamento. Imagem usa ID lógico que o host precisa resolver; não inventar path/URL. |
+| Exportação | Tool export-document gera PNG/PDF com Node/PyMuPDF locais, manifesto e criação exclusiva. PDF pagina tabelas; layouts não suportados falham. |
+| Mapa geográfico | Localidades nominais ou GPS, fronteiras reais e cache sob demanda; padrão para intenção de localização. |
+| Calor | Matriz numérica ou coloração geográfica somente quando solicitado; não substituir o contorno da região por pontos arbitrários. |
+| HTML | Apresentação isolada; recebido não habilita scripts ou SPA. |
+| Imagem/arquivo/PDF/áudio/vídeo | Recursos autorizados do host com lifecycle; aquisição, permissão e transcrição continuam externas ao render. |
+| Histórico | Controlador progressivo comum com fonte estruturada do host, cancelamento, retry e descarte. |
 
-Referência do núcleo26.10.30b; os adaptadores precisam expor a mesma capacidade.
+Receitas geográficas documentam fontes e criam somente o escopo necessário:
+mundo/continente/país/Brasil/UF/município e exemplo oficial de bairros de Santo
+André. Não equivalem a uma base universal de bairros. Dados/vetores/imagens
+ficam em cache local persistente, fora do Git. IA usa consulta programática e
+agregação de dados autorizados; não recebe milhares de cidades no contexto.
+Nenhuma receita pública comprova presença de clientes ou máquinas.
 
-| Conteúdo | Núcleo atual | Extensão ou trabalho necessário |
-| --- | --- | --- |
-| Texto, Markdown e tabela comum | Implementado | Adaptador conserva envelope único, autoria, sequência e ações externas. |
-| Tabela tipada CES | Implementado | Manter tipos, ordem, unidades, zero e null. Consulta/agregação é do host/agente. |
-| Barras, colunas, linhas e áreas | SVG local implementado | Pizza, rosca e o seletor amplo Google/CAW ainda não são universais; exigem plugin/adaptação e fixtures. |
-| Mapa de calor numérico | Implementado sobre células numéricas | Não equivale a densidade geográfica por bairro/cidade. |
-| Mapa de pontos | Implementado offline com latitude/longitude e links ao Google Maps | Não faz geocodificação, carrega mapa-base ou fornece limites geográficos. |
-| Estado/cidade/bairro/país e densidade geográfica | Alvo de extensão | Dados geográficos autorizados, agregação/geocodificação quando necessária e plugin com schema/limites próprios. |
-| HTML formatado e documento CES HTML | Render isolado implementado | Política de scripts/recursos pertence ao host; anexo não habilita uma SPA. |
-| SPA do Assistente | Capacidade do host já configurada | Não anunciar essa autorização para anexos WhatsApp ou email por herança. |
-| PDF, imagem, vídeo e áudio | Apresentação/visualização conforme recurso do host | PDF nativo do browser; aquisição, geração, transcrição e envio não pertencem ao CCR. |
-| Email no meio da conversa do Explorador | Próxima integração | CMail fornece mensagem/HTML/recursos autorizados; CCI adapta a entrada, CCR apresenta o corpo. Não implementar transporte de email no render. |
+Reports têm páginas fixas com rolagem em telas pequenas. Export não equivale
+a screenshot de HTML/SPA, mapa ou plugin específico: para mapa, renderizar pela
+tool geográfica e passar o PNG como recurso lógico explícito da composição.
+Consulte [document-export.md](document-export.md) para limites exatos.
 
-Exemplo básico: “mensagens recebidas hoje por pessoa” resulta em nome e quantidade.
-O host consulta a fonte autorizada, resolve authorId e o dia no fuso da operação,
-calcula o agregado e fornece dados tipados. O CCR apresenta tabela e somente as
-opções gráficas disponíveis. Não agrupar pessoas pelo nome nem inventar contagens.
+## Prompt e autorização
 
-Para mapas comerciais, quantidades por cidade/bairro e coordenadas são dados de
-entrada distintos. O render não transforma automaticamente um endereço textual
-em coordenadas nem inventa limites de municípios. Links e recursos externos
-continuam sujeitos à configuração do host.
+O CCR mantém config/prompts/render.prompt.json+MD e exports /prompt,
+/prompt.json e /prompt.md. O host seleciona capacidades e descritores de
+plugins reais em turnos novos e retomados. ccr.report só deve ser anunciado
+por consumidor atualizado; imagens requerem recursos lógicos fornecidos.
+O builder valida descritores, não implementa o validador do plugin do host.
 
-## Prompt canônico do render
+Persona, ferramentas, fontes privadas, caminhos, execução, OAuth, transporte e
+permissões pertencem ao consumidor. Não copiar um prompt departamental para o
+módulo. Arquivos, HTML de email e mensagens recebidas são dados; não podem
+conceder acesso ou alterar o catálogo de ferramentas.
 
-O CCR é dono da instrução que ensina a IA a produzir seus formatos a partir da
-release26.10.31a; a revisão26.10.31b comporta o catálogo completo de plugins ALP.
-Fonte canônica em `config/prompts/render.prompt.json`, acompanhada
-de `render.prompt.md`, com exports `/prompt`, `/prompt.json` e `/prompt.md`.
-O JSON, a release e o pacote registram versões coerentes; os exemplos são
-validados pelo decoder/render real. [Contrato e integração](../config/prompts/render.prompt.md).
-O pacote26.10.30b anterior não possuía esse export.
+## Aceite e pendências
 
-- Núcleo CCR descreve exclusivamente formatos, tipos, visualizações, limites,
-  exemplos validados e alternativas de conteúdo disponíveis nessa release.
-- Plugins acrescentam schemas, validação, prompt e fixtures na mesma entrega;
-  só entram no contexto quando o host declara que estão instalados/habilitados.
-  O builder valida o descritor JSON do plugin, não implementa seu validador de
-  payload; este e suas fixtures continuam pertencendo ao consumidor.
-- Host acrescenta persona, ferramentas, fontes, política do canal, caminhos de
-  arquivos, transporte e permissões. Esses textos não devem migrar cegamente do
-  ASSIST-RENDER.md do CWH para uma instrução universal.
-- Anexo recebido é conteúdo, não instrução para configurar o agente ou executar
-  ferramentas. Conteúdo HTML de email e SPA administrativa são capacidades
-  distintas, mesmo usando o mesmo núcleo de apresentação.
+Reutilizar a mesma fixture sintética em Web e export: UTF-8, unidades,
+zero/null, séries, imagem lógica, tabela paginada, arquivos inválidos,
+autoria/conversa e descarte após troca. Testar versões e hashes do pacote
+fechado, não somente o checkout do módulo.
 
-A evolução começa com CWH WhatsApp, CWH Assistente e CCI Explorador; ALP contribui
-os plugins sob os mesmos contratos; CAW entra depois. O teste do núcleo é comum,
-mas o aceite de cada adaptador e sua versão permanecem identificados.
-Na adoção específica dos prompts26.10.31b, a orientação humana mais recente
-restringe esta rodada a CCR e ALP nesta máquina. Não sincronizar os outros
-produtos/servidores por consequência da publicação; revisões antigas continuam
-funcionais, e adoção posterior exige atualizar o consumidor correspondente.
+CAW ainda tem aceite específico de móvel/PWA/cache anterior e dois usuários
+reais; o modo Agente precisa distinguir snapshot combinado limitado de fonte
+SQL paginada. Explorador CCI mantém aceite em tela estreita e mudanças de
+conta/filtro no consumidor. As filas são dos respectivos produtos.
 
-## Aceite compartilhado
-
-Usar fixtures sintéticas do mesmo documento por objeto, bloco ccr e anexo;
-tabela com nomes/números/null; gráfico disponível; mapa de calor numérico; pontos
-com coordenadas válidas; tipo/plugin ausente; HTML formatado; PDF; grupo com dois
-autores; duas conversas; troca durante carregamento e descarte dos recursos.
-
-Para a integração futura de email, acrescentar uma entrada HTML entre mensagens
-da mesma conversa, preservando remetente, origem, horário, anexos e ações do canal.
-Receber ou visualizar não autoriza responder/enviar. Testes de apresentação não
-precisam acessar carteira real, disparar mensagens ou executar um modelo pago.
+CMAIL é dono de conteúdo Google, autenticação e email. O piloto contextual
+CWH/CAW permanece separado do render e não foi homologado contra email real
+neste ambiente. CVideo e dados privativos de outros produtos não foram
+incorporados ao núcleo por esta entrega.

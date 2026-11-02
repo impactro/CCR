@@ -2,11 +2,11 @@
 
 Direção de Fábio em29/10/2026. **CCR = Crânio Chat Render**, nome curto do
 módulo técnico CChatRender (`@crania/chat-render`). Caminhos/imports permanecem.
-CWH é referência prioritária; ALP se adapta; CA/CAW vêm posteriormente.
+CWH, seu Assistente, CCI e CAW são consumidores com adaptadores próprios.
 
-Estado: **contrato v1 implementado no CCR26.10.29-c**. O pacote26.10.29-b
-continua sendo a revisão anterior de envelope; a integração CWH consome a nova
-versão fixada. CA/CAW não são alterados por esta implementação.
+Estado da fonte: **contrato v1 mantido no CCR26.11.2g**, com extensões opt-in de
+texto, imagem lógica e report, além de dados/HTML. Cada consumidor fixa e testa
+sua revisão; publicação deste contrato não instala nem autoriza os hosts.
 
 ## Resultado esperado
 
@@ -42,14 +42,16 @@ O ALP fornece o mesmo objeto diretamente, sem simular transporte WhatsApp.
 | owner/format | Marcador exato CES/ccr.document; não tratar qualquer JSON como apresentação. |
 | version | Versão do esquema do arquivo, inicialmente1. |
 | renderer.name/version | CCR e versão do contrato de apresentação requerido, inicialmente1; independente da versão npm/data de publicação. |
-| type | Família data ou html na primeira fatia proposta. |
+| type | data, html, text, image ou report, com campos estritos por família. |
 | view | table ou gráfico suportado para data; não é código a executar. |
 | title/data | Título visível e dados tipados; linhas em ordem, null preservado. |
 
 A primeira release é26.10.29-c, contrato de arquivo e renderer versão1.
 Versão desconhecida/tipo inválido conserva o anexo, sem adivinhar migração.
 Campos desconhecidos são rejeitados. Em data, view é obrigatório e aceita
-table/bar/column/line/area; title tem até180 caracteres. Não é novo SEND_JSON.
+table/bar/column/line/area/map/heatmap; title tem até180 caracteres. Reports e
+exportação têm limites próprios em [document-export.md](document-export.md).
+Não é novo SEND_JSON.
 
 "Assinatura" significa marcador de formato, **não assinatura criptográfica**.
 owner é declarado pelo arquivo e não comprova procedência/autoria/permissão.
