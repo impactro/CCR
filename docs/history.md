@@ -1,5 +1,13 @@
 # Histórico
 
+## 02/11/2026 — fechamento da fase compartilhada
+
+Fábio encerrou a fase de render/timeline comum e informou os testes feitos em
+outra máquina. PWA e CMAIL estão fora do aceite. Núcleo/prompt/receitas e tools
+CM já entregues; os consumidores preservam autorização, dados e efeitos.
+Revisão oficial1334ec0/26.11.2g permanece fixada nos bundles: consolidação
+textual não exige reconstruir o núcleo ou trocar o pin dos consumidores.
+
 ## 26.11.2g — séries, composição e exportação local (fonte)
 
 Implementados chart.series opcional (tipos/eixos/unidades/cores estritos),
