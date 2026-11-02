@@ -11,7 +11,7 @@ const validCell=(value,type)=>value===null||(
 
 /** Preserve values/types. Untyped columns keep the original text/number/null API. */
 export function validateTable(value,{typed=false}={}){
- if(!value||!Array.isArray(value.columns)||!value.columns.length||value.columns.length>16||!Array.isArray(value.rows)||value.rows.length>1000)throw Error('invalid_data');
+ if(!value||!Array.isArray(value.columns)||!value.columns.length||value.columns.length>16||!Array.isArray(value.rows)||value.rows.length>10000)throw Error('invalid_data');
  const labels=new Set();
  const columns=value.columns.map(column=>{
   const label=typeof column==='string'?column:column?.label,type=typeof column==='object'&&column!==null?column.type:undefined;

@@ -1,7 +1,7 @@
 import {createDataTable} from './data.js';
 import {geographicBase,worldBase,mapLocations,geographyReady,ensureGeography,installGeography} from './geography.mjs';
 
-const NS='http://www.w3.org/2000/svg',W=800,H=540,LIMIT=500;
+const NS='http://www.w3.org/2000/svg',W=800,H=540,LIMIT=10000;
 const mercator=latitude=>Math.log(Math.tan(Math.PI/4+Math.max(-85,Math.min(85,latitude))*Math.PI/360))*180/Math.PI;
 const rings=geometry=>geometry.type==='Polygon'?geometry.coordinates:geometry.coordinates.flat();
 const reasons={'missing':'localidade ausente','unknown-state':'estado não encontrado','conflicting-state':'UF conflitante','ambiguous-city':'cidade homônima: informe UF','unknown-city':'cidade fora da base ou não encontrada','invalid-coordinates':'coordenadas inválidas','unknown-country':'país não encontrado','ambiguous-country':'nome de país ambíguo','unknown-continent':'continente não encontrado','unsupported-city-country':'cidade estrangeira fora do catálogo','unsupported-state-country':'estado estrangeiro fora do catálogo'};

@@ -28,7 +28,7 @@ test('size, depth, shape and prototype tricks fail closed without invoking acces
  const cycle=example();cycle.data.cycle=cycle;assert.equal(decodeRichDocument(cycle).status,'invalid');
  const proto=JSON.stringify(example()).replace('"owner":"CES"','"__proto__":{},"owner":"CES"');assert.equal(decodeRichDocument(proto).status,'invalid');assert.equal({}.polluted,undefined);
  let invoked=false;const accessor={get owner(){invoked=true;return 'CES';}};assert.equal(decodeRichDocument(accessor).status,'invalid');assert.equal(invoked,false);
- const wide=example();wide.data.rows=Array.from({length:1001},()=>wide.data.rows[0].slice());assert.equal(decodeRichDocument(wide).status,'invalid');
+ const wide=example();wide.data.rows=Array.from({length:10001},()=>wide.data.rows[0].slice());assert.equal(decodeRichDocument(wide).status,'invalid');
 });
 test('all four views share original typed table; unsupported chart stays a file',()=>{
  const {dom,element}=fixture(),renderer=createDocumentRenderer();

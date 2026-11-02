@@ -301,3 +301,8 @@ document independente e message.documents no renderer rico, com lifecycle e
 orçamento visual. CSS escopado, exemplos de arquivo e cópia em texto/TSV.
 Clipboard local com fallback que restaura foco/seleção do rascunho. Envelope
 continua único; ações externas são adaptadas pelos consumidores, CA/CAW intocados.
+
+
+##26.11.2f — teto geográfico de10.000
+
+Direção Fábio02/11: teto fixo de10.000linhas/localidades, sem opção do consumidor. Entrada acima do teto falha explicitamente. Alterados somente os limites de tabela/mapa e o contrato de prompt correspondente. Teste sintético com10.000pontos confere ausência de truncamento, zero, tabela completa e descarte;10.001linhas são rejeitadas. Não inclui dados ALP nem novas escalas.
