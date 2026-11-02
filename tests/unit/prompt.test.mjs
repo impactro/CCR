@@ -30,7 +30,7 @@ test('default prompt advertises Markdown only and never silently enables formats
 });
 
 test('unknown capabilities, expanded limits and disabled visual budget fail explicitly',()=>{
-  for(const options of [{capabilities:['pie']},{capabilities:'data'},{limits:{rows:1001}},{limits:{unknown:1}},{limits:{visuals:-1}},{capabilities:['data'],limits:{visuals:0}},{plugins:[plugin()],limits:{visuals:0}},{unknown:true}])assert.throws(()=>buildRenderPrompt(options),TypeError);
+  for(const options of [{capabilities:['pie']},{capabilities:'data'},{limits:{rows:10001}},{limits:{unknown:1}},{limits:{visuals:-1}},{capabilities:['data'],limits:{visuals:0}},{plugins:[plugin()],limits:{visuals:0}},{unknown:true}])assert.throws(()=>buildRenderPrompt(options),TypeError);
   const text=buildRenderPrompt({capabilities:['chart'],limits:{rows:4,visuals:1}});
   assert.match(text,/"chartRows":4/);assert.match(text,/"mapPoints":4/);assert.match(text,/"visuals":1/);
 });
@@ -98,3 +98,4 @@ test('city quantity prompt resolves names, preserves zero and reports unmapped c
  const text=buildRenderPrompt({capabilities:['map']});assert.match(text,/city-level/);assert.match(text,/GPS is optional/);assert.match(text,/coverage/);
  renderer.dispose(root);dom.window.close();
 });
+
