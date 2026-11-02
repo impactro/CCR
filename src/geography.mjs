@@ -58,7 +58,7 @@ export function mapLocations(value){
    return {...identity,status:'ready',kind:'coordinate',latitude:row[lat],longitude:row[lon],label:String(label>=0?row[label]??'Ponto '+(rowIndex+1):'Ponto '+(rowIndex+1))};
   }
   let result;
-  if(city>=0||label>=0){
+  if(city>=0||(state<0&&country<0&&continent<0&&label>=0)){
    const nation=country>=0&&row[country]?resolvePlace(row[country],{kind:'country'}):null;
    result=nation&&(nation.status!=='ready'||nation.country.code!=='BRA')?{status:'unsupported-city-country'}:resolvePlace(row[city>=0?city:label],{state:state>=0?row[state]:null});
   }else if(state>=0){

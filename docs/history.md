@@ -1,5 +1,10 @@
 # Histórico
 
+## 26.11.1k — prioridade das colunas geográficas
+
+Cidade/UF, Estado, País e Continente explícitos têm precedência sobre outras
+colunas textuais como nome de cliente. Descrição não vira localidade.
+
 ## 26.11.1j — contornos mundiais limitados no build
 
 Simplificação determinística RDP0,03 grau nas malhas Natural Earth, com

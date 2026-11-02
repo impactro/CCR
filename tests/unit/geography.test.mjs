@@ -44,6 +44,8 @@ test('countries, English/Portuguese names and continents resolve without guessin
  assert.equal(resolvePlace('Europa',{kind:'continent'}).kind,'continent');
  assert.equal(resolvePlace('Atlantis',{kind:'country'}).status,'unknown-country');assert.equal(resolvePlace('America',{kind:'continent'}).status,'unknown-continent');
  assert.equal(mapLocations({columns:['Cidade','País'],rows:[['São Paulo','França']]}).locations[0].status,'unsupported-city-country');
+ assert.equal(mapLocations({columns:['Cliente','País','Quantidade'],rows:[['Cliente Alfa','França',2]]}).locations[0].country.code,'FRA');
+ assert.equal(mapLocations({columns:['Descrição','Estado','Quantidade'],rows:[['Cadastro','Goiás',2]]}).locations[0].state.uf,'GO');
 });
 test('world choropleth uses real country shapes and colors zero separately from unknown; duplicate rows are not summed',()=>{
  const dom=new JSDOM(),node=createGeoMap(dom.window.document,{columns:['País','Clientes'],rows:[['França',800],['Alemanha',400],['Brasil',0],['Portugal',null],['Itália',3],['Itália',4]]});
