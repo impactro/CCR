@@ -1,5 +1,13 @@
 # Histórico
 
+## 26.11.2b — legibilidade e atualização de desenho sem rede
+
+PNG mostra nomes/quantidades em recortes pequenos e crédito da fonte. Textos
+do render distinguem fronteiras municipais, bairros e GPS. Mudança apenas do
+desenho reaproveita vetores válidos do cache, sem baixar fontes novamente;
+teste de migração offline incluído. O hospedeiro CAW corrige separadamente a
+ligação do callback de recurso no chat real, coberta por execução do bootstrap.
+
 ## 26.11.2a — receitas sob demanda e fronteiras do mundo ao bairro
 
 O atlas/datasets saem da árvore versionada e dos pacotes web. Código Python,

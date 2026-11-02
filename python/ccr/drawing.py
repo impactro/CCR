@@ -21,7 +21,7 @@ def area(ring):
     return abs(sum(a[0] * b[1] - b[0] * a[1] for a, b in zip(points, points[1:])))
 
 
-def render_svg(title, features, cities=(), *, country_crop=False, region_labels=False, values=None, points=()):
+def render_svg(title, features, cities=(), *, country_crop=False, region_labels=False, values=None, points=(), attribution=''):
     values = values or {}
     maximum = max(values.values(), default=0)
     rings = [ring for feature in features for polygon in polygons(feature['geometry']) for ring in polygon]
@@ -48,6 +48,9 @@ def render_svg(title, features, cities=(), *, country_crop=False, region_labels=
         fill = f'rgb({int(225-190*ratio)},{int(239-105*ratio)},{int(235-90*ratio)})' if code in values else '#e5eee9'
         label = feature['name'] + (': ' + str(values[code]) if code in values else '')
         body.append(f'<path data-region="{escape(code)}" d="{"".join(commands)}" fill="{fill}" stroke="#657f85" stroke-width=".8" fill-rule="evenodd"><title>{escape(label)}</title></path>')
+        if code in values and len(values)<=12:
+            x,y=point(feature['longitude'],feature['latitude'])
+            body.append(f'<text x="{x:.2f}" y="{y:.2f}" text-anchor="middle" font-size="13" fill="#173247" stroke="#fff" stroke-width="3" paint-order="stroke">{escape(label)}</text>')
         if region_labels:
             x, y = point(feature['longitude'], feature['latitude'])
             body.append(f'<text x="{x:.2f}" y="{y:.2f}" text-anchor="middle" font-size="12" fill="#173247">{escape(str(feature.get("uf") or code))}</text>')
@@ -68,6 +71,7 @@ def render_svg(title, features, cities=(), *, country_crop=False, region_labels=
            f'<text x="32" y="45" font-family="sans-serif" font-size="25" fill="#173247">{escape(title)}</text>'
            '<defs><clipPath id="map"><rect x="24" y="70" width="1152" height="680"/></clipPath></defs>'
            '<g clip-path="url(#map)" font-family="sans-serif">' + ''.join(body) + '</g>'
-           f'<text x="24" y="778" font-family="sans-serif" font-size="12" fill="#36545b">{escape(note)}</text></svg>\n')
+           f'<text x="24" y="778" font-family="sans-serif" font-size="12" fill="#36545b">{escape(note)}</text>'
+           f'<text x="24" y="795" font-family="sans-serif" font-size="10" fill="#36545b">{escape(str(attribution)[:180])}</text></svg>\n')
     return svg, {'projection': 'Mercator-clamped-85', 'scale': scale, 'offsetX': ox, 'offsetY': oy,
                  'viewBox': [0, 0, 1200, 800], 'crop': 'principal' if country_crop else 'all'}

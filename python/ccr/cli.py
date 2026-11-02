@@ -57,7 +57,7 @@ def main(argv=None):
                 for field,bound in (('latitude',90),('longitude',180)):
                     value=point[field]
                     if isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value) or abs(value)>bound:raise ValueError('GPS de sobreposição inválido.')
-            svg,_=render_svg(str(spec.get('title') or base['data']['title']),base['data']['regions'],values=numbers,points=points,country_crop=args.key.startswith('country-'))
+            svg,_=render_svg(str(spec.get('title') or base['data']['title']),base['data']['regions'],values=numbers,points=points,country_crop=args.key.startswith('country-'),attribution=base['data']['attribution'])
             target.parent.mkdir(parents=True,exist_ok=True)
             if target.suffix.lower()=='.svg':target.write_text(svg,encoding='utf8',newline='\n')
             else:

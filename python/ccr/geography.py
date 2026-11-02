@@ -21,6 +21,7 @@ from .drawing import normalize, render_svg
 from .geometry import center, rounded, simplified_geometry
 
 REVISION = 'polygon-recipes-1'
+DRAWING_VERSION = 2
 MAX_BYTES = 24_000_000
 IBGE = 'https://servicodados.ibge.gov.br/api/'
 WORLD = 'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/9380cca83db5f9aef52d5e762765100745f84b27/geojson/ne_50m_admin_0_countries.geojson'
@@ -233,27 +234,32 @@ class GeographyCache:
         key=self.key(key)
         if not refresh:
             current=self._read(key)
-            if current:return current
+            if current and current['manifest'].get('drawingVersion')==DRAWING_VERSION:return current
         with self._lock(key):
             if not refresh:
                 current=self._read(key)
-                if current:return current
+                if current:
+                    if current['manifest'].get('drawingVersion')==DRAWING_VERSION:return current
+                    return self._publish(key,current['data'],current['data']['sources'],cache_hit=True)
             sources=[]
             try:
                 data=(self._world(key,sources) if key=='world' or key.startswith(('country-','continent-')) else self._neighborhoods(key,sources) if key.startswith('neighborhood') else self._brazil(key,sources))
                 data.update({'obtainedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sources':sources,'recipeVersion':REVISION,'key':key})
-                svg,transform=render_svg(data['title'],data['regions'],country_crop=key.startswith('country-'),region_labels=key=='brazil')
-                data['transform']=transform
-                folder=self.root/key/uuid.uuid4().hex;folder.mkdir(parents=True)
-                files={'data.json':encode(data),'base.svg':svg.encode('utf8')}
-                for name,raw in files.items():(folder/name).write_bytes(raw)
-                license_note=('Natural Earth: public domain' if data['countries'] else 'Prefeitura de Santo André/SIGA: dados públicos; seguir política municipal de dados abertos' if key.startswith('neighborhood') else 'IBGE/Infra S.A.: dados públicos; preservar crédito e termos da fonte')
-                manifest={'key':key,'recipeVersion':REVISION,'obtainedAt':data['obtainedAt'],'sources':sources,'attribution':data['attribution'],'license':license_note,'files':{n:digest(r) for n,r in files.items()}}
-                (folder/'manifest.json').write_bytes(encode(manifest))
-                pointer=folder.parent/(folder.name+'.pointer');pointer.write_bytes(encode({'generation':folder.name}));os.replace(pointer,folder.parent/'current.json')
-                result=self._read(key);result['cacheHit']=False;return result
+                return self._publish(key,data,sources)
             except GeographyUnavailable:raise
             except (OSError,ValueError,KeyError,TypeError,AssertionError) as exc:raise GeographyUnavailable('Não foi possível criar este recorte; fonte/estrutura precisa revisão. Cache válido anterior preservado.') from exc
+
+    def _publish(self,key,data,sources,*,cache_hit=False):
+        svg,transform=render_svg(data['title'],data['regions'],country_crop=key.startswith('country-'),region_labels=key=='brazil',attribution=data['attribution'])
+        data['transform']=transform
+        folder=self.root/key/uuid.uuid4().hex;folder.mkdir(parents=True)
+        files={'data.json':encode(data),'base.svg':svg.encode('utf8')}
+        for name,raw in files.items():(folder/name).write_bytes(raw)
+        license_note=('Natural Earth: public domain' if data['countries'] else 'Prefeitura de Santo André/SIGA: dados públicos; seguir política municipal de dados abertos' if key.startswith('neighborhood') else 'IBGE/Infra S.A.: dados públicos; preservar crédito e termos da fonte')
+        manifest={'key':key,'recipeVersion':REVISION,'drawingVersion':DRAWING_VERSION,'obtainedAt':data['obtainedAt'],'sources':sources,'attribution':data['attribution'],'license':license_note,'files':{n:digest(r) for n,r in files.items()}}
+        (folder/'manifest.json').write_bytes(encode(manifest))
+        pointer=folder.parent/(folder.name+'.pointer');pointer.write_bytes(encode({'generation':folder.name}));os.replace(pointer,folder.parent/'current.json')
+        result=self._read(key);result['cacheHit']=cache_hit;return result
 
     def png(self,key):
         import fitz

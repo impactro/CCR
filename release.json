@@ -1,7 +1,7 @@
 {
   "project": "CCR",
-  "version": "26.11.2a",
-  "npmVersion": "26.11.2-a",
+  "version": "26.11.2b",
+  "npmVersion": "26.11.2-b",
   "promptSchemaVersion": 1,
-  "promptVersion": "26.11.2a"
+  "promptVersion": "26.11.2b"
 }

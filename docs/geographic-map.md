@@ -66,7 +66,8 @@ válida; PNG é derivado opcional. Parâmetros são restritos, sem URL livre do
 modelo. Requests concorrentes da mesma chave compartilham a criação. Índice
 de nomes é cache em memória, devolvendo só correspondências ao modelo.
 
-`--refresh` valida substituta completa antes de trocar o ponteiro; a anterior
+Mudança de versão apenas do desenho reutiliza vetores/tabelas válidos sem
+rede e publica a nova imagem atomicamente. `--refresh` valida substituta completa antes de trocar o ponteiro; a anterior
 fica preservada. Não expira/apaga automaticamente e não entra na limpeza de temp.
 Lock remanescente por queda de processo exige inspeção operacional. Falha de
 rede/fonte/estrutura é explícita, sem inventar geometria ou retry infinito.

@@ -80,4 +80,21 @@ class RecipesTest(unittest.TestCase):
         recipe=json.loads((Path(__file__).resolve().parents[1]/'python/ccr/recipes/geography.json').read_text('utf8'))
         self.assertEqual(recipe['cache']['expiration'],'explicit-refresh-only')
 
+    def test_drawing_upgrade_reuses_valid_vectors_offline_without_redownloading_sources(self):
+        first=self.cache.ensure('state-SP');manifest=Path(first['svg']).with_name('manifest.json')
+        old=json.loads(manifest.read_bytes());old.pop('drawingVersion');manifest.write_text(json.dumps(old),encoding='utf8')
+        self.network.side_effect=AssertionError('network forbidden on drawing-only upgrade')
+        upgraded=self.cache.ensure('state-SP')
+        self.assertTrue(upgraded['cacheHit']);self.assertNotEqual(upgraded['generation'],first['generation'])
+        self.assertEqual(upgraded['data']['obtainedAt'],first['data']['obtainedAt'])
+        self.assertEqual(upgraded['manifest']['sources'],first['manifest']['sources'])
+
+    def test_quantified_polygon_png_source_has_visible_names_values_and_attribution(self):
+        import xml.etree.ElementTree as ET
+        from ccr.drawing import render_svg
+        data=self.cache.ensure('state-SP')['data']
+        svg,_=render_svg('Synthetic',data['regions'],values={'3500001':7},attribution='Synthetic provider')
+        texts=[e.text for e in ET.fromstring(svg).iter() if e.tag.endswith('}text')]
+        self.assertIn('Cidade Alfa: 7',texts);self.assertIn('Synthetic provider',texts)
+
 if __name__=='__main__':unittest.main()
