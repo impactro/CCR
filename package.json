@@ -1,6 +1,6 @@
 {
   "name": "@crania/chat-render",
-  "version": "26.11.1-m",
+  "version": "26.11.1-n",
   "private": true,
   "type": "module",
   "description": "Host-independent rich chat presentation with bounded plugins and isolated media",
@@ -35,7 +35,10 @@
     "./geography/states-br.csv": "./data/geography/states-br.csv",
     "./geography/countries.csv": "./data/geography/countries.csv",
     "./geography/sources.json": "./data/geography/sources.json",
-    "./geography/skill": "./skills/geographic-map/SKILL.md"
+    "./geography/skill": "./skills/geographic-map/SKILL.md",
+    "./geography/index": "./data/geography/geography-index.json",
+    "./geography/atlas": "./data/geography/atlas/index.json",
+    "./geography/atlas/*": "./data/geography/atlas/*"
   },
   "files": [
     "src",
@@ -48,7 +51,11 @@
     "docs/CCR-ACTIONS.md",
     "docs/PROGRESSIVE-HISTORY-CONTRACT.md",
     "docs/CONTEXTUAL-VIEWS-CONTRACT.md",
-    "skills/geographic-map/SKILL.md"
+    "skills/geographic-map/SKILL.md",
+    "tools/build-geography.py",
+    "tools/build-geography-atlas.py",
+    "tools/manage-geography.py",
+    "docs/geographic-map.md"
   ],
   "scripts": {
     "test": "node --test tests/unit/*.test.mjs",
@@ -63,5 +70,5 @@
     "esbuild": "0.28.2",
     "jsdom": "29.1.1"
   },
-  "cesVersion": "26.11.1m"
+  "cesVersion": "26.11.1n"
 }

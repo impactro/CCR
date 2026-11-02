@@ -1,5 +1,13 @@
 # Histórico
 
+## 26.11.1n — acervo cartográfico reproduzível
+
+Atlas offline com279 SVG e5.570 sedes por UF, catálogo de países/regiões e
+índice JSON consultável sem transferir tudo ao modelo. Origem, licença,
+projeção e hashes documentados. Download cria candidata isolada; rebuild local
+não acessa rede. Importar o downloader não executa downloads. Polígonos de
+municípios continuam fora da cobertura, distinta dos pontos de sedes.
+
 ## 26.11.1m — intenção geográfica no prompt e na skill
 
 Perguntas sobre onde estão clientes, instalações ou máquinas orientam mapa

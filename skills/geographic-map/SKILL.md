@@ -55,6 +55,16 @@ de linhas não equivale à quantidade de clientes, instalações ou máquinas.
 
 ## Apresentar E Entregar
 
+O acervo pronto está em `data/geography/geography-index.json` e `atlas/index.json`:
+Brasil/UFs, UFs com pontos de sedes, mundo/países e continentes/regiões. Reutilize
+os SVG e a projeção/enquadramento do manifesto; não baixe malhas em cada pedido.
+O índice deve ser carregado pelo código, não pelo modelo inteiro. No host CA
+compatível, `python -s -m ca.geography lookup --name Limeira --state SP` retorna
+só os registros pertinentes; `ca.geography.base_png` cria um fundo PNG local
+verificado. Sobreponha fatos/quantidades autorizados; a base não contém clientes.
+Para recriar o acervo, consulte `data/geography/README.md` e os scripts de build;
+atualizar fontes é manutenção explícita, não parte da resposta ou render.
+
 Enquadre a região dos dados e explique onde estão/concentram-se as entidades,
 critério de contagem, fonte e cobertura. Aponte localidades relevantes e
 pendências. Use rótulos e quantidades úteis; explique pontos, tamanhos e cores.
