@@ -38,3 +38,9 @@ test('GPS invalidity stays explicit; keys distinguish local and world/neighborho
  const result=mapLocations({columns:['Cidade','UF','Latitude','Longitude'],rows:[['Cidade Alfa','SP',100,10],['Cidade Alfa','SP',null,null]]});
  assert.deepEqual(result.locations.map(p=>p.status),['invalid-coordinates','ready']);
 });
+
+test('simultaneous different scopes render their own payload without recirculating async loads',async()=>{
+ let calls=0;configureGeography({load:async key=>{calls++;const data=fixture(key);if(key.startsWith('country-'))data.countries=[{...data.states[0],code:'FRA',name:'França',continent:'Europa'}];return data;}});installGeography({...fixture(),key:'other'});
+ const dom=new JSDOM(),state=createGeoMap(dom.window.document,value),country=createGeoMap(dom.window.document,{columns:['País','Clientes'],rows:[['França',2]]});
+ await new Promise(r=>setTimeout(r,15));assert.equal(state.querySelectorAll('path').length,2);assert.ok(country.querySelector('[data-country="FRA"]'));assert.ok(calls<=2);state.dispose();country.dispose();dom.window.close();
+});

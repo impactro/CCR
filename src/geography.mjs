@@ -48,7 +48,7 @@ export async function ensureGeography(value){
    }
   }
  }
- installGeography(data);return key;
+ return data;
 }
 export const normalizePlace=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[’']/g,'').replace(/\s+/g,' ').trim();
 let index;

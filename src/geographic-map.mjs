@@ -1,5 +1,5 @@
 import {createDataTable} from './data.js';
-import {geographicBase,worldBase,mapLocations,geographyReady,ensureGeography} from './geography.mjs';
+import {geographicBase,worldBase,mapLocations,geographyReady,ensureGeography,installGeography} from './geography.mjs';
 
 const NS='http://www.w3.org/2000/svg',W=800,H=540,LIMIT=500;
 const mercator=latitude=>Math.log(Math.tan(Math.PI/4+Math.max(-85,Math.min(85,latitude))*Math.PI/360))*180/Math.PI;
@@ -14,7 +14,7 @@ export function createGeographicMap(document,value,{locale='pt-BR'}={}){
  if(!geographyReady(value)){
   const holder=document.createElement('div'),note=document.createElement('p');let disposed=false,inner=null;
   holder.className='chat-geo-loading';note.setAttribute('role','status');note.textContent='Preparando fronteiras geográficas do cache local…';holder.append(note,createDataTable(document,value,{locale}));
-  ensureGeography(value).then(()=>{if(disposed)return;inner=createGeographicMap(document,value,{locale});holder.replaceChildren(inner);}).catch(()=>{if(!disposed)note.textContent='Mapa indisponível no momento: não foi possível obter/validar as fronteiras. Dados preservados na tabela; revisar a fonte geográfica do host.';});
+  ensureGeography(value).then(data=>{if(disposed)return;installGeography(data);inner=createGeographicMap(document,value,{locale});holder.replaceChildren(inner);}).catch(()=>{if(!disposed)note.textContent='Mapa indisponível no momento: não foi possível obter/validar as fronteiras. Dados preservados na tabela; revisar a fonte geográfica do host.';});
   Object.defineProperty(holder,'dispose',{value:()=>{disposed=true;inner?.dispose?.();}});return holder;
  }
  const figure=createDataTable(document,value,{locale});figure.classList.add('chat-geo-map');
