@@ -19,6 +19,14 @@ O host seleciona operações/autorização; instalar biblioteca não libera banc
 rede privada, outro workspace ou envio. Consumidores Python usam
 `ccr.GeographyCache` diretamente, sem copiar motor para CA/CWH/CCI.
 
+Na manutenção, instalar `python -m pip install ".[png]"` a partir do checkout
+CCR validado, ou o wheel correspondente e seu extra PNG. O pacote registra
+`ccr.cm:describe` no grupo `crania_agent.components`. Selecionar o componente
+`ccr` no manifesto CM do consumidor para descobrir operações e skill; não
+copiar scripts para cada agente. Hosts web configuram também o callback abaixo.
+Fixar a revisão oficial da biblioteca JavaScript e conferir a proveniência dos
+assets; instalar somente Python não atualiza um bundle web já compilado.
+
 ```sh
 python -s -m ccr prepare-map --agent-root . --key brazil
 python -s -m ccr prepare-map --agent-root . --key state-SP --png
@@ -85,3 +93,19 @@ cache frio/quente, concorrência, falha/refresh atômico, hashes, recortes separ
 CLI/CM, sobreposição, carga/erro/dispose web e prompt. Smoke real e inspeção de
 PNG ficam no inventário privado do host; conferência própria não é aceite
 independente do operador.
+
+### Validação instalada em02/11/2026
+
+CCR26.11.2d e Python26.11.2.post4 adotados em CAW, CWH e CCI. Gates completos
+da candidata b:104 testes Node e9 Python no CCR; consumidores e núcleo somaram
+736 testes e53 subtestes. Depois passaram10 testes Python CCR, incluindo nova
+regressão de pixels do PNG no backend real,14 testes Node focais da revisão d
+e seis verificações focais CAW/proveniência. Não são uma nova execução integral
+de todas as suítes na revisão d, nem uma medida de cobertura global.
+
+Navegador na revisão d: CAW com dois mapas/269 polígonos, Assistente CWH com
+oito mapas/9.336 polígonos e fixture transitória CCI com112 bairros oficiais,
+zero preservado e nenhum rótulo undefined/erro. Fixture removida sem persistir
+mensagem. Runner instalado gerou PNG sintético em1,204s; cache quente SP foi
+consultado em30,948ms. São amostras locais, sem modelo nem envio WhatsApp.
+Oito bases PNG/SVG e suas origens foram preparadas fora do Git para inspeção.
