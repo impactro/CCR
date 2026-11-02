@@ -12,11 +12,12 @@ function inlineHtml(document,text){
  }};copy(parsed.content,fragment);return fragment;
 }
 export function createDataTable(document, value, {locale='pt-BR'}={}) {
-  const validated=validateTable(value),columns=validated.columns.map(column=>column.label);
+  const validated=validateTable(value);
   const wrap = document.createElement('figure'); wrap.className = 'chat-data';
   const title = document.createElement('figcaption'); title.textContent = String(value.title || 'Dados').slice(0, 180);
+  wrap.tabIndex=0; wrap.setAttribute('role','group'); wrap.setAttribute('aria-label',title.textContent);
   const table = document.createElement('table'), head = document.createElement('thead'), tr = document.createElement('tr');
-  for (const column of columns) { const th = document.createElement('th'); th.scope = 'col'; th.textContent = column; tr.append(th); }
+  for (const column of validated.columns) { const th = document.createElement('th'); th.scope = 'col'; th.textContent = column.label; if(column.type==='number')th.dataset.type='number'; tr.append(th); }
   head.append(tr); table.append(head);
   const body = document.createElement('tbody');
   const number=new Intl.NumberFormat(locale,{maximumFractionDigits:6});
@@ -24,6 +25,8 @@ export function createDataTable(document, value, {locale='pt-BR'}={}) {
     const line = document.createElement('tr');
     row.forEach((value,index)=>{const td=document.createElement('td'),type=validated.columns[index].type;
       if(type)td.dataset.type=type;
+      else if(typeof value==='number')td.dataset.type='number';
+      if(value===null)td.dataset.empty='true';
       if(value!==null&&type==='html')td.append(inlineHtml(document,value));
       else td.textContent=value===null?'Sem dado':typeof value==='number'?number.format(value):typeof value==='boolean'?value?'Sim':'Não':value;
       line.append(td);

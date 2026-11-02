@@ -1,5 +1,5 @@
 {
-  "version": "26.11.2g",
+  "version": "26.11.2h",
   "builder": "esbuild@0.28.2",
   "sources": {
     "src/chart-spec.mjs": "7004146486462d88c15073e88eb75fa421cbd6987d99869213d58f257972b074",

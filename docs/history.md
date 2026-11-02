@@ -1,3 +1,12 @@
+# Histórico
+
+## 2026-11-02 — 26.11.2h, legibilidade de resultados
+
+Tabela compartilhada recebe cabeçalho destacado, espaçamento, zebra suave,
+foco por teclado e tipografia numérica tabular. Nulos continuam “Sem dado”;
+strings numéricas continuam identificadores. Sem ordenar, limitar linhas,
+reconsultar a fonte ou mudar exportações. CSS segue os tokens do host.
+
 # Histórico resumido do CCR
 
 ## 02/11/2026 — fechamento da fase compartilhada

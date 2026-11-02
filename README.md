@@ -3,7 +3,11 @@
 Operação sem checkout: [guia do pacote instalado](docs/installed-package.md).
 Referências a fontes, build e testes são destinadas à manutenção.
 
-**26.11.2g — fonte candidata:** séries explícitas line/column combinadas,
+**26.11.2h:** tabelas com hierarquia, contraste por tokens, linhas alternadas,
+valores numéricos alinhados e rolagem por teclado. Zero, false, nulos e
+identificadores textuais preservados. Mesma apresentação no CAW/CWH/CCI.
+
+**26.11.2g — fonte anterior:** séries explícitas line/column combinadas,
 unidades/eixos, texto/imagem lógica e relatórios em painéis. Exportação CM
 `python -m ccr export-document` gera PNG/PDF real pelo mesmo scene SVG Web,
 com manifesto exato, limites, paginação/rejeição e runtime fechado no pacote

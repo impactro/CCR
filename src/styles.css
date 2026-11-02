@@ -10,3 +10,18 @@
 .chat-geographic-controls{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0}.chat-geographic-controls button{min-width:44px;min-height:44px;padding:.4rem .7rem;background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#17202a);border:1px solid var(--ca-ui-border,#748478);border-radius:.3rem;cursor:pointer}
 .chat-geographic-canvas [role=button]{cursor:pointer}.chat-geographic-canvas [data-selected=true]{stroke:#cf6024;stroke-width:2}.chat-geographic-canvas [role=button]:focus{outline:none;filter:drop-shadow(0 0 2px #cf6024)}.chat-geographic-controls button:focus-visible,.chat-geographic-canvas:focus-visible{outline:3px solid var(--ca-ui-action,#087f8c);outline-offset:2px}
 .chat-geographic-detail{padding:.5rem;border-left:3px solid var(--ca-ui-action,#087f8c);color:var(--ca-ui-text,#17202a);overflow-wrap:anywhere}.chat-geographic-summary,.chat-geographic-attribution{font-size:.85rem;color:var(--ca-ui-muted,#53675d)}.chat-geographic-unresolved{display:block}
+
+/* Result tables follow the host palette; identifiers remain text, not numbers. */
+.chat-data{box-sizing:border-box;border:1px solid var(--ca-ui-border,#d5dde2);border-radius:8px;background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#20252b);overflow:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;font-size:13px;line-height:1.55}
+.chat-data:focus-visible{outline:2px solid var(--ca-ui-focus,var(--ca-ui-action,#087f8c));outline-offset:2px}
+.chat-data table{border-collapse:separate;border-spacing:0;width:100%;min-width:100%;color:inherit;font:inherit}
+.chat-data th,.chat-data td{padding:9px 12px;border:0;border-bottom:1px solid var(--ca-ui-border,#d5dde2);text-align:left;vertical-align:top;max-width:42ch;overflow-wrap:anywhere;white-space:normal}
+.chat-data th{background:var(--ca-ui-canvas,#f3f5f6);font-weight:650;color:inherit;box-shadow:inset 0 2px var(--ca-ui-action,#087f8c)}
+.chat-data tbody tr:nth-child(even){background:color-mix(in srgb,var(--ca-ui-canvas,#f3f5f6) 55%,var(--ca-ui-surface,#fff))}
+.chat-data tbody tr:hover{background:color-mix(in srgb,var(--ca-ui-action,#087f8c) 8%,var(--ca-ui-surface,#fff))}
+.chat-data tbody tr:last-child td{border-bottom:0}
+.chat-data [data-type="number"]{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chat-data td[data-empty="true"]{color:var(--ca-ui-muted,#586774);font-style:italic}
+.chat-data figcaption{padding:10px 12px;margin:0;font-size:13px;font-weight:650;color:inherit}
+.chat-data .chat-data-source{border-top:1px solid var(--ca-ui-border,#d5dde2);font-size:12px;font-weight:400;color:var(--ca-ui-muted,#586774);opacity:1}
+@media (max-width:600px){.chat-data th,.chat-data td{padding:8px 10px;max-width:28ch}}

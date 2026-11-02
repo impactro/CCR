@@ -1,8 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {createChatRenderer,createHtmlFrame,resourceUrl,createDataChart} from '../../src/index.js';
+import {createChatRenderer,createHtmlFrame,resourceUrl,createDataChart,createDataTable} from '../../src/index.js';
 const fixture=()=>{const dom=new JSDOM('<main></main>',{url:'https://host.test'});return {dom,element:dom.window.document.querySelector('main')};};
+
+test('result tables preserve identifiers, zero, false and missing values with typed alignment',()=>{
+ const {dom}=fixture();
+ const table=createDataTable(dom.window.document,{title:'Resultados',columns:[{label:'Código',type:'string'},{label:'Total',type:'number'},{label:'Ativo',type:'boolean'}],rows:[['0012',0,false],['0003',null,true]]});
+ assert.equal(table.tabIndex,0);assert.equal(table.getAttribute('aria-label'),'Resultados');
+ assert.equal(table.querySelectorAll('thead th')[1].dataset.type,'number');
+ const cells=table.querySelectorAll('tbody td');
+ assert.deepEqual([...cells].map(c=>c.textContent),['0012','0','Não','0003','Sem dado','Sim']);
+ assert.equal(cells[0].dataset.type,'string');assert.equal(cells[1].dataset.type,'number');
+ assert.equal(cells[1].dataset.empty,undefined);assert.equal(cells[4].dataset.empty,'true');
+ const untyped=createDataTable(dom.window.document,{columns:['Valor'],rows:[[10],['0010']]});
+ assert.equal(untyped.querySelectorAll('td')[0].dataset.type,'number');
+ assert.equal(untyped.querySelectorAll('td')[1].dataset.type,undefined);
+ dom.window.close();
+});
 
 test('markdown remains inert; unsafe links and raw HTML are removed',()=>{
  const {dom,element}=fixture();
