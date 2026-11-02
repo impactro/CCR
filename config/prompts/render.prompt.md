@@ -2,7 +2,14 @@
 
 Fonte canônica: `render.prompt.json` neste mesmo diretório. Este Markdown explica
 o contrato e a configuração; não é uma segunda cópia da instrução para o modelo.
-Release CES26.11.1l, npm26.11.1-l, prompt schema1, documento CES/renderer1.
+Release CES26.11.1m, npm26.11.1-m, prompt schema1, documento CES/renderer1.
+
+O JSON incorpora a interpretação de intenção geográfica: localizar clientes,
+instalações e máquinas, cruzar dados autorizados com os CSV, deduplicar,
+agrupar/quantificar e explicar a cobertura. Mapa é geográfico; calor exige
+pedido explícito. A skill `skills/geographic-map/SKILL.md` detalha o fluxo.
+Entrega interativa ou PNG depende do canal e das ferramentas reais do host;
+este contrato não instala capturador nem concede consulta/envio.
 
 ## Campos do JSON
 

@@ -1,5 +1,13 @@
 # Histórico
 
+## 26.11.1m — intenção geográfica no prompt e na skill
+
+Perguntas sobre onde estão clientes, instalações ou máquinas orientam mapa
+geográfico mesmo sem a palavra mapa. Prompt e skill canônicos descrevem
+cruzamento com CSV, entidades distintas, agregação, cobertura e explicação.
+Calor exige pedido explícito; CAX/WhatsApp entrega PNG quando o host oferece
+geração/entrega de artefato. Sem novo exportador, consulta ou efeito no núcleo.
+
 ## 26.11.1l — proporção do mapa responsivo
 
 Canvas mantém a proporção40/27 limitando largura conforme altura disponível;
