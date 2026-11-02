@@ -1,10 +1,13 @@
-import test from 'node:test';
+import test,{beforeEach} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {JSDOM} from 'jsdom';
 import {buildRenderPrompt,getRenderPromptContract,validateRenderPromptPlugin,RENDER_PROMPT_VERSION,RENDER_PROMPT_SCHEMA_VERSION,MAX_RENDER_PROMPT_PLUGINS} from '@crania/chat-render/prompt';
 import {decodeRichDocument,RICH_DOCUMENT_VIEWS} from '../../src/rich-document.mjs';
 import {createChatRenderer} from '../../src/renderer.js';
+import {installGeography} from '../../src/geography.mjs';
+import {publicFixture} from '../fixtures/geography.mjs';
+beforeEach(()=>installGeography(publicFixture()));
 
 const plugin=()=>({id:'example.summary',version:'1.0.0',fence:'summary',schema:{type:'object',properties:{title:{type:'string'}},required:['title'],additionalProperties:false},instructions:['Use a supplied title.'],examples:[{content:{title:'Synthetic example'}}]});
 
@@ -90,7 +93,7 @@ test('city quantity prompt resolves names, preserves zero and reports unmapped c
  const example=getRenderPromptContract().capabilities.find(c=>c.id==='map').examples[1].content;
  const dom=new JSDOM('<main></main>'),root=dom.window.document.querySelector('main');
  const renderer=createChatRenderer();renderer.render(root,{text:'```map\n'+JSON.stringify(example)+'\n```'});
- assert.equal(root.querySelectorAll('circle').length,2);assert.equal(root.querySelectorAll('tbody tr').length,3);
+ assert.equal(root.querySelectorAll('circle').length,0);assert.equal(root.querySelectorAll('path').length,2);assert.equal(root.querySelectorAll('tbody tr').length,3);
  assert.match(root.textContent,/Cidade não identificada/);assert.match(root.textContent,/2 de 3/);
  const text=buildRenderPrompt({capabilities:['map']});assert.match(text,/city-level/);assert.match(text,/GPS is optional/);assert.match(text,/coverage/);
  renderer.dispose(root);dom.window.close();

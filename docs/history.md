@@ -1,5 +1,16 @@
 # Histórico
 
+## 26.11.2a — receitas sob demanda e fronteiras do mundo ao bairro
+
+O atlas/datasets saem da árvore versionada e dos pacotes web. Código Python,
+URLs, skill/prompt e testes sintéticos permanecem. `crania-ccr` registra tools
+CM v3 prepare-map/lookup-place/render-map, com cache permanente local e refresh
+atômico. Recortes usam polígonos: países, UFs, municípios e bairros oficiais.
+SP obtido com645 municípios; Santo André/SIGA com112 bairros e exemplo Centro.
+Cache público não recebe dados privados; PNG de cliente fica no workspace.
+Render web carrega pelo host e conserva tabela em carga/erro. Fontes e limites
+em geographic-map.md; smoke real e imagens ficam somente no cache local.
+
 ## 26.11.1n — acervo cartográfico reproduzível
 
 Atlas offline com279 SVG e5.570 sedes por UF, catálogo de países/regiões e

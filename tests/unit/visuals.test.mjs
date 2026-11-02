@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
+import {installGeography} from '../../src/geography.mjs';
+import {publicFixture} from '../fixtures/geography.mjs';
 import {createHeatmap,createGeoMap} from '../../src/visuals.mjs';
 import {createChatRenderer} from '../../src/renderer.js';
 import {decodeRichDocument,createDocumentRenderer} from '../../src/document-renderer.mjs';
@@ -12,9 +14,10 @@ test('heatmap keeps zero, null and accessible text with deterministic relative c
  assert.notEqual(cells[0].style.backgroundColor,cells[2].style.backgroundColor);assert.equal(node.querySelectorAll('tbody tr').length,3);dom.window.close();
 });
 test('geographic map rejects invalid coordinates and treats labels as text',()=>{
+ installGeography(publicFixture());
  const dom=new JSDOM();const node=createGeoMap(dom.window.document,{title:'Mapa',columns:['Name','Latitude','Longitude'],rows:[['<script>bad</script>',-23.5,-46.6],['Invalid',100,200],['Missing',null,null]]});
  assert.equal(node.querySelectorAll('circle').length,1);assert.equal(node.querySelector('script'),null);
- assert.equal(node.querySelectorAll('path[data-uf]').length,27);assert.equal(node.querySelectorAll('tbody tr').length,3);
+ assert.equal(node.querySelectorAll('path[data-uf]').length,2);assert.equal(node.querySelectorAll('tbody tr').length,3);
  node.querySelector('[data-row="0"]').dispatchEvent(new dom.window.Event('click'));assert.match(node.querySelector('.chat-geographic-detail').textContent,/<script>bad<\/script>/);node.dispose();dom.window.close();
 });
 test('CCR protocol and Markdown share map and heatmap primitives without host services',()=>{

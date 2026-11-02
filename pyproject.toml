@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crania-ccr"
+version = "26.11.2.post1"
+description = "CCR: geographic recipes, polygon rendering and durable local cache"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+png = ["PyMuPDF>=1.24"]
+
+[project.scripts]
+ccr = "ccr.cli:main"
+
+[project.entry-points."crania_agent.components"]
+ccr = "ccr.cm:describe"
+
+[tool.setuptools.packages.find]
+where = ["python"]
+
+[tool.setuptools.package-data]
+ccr = ["skills/*/SKILL.md", "recipes/*.json", "prompts/*.md"]

@@ -1,5 +1,5 @@
 import {createDataTable} from './data.js';
-import {geographicBase,worldBase,mapLocations} from './geography.mjs';
+import {geographicBase,worldBase,mapLocations,geographyReady,ensureGeography} from './geography.mjs';
 
 const NS='http://www.w3.org/2000/svg',W=800,H=540,LIMIT=500;
 const mercator=latitude=>Math.log(Math.tan(Math.PI/4+Math.max(-85,Math.min(85,latitude))*Math.PI/360))*180/Math.PI;
@@ -11,16 +11,22 @@ const principalRing=geometry=>rings(geometry).reduce((largest,ring)=>{
 
 /** Offline Brazilian cartography. The input remains an accessible typed table. */
 export function createGeographicMap(document,value,{locale='pt-BR'}={}){
+ if(!geographyReady(value)){
+  const holder=document.createElement('div'),note=document.createElement('p');let disposed=false,inner=null;
+  holder.className='chat-geo-loading';note.setAttribute('role','status');note.textContent='Preparando fronteiras geográficas do cache local…';holder.append(note,createDataTable(document,value,{locale}));
+  ensureGeography(value).then(()=>{if(disposed)return;inner=createGeographicMap(document,value,{locale});holder.replaceChildren(inner);}).catch(()=>{if(!disposed)note.textContent='Mapa indisponível no momento: não foi possível obter/validar as fronteiras. Dados preservados na tabela; revisar a fonte geográfica do host.';});
+  Object.defineProperty(holder,'dispose',{value:()=>{disposed=true;inner?.dispose?.();}});return holder;
+ }
  const figure=createDataTable(document,value,{locale});figure.classList.add('chat-geo-map');
- const {locations}=mapLocations(value),valid=locations.filter(p=>p.status==='ready'),shown=valid.slice(0,LIMIT),points=shown.filter(p=>['city','coordinate'].includes(p.kind));
+ const {locations}=mapLocations(value),valid=locations.filter(p=>p.status==='ready'),shown=valid.slice(0,LIMIT),points=shown.filter(p=>p.kind==='coordinate'||p.kind==='city'&&!geographicBase.municipalities?.some(r=>r.code===p.code));
  const worldwide=shown.some(p=>['country','continent'].includes(p.kind))||points.some(p=>p.longitude< -75||p.longitude> -32||p.latitude< -34||p.latitude>6);
- const territories=worldwide?worldBase.countries:geographicBase.states;
+ const territories=worldwide?worldBase.countries:geographicBase.municipalities?.length?geographicBase.municipalities:geographicBase.regions?.length?geographicBase.regions:geographicBase.states;
  const numeric=shown.map(p=>p.metric).filter(n=>typeof n==='number'&&Number.isFinite(n)&&n>=0),maximum=Math.max(0,...numeric);
  const make=(tag,attrs={},text)=>{const e=document.createElementNS(NS,tag);for(const [key,v]of Object.entries(attrs))e.setAttribute(key,String(v));if(text!==undefined)e.textContent=text;return e;};
  const svg=make('svg',{viewBox:`0 0 ${W} ${H}`,role:'group','aria-label':String(value.title||'Mapa geográfico'),tabindex:0});
  svg.classList.add('chat-geographic-canvas');svg.append(make('rect',{width:W,height:H,fill:'var(--ca-map-water,#dcebf3)'}));
  const viewport=make('g'),land=make('g'),markers=make('g');viewport.append(land,markers);svg.append(viewport);
- const coordinates=worldwide?[[-180,-60],[180,85]]:geographicBase.states.flatMap(s=>rings(s.geometry).flat());
+ const coordinates=worldwide?[[-180,-60],[180,85]]:territories.flatMap(s=>rings(s.geometry).flat());
  const extent=coordinates,xs=extent.map(p=>p[0]),ys=extent.map(p=>mercator(p[1]));
  const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys),scale=Math.min((W-48)/Math.max(1,maxX-minX),(H-48)/Math.max(1,maxY-minY));
  const project=(lon,lat)=>[(W-(maxX-minX)*scale)/2+(lon-minX)*scale,(H-(maxY-minY)*scale)/2+(maxY-mercator(lat))*scale];
@@ -37,7 +43,7 @@ export function createGeographicMap(document,value,{locale='pt-BR'}={}){
  const color=n=>`hsl(${220-Math.min(1,n/Math.max(1,maximum))*220} 70% 45%)`;
  let repeated=0;
  for(const state of territories){
-  const matches=shown.filter(p=>worldwide?(p.kind==='country'&&p.country.code===state.code||p.kind==='continent'&&p.countries.some(c=>c.code===state.code)):(p.kind==='state'&&p.state.uf===state.uf));
+  const matches=shown.filter(p=>worldwide?(p.kind==='country'&&p.country.code===state.code||p.kind==='continent'&&p.countries.some(c=>c.code===state.code)):(p.kind==='region'&&p.region.code===state.code||p.kind==='city'&&p.code===state.code||p.kind==='state'&&p.state.uf===state.uf));
   const quantities=matches.map(p=>p.metric).filter(n=>typeof n==='number'&&n>=0&&Number.isFinite(n));if(matches.length>1)repeated++;
   const d=rings(state.geometry).map(ring=>ring.map(([lon,lat],i)=>{const[x,y]=project(lon,lat);return(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2);}).join(' ')+'Z').join(' ');
   const path=make('path',{d,'fill-rule':'evenodd',fill:matches.length?(matches.length===1&&quantities.length?color(quantities[0]):'var(--ca-map-highlight,#69bcb0)'):'var(--ca-map-land,#edf2e8)',stroke:'var(--ca-map-border,#748478)','stroke-width':.8,'vector-effect':'non-scaling-stroke',[worldwide?'data-country':'data-uf']:worldwide?state.code:state.uf});

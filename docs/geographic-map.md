@@ -1,139 +1,86 @@
-# Bases auxiliares e mapas geográficos no CCR
+# Mapas geográficos do mundo ao bairro
 
-## Acervo cartográfico reutilizável
+O CCR distribui receitas e tools, não um atlas pronto no Git. Bases são
+cache público permanente por consumidor, criado somente quando solicitado.
+[Contrato aprovado](geographic-recipes.md),
+[fontes e licença](../python/ccr/recipes/geography.json),
+[skill canônico](../python/ccr/skills/geographic-map/SKILL.md).
 
-O acervo pertence ao CCR: CSV públicos como fontes revisáveis, JSON derivado
-com índices para consulta e atlas SVG pronto para uso. Não guardar fatos de
-clientes ou imagens operacionais nesse catálogo público.
+## Intenção e ferramentas
 
-Gerar offline, a partir das bases já empacotadas: Brasil com27 UFs, cada UF
-com todos os pontos de suas sedes municipais, mundo com países, recorte de
-cada país e continentes/regiões da classificação Natural Earth. Os pontos
-municipais não são polígonos de municípios; contornos municipais/bairros não
-estão nesta base. Não anunciar sua existência nem baixar malhas durante render.
+“Onde estão meus clientes?”, “Cadê as máquinas?”, “Mapa de instalações”, lojas,
+distribuição por cidade/UF/país/bairro ou GPS pedem mapa geográfico. Escolher o
+menor recorte útil e preservar nível, unidade de contagem e cobertura. Grupo
+nomeado por cidade sugere localidade, sem provar cliente. Calor só quando pedido.
 
-SVG preserva vetores e escala sem duplicar centenas de PNG. PNG é derivado
-sob demanda no host e pode ser reutilizado pelo hash da base e parâmetros,
-sem misturar cache público com dados de cliente. Um índice/manifesto identifica
-cobertura, fonte, arquivos, enquadramento e hashes. Recorte de país usa sua
-parte principal; mundo conserva os territórios na geometria de origem.
+`crania-ccr` contém as mesmas receitas usadas pelo host web. O entry point
+`crania_agent.components:ccr` distribui skill e operações pelo contrato CM v3.
+O host seleciona operações/autorização; instalar biblioteca não libera banco,
+rede privada, outro workspace ou envio. Consumidores Python usam
+`ccr.GeographyCache` diretamente, sem copiar motor para CA/CWH/CCI.
 
-Disponibilizar o JSON/index e atlas como recursos dos consumidores, carregados
-somente quando usados. Python pode manter o índice em memória e consultar
-nomes/IBGE/UF retornando só correspondências. Uma função interna basta; não
-exige banco ou servidor HTTP novo. Não enviar5mil linhas ao modelo para
-filtrar nomes. O construtor do atlas e os testes verificam cobertura e
-geometria sem consultar rede nem alterar o render interativo atual.
+```sh
+python -s -m ccr prepare-map --agent-root . --key brazil
+python -s -m ccr prepare-map --agent-root . --key state-SP --png
+python -s -m ccr prepare-map --agent-root . --key municipality-3547809 --png
+python -s -m ccr prepare-map --agent-root . --key neighborhoods-3547809 --png
+python -s -m ccr prepare-map --agent-root . --key neighborhood-3547809-centro --png
+python -s -m ccr prepare-map --agent-root . --key world
+python -s -m ccr prepare-map --agent-root . --key continent-europa
+python -s -m ccr prepare-map --agent-root . --key country-FRA
+python -s -m ccr lookup-place --agent-root . --kind city --state SP --name "Santo André"
+python -s -m ccr render-map --agent-root . --key state-SP --data temp/valores.json --output outputs/AAAA-MM/mapa.png
+```
 
-## Intenção geográfica e entrega por canal
+`render-map` recebe `title`, `values:[{code,value}]` agregados por código de
+região e/ou `points:[{latitude,longitude,label}]`. Exige códigos pertencentes
+ao recorte, quantidades não negativas sem duplicatas e saída PNG/SVG nova em
+temp/outputs. A base pública não recebe valores privados. Fonte, período/critério
+e cobertura pertencem à resposta. PNG usa o extra `png`/PyMuPDF já instalado,
+sem instalar dependência durante o uso. No checkout, o mesmo comando está em
+`python tools/manage-geography.py ...`.
 
-A skill e o prompt canônicos devem reconhecer perguntas como “onde estão meus
-clientes?”, “cadê as máquinas?”, “mapa de instalações” e distribuição por
-cidade/estado/país/GPS, mesmo sem a palavra mapa. Perguntas sobre arquivos ou
-posição de elementos de tela não acionam essa interpretação por si só.
+## Fronteiras e fontes
 
-O agente usa as ferramentas autorizadas do host para obter os fatos, distingue
-cliente/instalação/máquina, cruza GPS ou localidades com os CSV auxiliares,
-deduplica por identificador e agrupa no nível adequado. Explica concentração,
-quantidades, fonte e cobertura; preserva registros não resolvidos. O CCR não
-executa consultas nem transforma nome de grupo em prova de cliente.
+Mundo/continentes desenham países; Brasil desenha UFs; UF desenha municípios;
+município desenha seu limite; bairros desenham polígonos oficiais municipais.
+Ponto de sede não substitui fronteira. GPS operacional sobreposto exige evidência
+própria. Malha simplificada é cartográfica, não levantamento cadastral/engenharia;
+Mercator é limitado a85°. Natural Earth fornece países/territórios e seus
+agrupamentos, sem dividir artificialmente países transcontinentais.
 
-Mapa significa geográfico por padrão; calor exige pedido explícito. Calor por
-localidade permanece geográfico, distinto da matriz numérica heatmap. A entrega
-usa mapa interativo em superfícies CCR habilitadas e PNG no CAX/WhatsApp quando
-o host disponibiliza geração e entrega de imagem. HTML pode ser intermediário
-de captura; o CCR não oferece exportação automática PNG nem concede ferramentas.
+IBGE fornece malhas/identidade. A revisão Natural Earth50m é fixada por SHA.
+Sua fonte é global: o primeiro download recebe esse arquivo, mas somente o
+subconjunto solicitado é persistido no cache de um recorte continental/país.
+Santo André/SP IBGE3547809 demonstra bairros por SIGA oficial: camada
+`siga:L_3D82645A`,112 polígonos, campos `NOME`/`CODIGO_BAIRRO`, GeoJSON EPSG4326.
+URLs, páginas oficiais, crédito e termos ficam no registro de receitas.
+Outro município sem provedor retorna indisponibilidade; não substituir bairro
+por distrito, setor censitário ou rótulo OSM.
 
-Atualizar skill, JSON do prompt e contrato documental na mesma revisão. Fixar
-essa revisão nos consumidores e validar o contexto efetivo: CAW já incorpora
-o texto em turnos novos/retomados; Assistente CWH deve incorporá-lo diretamente,
-além de disponibilizar protocolo e skill no workspace. Manter personalizações
-do usuário e registrar a revisão realmente instalada.
+## Cache, atualização e falhas
 
-## Procedimento de adoção
+`data/ccr/geography/<chave>/<geração>` guarda JSON público, SVG e manifesto com
+origem, data, crédito/licença e hashes. Um ponteiro atômico escolhe a geração
+válida; PNG é derivado opcional. Parâmetros são restritos, sem URL livre do
+modelo. Requests concorrentes da mesma chave compartilham a criação. Índice
+de nomes é cache em memória, devolvendo só correspondências ao modelo.
 
-Pedido: mostrar cidades reais dentro de estados/regiões, inclusive quando o dado
-contiver somente cidade/UF ou nome de estado. A grade de coordenadas anterior
-não atende a esse caso. CCR apresenta; hosts conservam autorização e dados.
+`--refresh` valida substituta completa antes de trocar o ponteiro; a anterior
+fica preservada. Não expira/apaga automaticamente e não entra na limpeza de temp.
+Lock remanescente por queda de processo exige inspeção operacional. Falha de
+rede/fonte/estrutura é explícita, sem inventar geometria ou retry infinito.
 
-1. Fixar uma cópia pública e sanitizada das malhas UF do IBGE e das sedes
-   municipais IBGE disponibilizadas pela Infra S.A. Registrar URLs, hashes,
-   data de obtenção e limites de cobertura. Nenhum dado de cliente entra na base.
-2. Resolver nomes localmente: cidade+UF, cidade única sem UF e estado por nome
-   ou sigla. Normalizar acentos/caixa; homônimos, desconhecidos ou UF conflitante
-   ficam sem ponto, com motivo e linha original preservada. Não fazer fuzzy match.
-3. Desenhar malhas reais dos27 estados/DF e pontos das cidades. Estado isolado
-   destaca o polígono; GPS válido explícito tem precedência e não é substituído
-   por sede municipal. Quantidade é opcional e zero/nulo permanecem distintos.
-4. Oferecer zoom, navegação, retorno ao enquadramento e detalhes acessíveis.
-   Não consultar geocoder, CDN ou tiles no navegador, nem enviar dados ao IBGE.
-   A referência de uma sede municipal não representa GPS de uma máquina.
-5. Testar resolução/ambiguidade, projeção, polígonos, quantidade, zero/nulo,
-   XSS, limites, interação/teclado e descarte; manter Markdown map e CES map
-   com o mesmo comportamento. Atualizar prompt e exemplos da mesma revisão.
-6. Publicar CCR fixo; recompilar CAW, CWH e CCI a partir desse SHA, com versões
-   próprias e recibos íntegros. Instalar pelo CMonitor no runtime autorizado,
-   preservando configuração/bancos/pareamento e uma recuperação anterior.
-7. Inspecionar no navegador os três formatos: cidade+UF sem GPS, estado sem GPS
-   e pontos explícitos. Usar dados sintéticos na galeria; consulta real somente
-   no Assistente próprio autorizado. Nenhum envio WhatsApp é necessário.
+## Render web e verificação
 
-## Fontes públicas
+`configureGeography({load: async key => publicData})` injeta callback autorizado
+do host. O render não escolhe URL pública nem baixa dataset externo. Durante
+primeira carga/erro conserva tabela acessível e respeita dispose. O endpoint
+autenticado do host executa a mesma receita fora do event loop. Prompt canônico
+entra também no resume, anunciando apenas tools/capacidades reais.
 
-- Malhas: https://servicodados.ibge.gov.br/api/docs/malhas?versao=3
-- Estados: https://servicodados.ibge.gov.br/api/v1/localidades/estados
-- Sedes: https://geo.infrasa.gov.br/server/rest/services/Hosted/Sedes_Municipais/FeatureServer
-
-## Ampliação aprovada — CSV consultável e recortes globais
-
-Três fontes CSV públicas e versionadas em `data/geography/` são a fonte
-consultável: `cities-br.csv` (código IBGE, cidade, UF, país, latitude/longitude
-sede), `states-br.csv` (código IBGE, nome, UF, país, latitude/longitude de
-referência geométrica) e `countries.csv` (códigos ISO, nome, continente e
-latitude/longitude de referência). Referência geográfica não é GPS de cliente.
-
-O build valida as três tabelas e gera dados compilados a partir delas, junto
-com malhas UF/países públicas e identificadas. Não manter catálogo de nomes
-independente no JavaScript. Os consumidores distribuem os CSV com o pacote,
-expondo somente os próprios dados públicos pela capacidade autorizada do host;
-a IA consulta o arquivo pertinente, sem carregar milhares de linhas no prompt.
-Prompt do CCR indica nomes, campos, seleção por nível e desambiguação.
-
-Adotar mapas de pontos por cidade/GPS e mapas de intensidade por estado/país,
-com legenda numérica e zero/nulo distintos. Continente deriva do campo do CSV
-de países, sem inventar uma quarta fonte concorrente. Recorte automático deve
-abranger a região dos dados; manter opção de retorno ao mapa completo.
-Não somar linhas repetidas silenciosamente: a IA/consulta fornece o agregado
-no nível pedido. Homônimos, ausência de UF e lugar fora da base ficam explícitos.
-
-Código e testes seguem a ordem: bases/contratos → resolução e render comum →
-prompts e distribuição nos hosts → instalação/inspeção. Cada consumidor fixa
-um SHA publicado e conserva configuração, dados e permissões. A consulta ao
-CSV público é independente do banco do cliente; os fatos e totais continuam
-vindo da fonte operacional autorizada. Inferência de cidade a partir de nome
-de grupo é uma associação com evidência e incerteza, nunca prova de cliente.
-
-## Limites
-
-Cidades/estados brasileiros e países/continentes são as bases nominais
-planejadas. Cidades estrangeiras ou localidades fora dessa base
-continuam na tabela com cobertura explícita; não prometer catálogo mundial de cidades,
-endereços, rotas, imagens de satélite, mapa de ruas ou coordenadas ao vivo.
-Dados públicos versionados podem ficar desatualizados; atualização é um build,
-não uma chamada durante o render. Pontos enviados pelo host continuam sujeitos
-à autorização dele. Não extrair coordenadas de texto operacional arbitrário.
-
-## Candidata26.11.1i
-
-Três CSV implementados:5570 sedes,27 UFs/DF e242 países/territórios. Malhas
-UF do IBGE e países Natural Earth50m. CSV e JSON compilado têm teste de
-igualdade de nomes/coordenadas e hashes. Mapa aceita Cidade/UF, Estado, País,
-Continente ou GPS numérico; intensidade por país/estado colore polígonos e
-por cidade usa pontos coloridos, sem alegar contorno municipal ou densidade.
-Referência geométrica UF e ponto cartográfico país não são GPS de cliente.
-Contagem ainda vem da fonte operacional; mapas não conciliam cadastro.
-
-País usa recorte principal no enquadramento automático; Mundo mostra a base
-completa. Continente segue a classificação dos países da Natural Earth, sem
-cortar um país transcontinental. Homônimos e nomes fora do catálogo ficam
-explícitos. Fontes/obtenção e hashes em data/geography/sources.json.
+Testes sintéticos usam rede bloqueada, sem datasets reais no Git: fronteiras,
+cache frio/quente, concorrência, falha/refresh atômico, hashes, recortes separados,
+CLI/CM, sobreposição, carga/erro/dispose web e prompt. Smoke real e inspeção de
+PNG ficam no inventário privado do host; conferência própria não é aceite
+independente do operador.

@@ -12,6 +12,7 @@ Na raiz do CCR, com dependências do lock instaladas e Node24:
 ```sh
 npm test
 npm run test:coverage
+python -m unittest discover -s tests -p test_geography_recipes.py
 ```
 
 O primeiro comando descobre toda a suíte unitária. O segundo mede exatamente
@@ -20,6 +21,12 @@ contextual-views, progressive-history e conversation, gerando LCOV em
 dependência de uma ferramenta externa de cobertura ou acesso de rede no teste.
 
 ## Revisão de01/11/2026
+
+A revisão cartográfica de02/11 acrescenta testes Python sintéticos de cache,
+polígonos, obtenção concorrente, refresh com falha, integridade, índice e CLI/CM.
+Os casos web injetam retângulos sintéticos e verificam carga/erro/descarte e
+fronteiras municipais em vez de pontos. Não exigem datasets ou rede no Git.
+O smoke real de IBGE/SIGA/Natural Earth e as imagens ficam fora do repositório.
 
 | Medida V8, nos três componentes | Antes | Depois |
 | --- | ---: | ---: |

@@ -14,3 +14,11 @@ __pycache__/
 .env.*
 !.env.example
 !.env.*.example
+/data/geography/*.csv
+/data/geography/*.json
+/data/geography/atlas/
+/src/geography-brazil.json
+/src/geography-world.json
+/data/ccr/
+*.egg-info/
+build/

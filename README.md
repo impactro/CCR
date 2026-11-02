@@ -1,5 +1,11 @@
 # CCR — Crânio Chat Render
 
+**26.11.2a:** receitas cartográficas e tools CM compartilhadas: `prepare-map`,
+`lookup-place`, `render-map`. Git contém código, URLs, skill e prompt; vetores,
+catálogos e desenhos são cache permanente local criado sob demanda. Fronteiras
+reais do mundo ao bairro: SP com municípios, Santo André com bairros oficiais.
+[Uso, instalação, cache e fontes](docs/geographic-map.md).
+
 **26.11.1i:** mapa geográfico brasileiro por cidade/UF, estado ou GPS, com
 malhas reais, zoom e detalhes; resolução local sem rede.
 [Procedimento, fontes e limites](docs/geographic-map.md).
@@ -74,7 +80,8 @@ CWH e os demais consumidores seguem o mesmo
 [contrato de apresentação](docs/CHAT-PRESENTATION-CONTRACT.md); o tema fornece
 a identidade, e o host adapta dados e capacidades. Adoção integral em cada
 produto exige evidência própria. Biblioteca JavaScript,
-sem serviço Windows nem registro de ferramentas de agente.
+sem serviço Windows. O pacote Python `crania-ccr` acrescenta tools pelo
+contrato CM; o renderer JavaScript continua passivo e independente do host.
 
 ```js
 import {createChatRenderer} from '@crania/chat-render';

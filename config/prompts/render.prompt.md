@@ -2,12 +2,15 @@
 
 Fonte canônica: `render.prompt.json` neste mesmo diretório. Este Markdown explica
 o contrato e a configuração; não é uma segunda cópia da instrução para o modelo.
-Release CES26.11.1n, npm26.11.1-n, prompt schema1, documento CES/renderer1.
+Release CES26.11.2a, npm26.11.2-a, prompt schema1, documento CES/renderer1.
 
 O JSON incorpora a interpretação de intenção geográfica: localizar clientes,
-instalações e máquinas, cruzar dados autorizados com os CSV, deduplicar,
+instalações e máquinas, cruzar dados autorizados com referências em cache, deduplicar,
 agrupar/quantificar e explicar a cobertura. Mapa é geográfico; calor exige
-pedido explícito. A skill `skills/geographic-map/SKILL.md` detalha o fluxo.
+pedido explícito. A skill `python/ccr/skills/geographic-map/SKILL.md` detalha
+o fluxo do mundo ao bairro: consultar cache, criar só o recorte ausente,
+desenhar fronteiras reais, cruzar/agrupar fatos autorizados, entregar PNG no
+CAX e informar indisponibilidade da fonte sem inventar geometria.
 Entrega interativa ou PNG depende do canal e das ferramentas reais do host;
 este contrato não instala capturador nem concede consulta/envio.
 
