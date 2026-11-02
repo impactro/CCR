@@ -61,8 +61,9 @@ o estado do EcoServer fica em CServer/servers/EcoServer.
 Permanecem aceites específicos: móvel/PWA com cache anterior e dois usuários
 reais no CAW; fonte SQL paginada composta do modo Agente; tela estreita e
 mudança de conta/filtro no Explorador; ferramentas/entrega de arquivo por canal.
-Consultar Platform/CraniaAgent/todo-caw.md e Platform/CWH/todo-cwb.md na raiz
-CES para as filas dos produtos. Não reabrir extração já entregue nem marcar
+Consultar `.agents/tasks.md` nos projetos CraniaAgent e CWH para as filas
+locais dos produtos; contratos em CraniaAgent/docs/CCR-INTEGRATION.md e
+CWH/docs/CWB-OWNERSHIP.md, relativos à raiz Platform do CES. Não reabrir extração já entregue nem marcar
 esses aceites como concluídos por um HTTP200 ou teste do módulo.
 
 CMAIL e CVideo não viram coletores ou renderizadores dentro do CCR. Conteúdo

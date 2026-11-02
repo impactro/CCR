@@ -323,3 +323,10 @@ continua único; ações externas são adaptadas pelos consumidores, CA/CAW into
 ##26.11.2f — teto geográfico de10.000
 
 Direção Fábio02/11: teto fixo de10.000linhas/localidades, sem opção do consumidor. Entrada acima do teto falha explicitamente. Alterados somente os limites de tabela/mapa e o contrato de prompt correspondente. Teste sintético com10.000pontos confere ausência de truncamento, zero, tabela completa e descarte;10.001linhas são rejeitadas. Não inclui dados ALP nem novas escalas.
+
+## 2026-11-02 — fila local única
+
+Referências operacionais e bootstraps usam `.agents/tasks.md`, fila local
+ignorada pelo Git, com BUG, SUGESTÃO e BACKLOG. Retiradas as referências
+ativas às filas antigas; fatos históricos continuam rastreáveis. Esta
+conciliação documental não executa tarefas nem altera contas ou serviços.
