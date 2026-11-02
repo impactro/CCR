@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "ccr.render",
-  "version": "26.11.2f",
-  "packageVersion": "26.11.2-f",
+  "version": "26.11.2g",
+  "packageVersion": "26.11.2-g",
   "renderer": {
     "name": "CCR",
     "version": 1
@@ -85,7 +85,8 @@
         "chart"
       ],
       "instructions": [
-        "Use columns of {label,type} and rows of equally sized positional arrays, optionally title and view. Types are string,number,boolean,date,datetime,html; respect the configured table/cell limits. Built-in chart views are bar,column,line,area. The first column labels the rows; a later numeric column supplies the metric. Above the configured chartRows limit or without a metric, the built-in renderer shows a table. Pie, donut, Google Charts and advanced charts require an explicitly declared host plugin."
+        "Use columns of {label,type} and rows of equally sized positional arrays, optionally title and view. Types are string,number,boolean,date,datetime,html; respect the configured table/cell limits. Built-in chart views are bar,column,line,area. The first column labels the rows; a later numeric column supplies the metric. Above the configured chartRows limit or without a metric, the built-in renderer shows a table. Pie, donut, Google Charts and advanced charts require an explicitly declared host plugin.",
+        "Optional chart={series:[{column,type,axis,unit,color?}]} explicitly selects 1–6 distinct typed numeric columns (indices1+, column0 is category), type line/column, axis left/right, nonempty unit up to24 chars, optional #RRGGBB. Same-axis units must match. Explicit charts require1–24 rows, category labels up to24 chars, series column labels up to32 chars and label+unit up to42 chars. Numeric zero remains visible; null breaks the line. Without chart, preserve the existing first-metric behavior."
       ],
       "examples": [
         {
@@ -475,6 +476,168 @@
         "Use a JSON object with url and title for an existing host-authorized file. File generation, upload, attachment registration, authorization and download routing remain responsibilities of the host."
       ],
       "examples": []
+    },
+    {
+      "id": "ccr.report",
+      "fences": [
+        "ccr"
+      ],
+      "instructions": [
+        "Use the CES v1 envelope (owner CES, format ccr.document, version1, renderer {name:CCR,version:1}, nonempty title up to180). type text has data {text} (plain text, max12000); type image has data {resourceId,alt} (logical ID /^[a-zA-Z][a-zA-Z0-9_-]{0,63}$/, nonempty alt max300), never URLs, paths or base64. The trusted host must resolve image bytes. type report has data {columns:1|2|3,sections:[complete CES documents]}, 1–12 text/image/data sections, no nested reports. Data sections support table/bar/column/line/area. Unknown fields are invalid. Total JSON max1MiB; layout limits can explicitly reject a panel.",
+        "Charts retain typed evidence and explicit units; do not combine incompatible units on one axis. Export is a separate host-authorized CM operation export-document, not an effect of a fence. Never invent an artifact or claim delivery."
+      ],
+      "examples": [
+        {
+          "fence": "ccr",
+          "content": {
+            "owner": "CES",
+            "format": "ccr.document",
+            "version": 1,
+            "renderer": {
+              "name": "CCR",
+              "version": 1
+            },
+            "type": "report",
+            "title": "Relatório de seis painéis — sintético",
+            "data": {
+              "columns": 2,
+              "sections": [
+                {
+                  "owner": "CES",
+                  "format": "ccr.document",
+                  "version": 1,
+                  "renderer": {
+                    "name": "CCR",
+                    "version": 1
+                  },
+                  "type": "data",
+                  "title": "Painel 1 — sintético",
+                  "data": {
+                    "columns": [
+                      {
+                        "label": "Período",
+                        "type": "string"
+                      },
+                      {
+                        "label": "Itens",
+                        "type": "number"
+                      },
+                      {
+                        "label": "Taxa",
+                        "type": "number"
+                      }
+                    ],
+                    "rows": [
+                      [
+                        "P1",
+                        0,
+                        25
+                      ],
+                      [
+                        "P2",
+                        4,
+                        null
+                      ],
+                      [
+                        "P3",
+                        null,
+                        0
+                      ],
+                      [
+                        "P4",
+                        -2,
+                        75
+                      ]
+                    ],
+                    "chart": {
+                      "series": [
+                        {
+                          "column": 1,
+                          "type": "column",
+                          "axis": "left",
+                          "unit": "itens",
+                          "color": "#11764a"
+                        },
+                        {
+                          "column": 2,
+                          "type": "line",
+                          "axis": "right",
+                          "unit": "%",
+                          "color": "#295fb2"
+                        }
+                      ]
+                    },
+                    "source": "Fixture sintética; sem dados reais"
+                  },
+                  "view": "column"
+                },
+                {
+                  "owner": "CES",
+                  "format": "ccr.document",
+                  "version": 1,
+                  "renderer": {
+                    "name": "CCR",
+                    "version": 1
+                  },
+                  "type": "data",
+                  "title": "Painel 2 — sintético",
+                  "data": {
+                    "columns": [
+                      {
+                        "label": "Período",
+                        "type": "string"
+                      },
+                      {
+                        "label": "Itens",
+                        "type": "number"
+                      },
+                      {
+                        "label": "Taxa",
+                        "type": "number"
+                      }
+                    ],
+                    "rows": [
+                      [
+                        "P1",
+                        0,
+                        25
+                      ],
+                      [
+                        "P2",
+                        4,
+                        null
+                      ],
+                      [
+                        "P3",
+                        null,
+                        0
+                      ],
+                      [
+                        "P4",
+                        -2,
+                        75
+                      ]
+                    ],
+                    "chart": {
+                      "series": [
+                        {
+                          "column": 1,
+                          "type": "column",
+                          "axis": "left",
+                          "unit": "itens",
+                          "color": "#11764a"
+                        }
+                      ]
+                    },
+                    "source": "Fixture sintética; sem dados reais"
+                  },
+                  "view": "column"
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   ]
 }

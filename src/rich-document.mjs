@@ -1,4 +1,5 @@
 import {validateTable} from './data-value.mjs';
+import {validateChart} from './chart-spec.mjs';
 
 export const RICH_DOCUMENT_VERSION=1;
 export const RICH_DOCUMENT_MAX_BYTES=1024*1024;
@@ -10,7 +11,7 @@ const failed=code=>({status:'invalid',code});
 function boundedTree(value){
  const stack=[[value,0]],seen=new Set();let count=0;
  while(stack.length){
-  const [item,depth]=stack.pop();if(++count>25000||depth>16)throw Error('document_limit');
+  const [item,depth]=stack.pop();if(++count>200000||depth>16)throw Error('document_limit');
   if(typeof item==='string'&&item.length>RICH_DOCUMENT_MAX_BYTES)throw Error('document_limit');
   if(item===null||typeof item!=='object'){if(!['string','boolean','number'].includes(typeof item)&&item!==null||typeof item==='number'&&!Number.isFinite(item))throw Error('invalid_value');continue;}
   if(seen.has(item)||!Array.isArray(item)&&Object.getPrototypeOf(item)!==Object.prototype&&Object.getPrototypeOf(item)!==null)throw Error('invalid_value');
@@ -49,9 +50,20 @@ export function decodeRichDocument(input){
   let data;
   if(value.type==='data'){
    if(!RICH_DOCUMENT_VIEWS.includes(value.view))return {status:'unsupported',code:'unsupported_view'};
-   if(!keys(value.data,['columns','rows','source','period','note'])||!Array.isArray(value.data.columns)||!value.data.columns.every(column=>keys(column,['label','type'])))return failed('invalid_data');
+   if(!keys(value.data,['columns','rows','source','period','note','chart'])||!Array.isArray(value.data.columns)||!value.data.columns.every(column=>keys(column,['label','type'])))return failed('invalid_data');
    data=validateTable(value.data,{typed:true});
+   if(value.data.chart!==undefined){if(!['column','line'].includes(value.view))return failed('invalid_chart_view');data.chart=validateChart(value.data.chart,data.columns,data.rows);}
    for(const field of ['source','period','note'])if(value.data[field]!==undefined){if(typeof value.data[field]!=='string'||value.data[field].length>800)return failed('invalid_data');data[field]=value.data[field];}
+  }else if(value.type==='text'){
+   if(value.view!==undefined||!keys(value.data,['text'])||typeof value.data.text!=='string'||value.data.text.length>12000)return failed('invalid_text');
+   data={text:value.data.text};
+  }else if(value.type==='image'){
+   if(value.view!==undefined||!keys(value.data,['resourceId','alt'])||typeof value.data.resourceId!=='string'||! /^[a-zA-Z][a-zA-Z0-9_-]{0,63}$/.test(value.data.resourceId)||typeof value.data.alt!=='string'||!value.data.alt.trim()||value.data.alt.length>300)return failed('invalid_image');
+   data={...value.data};
+  }else if(value.type==='report'){
+   if(value.view!==undefined||!keys(value.data,['columns','sections'])||![1,2,3].includes(value.data.columns)||!Array.isArray(value.data.sections)||!value.data.sections.length||value.data.sections.length>12)return failed('invalid_report');
+   const sections=value.data.sections.map(section=>{if(section?.type==='report')throw Error('nested_report');const result=decodeRichDocument(section);if(result.status!=='ready'||!['text','image','data'].includes(result.document.type)||result.document.type==='data'&&!['table','bar','column','line','area'].includes(result.document.view))throw Error('invalid_section');return result.document;});
+   data={columns:value.data.columns,sections};
   }else if(value.type==='html'){
    if(value.view!==undefined||!keys(value.data,['html'])||typeof value.data.html!=='string'||value.data.html.length>120000)return failed('invalid_html');
    data={html:value.data.html};

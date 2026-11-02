@@ -52,3 +52,44 @@ repetida após redirecionamento e descarte repetido por reentrada na suspensão.
 JSDOM não comprova geometria, CSP do navegador, reprodução de mídia ou contas
 autorizadas. Não ampliar permissões para fazer um teste passar nem substituir
 uma dependência oficial por checkout irmão nos builds dos consumidores.
+
+
+##26.11.2g — documentos, séries e export real
+
+```sh
+node tools/build-export-runtime.mjs --check
+npm test
+python -s -m unittest discover -s tests -p test_document_export.py -v
+```
+
+Na integração final: suíte Node completa116/116; Python de export11/11 e
+receitas geográficas10/10, sem skip. A suíte cartográfica usa download simulado
+e temporários sob a pasta privada de testes, sem consultar serviço externo.
+
+Novos testes Node (10) cobrem schema fechado, séries múltiplas column/line e
+combinadas, unidades/eixos/legenda, zero/null com quebra, validação de coluna/
+tipo/style, texto/imagem/report, rejeição de URL/path/aninhamento, seis painéis,
+igualdade exata do SVG no DOM e runtime, dispose, paginação/rejeição, teto10.000
+e proveniência de build recompilada em memória.
+
+Python11 casos: PNG e PDF verdadeiros por Node/PyMuPDF; dimensões/hash/bytes/
+páginas do manifesto; texto dos seis painéis; tabela com200 linhas sem perda
+em PDF multipágina e rejeição PNG; imagens PNG/JPEG sintéticas realmente
+rasterizadas, loader de recursos, cabeçalhos/bytes/pixels, escopo/overwrite,
+backend ausente/timeout/limites,32 páginas, hash/versão stale do runtime,
+CLI/CM e package-data. Runtime sem imports ou node_modules no bundle.
+
+Os testes unitários de export virtualizam IO de entrada/saída; Node, SVG,
+conversão PDF, rasterização, PNG/JPEG e hash são reais. Complementando esses
+testes, o integrador construiu o wheel offline e o extraiu sem node_modules:
+PNG1200×1600 e PDF foram escritos em pasta privada, com manifesto e rejeição
+de sobrescrita conferidos. A importação veio do wheel extraído, não da árvore
+de fontes. Inspeção visual do exemplo com seis painéis aprovada pelo integrador;
+não substitui teste dos consumidores nem QA editorial independente.
+Procedimento em docs/document-export.md. A atualização dos consumidores é uma
+etapa separada e não é comprovada pelo build/teste do módulo.
+
+O desenho usa Courier e quebra por caracteres/code points, não layout editorial
+por palavras ou fonte remota; a cobertura de glifos depende do backend. Reports
+são páginas fixas com rolagem/escalonamento, não reflow responsivo. HTML/mapas/
+heatmaps/células HTML são rejeitados na export tool, mas preservados no Web.

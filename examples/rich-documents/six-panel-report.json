@@ -1,0 +1,402 @@
+{
+  "owner": "CES",
+  "format": "ccr.document",
+  "version": 1,
+  "renderer": {
+    "name": "CCR",
+    "version": 1
+  },
+  "type": "report",
+  "title": "Relatório de seis painéis — sintético",
+  "data": {
+    "columns": 2,
+    "sections": [
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "data",
+        "title": "Painel 1 — sintético",
+        "data": {
+          "columns": [
+            {
+              "label": "Período",
+              "type": "string"
+            },
+            {
+              "label": "Itens",
+              "type": "number"
+            },
+            {
+              "label": "Taxa",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            [
+              "P1",
+              0,
+              25
+            ],
+            [
+              "P2",
+              4,
+              null
+            ],
+            [
+              "P3",
+              null,
+              0
+            ],
+            [
+              "P4",
+              -2,
+              75
+            ]
+          ],
+          "chart": {
+            "series": [
+              {
+                "column": 1,
+                "type": "column",
+                "axis": "left",
+                "unit": "itens",
+                "color": "#11764a"
+              },
+              {
+                "column": 2,
+                "type": "line",
+                "axis": "right",
+                "unit": "%",
+                "color": "#295fb2"
+              }
+            ]
+          },
+          "source": "Fixture sintética; sem dados reais"
+        },
+        "view": "column"
+      },
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "data",
+        "title": "Painel 2 — sintético",
+        "data": {
+          "columns": [
+            {
+              "label": "Período",
+              "type": "string"
+            },
+            {
+              "label": "Itens",
+              "type": "number"
+            },
+            {
+              "label": "Taxa",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            [
+              "P1",
+              0,
+              25
+            ],
+            [
+              "P2",
+              4,
+              null
+            ],
+            [
+              "P3",
+              null,
+              0
+            ],
+            [
+              "P4",
+              -2,
+              75
+            ]
+          ],
+          "chart": {
+            "series": [
+              {
+                "column": 1,
+                "type": "column",
+                "axis": "left",
+                "unit": "itens",
+                "color": "#11764a"
+              }
+            ]
+          },
+          "source": "Fixture sintética; sem dados reais"
+        },
+        "view": "column"
+      },
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "data",
+        "title": "Painel 3 — sintético",
+        "data": {
+          "columns": [
+            {
+              "label": "Período",
+              "type": "string"
+            },
+            {
+              "label": "Itens",
+              "type": "number"
+            },
+            {
+              "label": "Taxa",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            [
+              "P1",
+              0,
+              25
+            ],
+            [
+              "P2",
+              4,
+              null
+            ],
+            [
+              "P3",
+              null,
+              0
+            ],
+            [
+              "P4",
+              -2,
+              75
+            ]
+          ],
+          "chart": {
+            "series": [
+              {
+                "column": 2,
+                "type": "line",
+                "axis": "right",
+                "unit": "%",
+                "color": "#295fb2"
+              }
+            ]
+          },
+          "source": "Fixture sintética; sem dados reais"
+        },
+        "view": "column"
+      },
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "data",
+        "title": "Painel 4 — sintético",
+        "data": {
+          "columns": [
+            {
+              "label": "Período",
+              "type": "string"
+            },
+            {
+              "label": "Itens",
+              "type": "number"
+            },
+            {
+              "label": "Taxa",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            [
+              "P1",
+              0,
+              25
+            ],
+            [
+              "P2",
+              4,
+              null
+            ],
+            [
+              "P3",
+              null,
+              0
+            ],
+            [
+              "P4",
+              -2,
+              75
+            ]
+          ],
+          "chart": {
+            "series": [
+              {
+                "column": 1,
+                "type": "column",
+                "axis": "left",
+                "unit": "itens",
+                "color": "#11764a"
+              },
+              {
+                "column": 2,
+                "type": "line",
+                "axis": "right",
+                "unit": "%",
+                "color": "#295fb2"
+              }
+            ]
+          },
+          "source": "Fixture sintética; sem dados reais"
+        },
+        "view": "column"
+      },
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "data",
+        "title": "Painel 5 — sintético",
+        "data": {
+          "columns": [
+            {
+              "label": "Período",
+              "type": "string"
+            },
+            {
+              "label": "Itens",
+              "type": "number"
+            },
+            {
+              "label": "Taxa",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            [
+              "P1",
+              0,
+              25
+            ],
+            [
+              "P2",
+              4,
+              null
+            ],
+            [
+              "P3",
+              null,
+              0
+            ],
+            [
+              "P4",
+              -2,
+              75
+            ]
+          ],
+          "chart": {
+            "series": [
+              {
+                "column": 1,
+                "type": "column",
+                "axis": "left",
+                "unit": "itens",
+                "color": "#11764a"
+              }
+            ]
+          },
+          "source": "Fixture sintética; sem dados reais"
+        },
+        "view": "column"
+      },
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "data",
+        "title": "Painel 6 — sintético",
+        "data": {
+          "columns": [
+            {
+              "label": "Período",
+              "type": "string"
+            },
+            {
+              "label": "Itens",
+              "type": "number"
+            },
+            {
+              "label": "Taxa",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            [
+              "P1",
+              0,
+              25
+            ],
+            [
+              "P2",
+              4,
+              null
+            ],
+            [
+              "P3",
+              null,
+              0
+            ],
+            [
+              "P4",
+              -2,
+              75
+            ]
+          ],
+          "chart": {
+            "series": [
+              {
+                "column": 2,
+                "type": "line",
+                "axis": "right",
+                "unit": "%",
+                "color": "#295fb2"
+              }
+            ]
+          },
+          "source": "Fixture sintética; sem dados reais"
+        },
+        "view": "column"
+      }
+    ]
+  }
+}

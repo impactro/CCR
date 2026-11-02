@@ -1,0 +1,114 @@
+{
+  "owner": "CES",
+  "format": "ccr.document",
+  "version": 1,
+  "renderer": {
+    "name": "CCR",
+    "version": 1
+  },
+  "type": "report",
+  "title": "Imagem lógica — sintético",
+  "data": {
+    "columns": 1,
+    "sections": [
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "text",
+        "title": "Contexto",
+        "data": {
+          "text": "O host fornece o recurso lógico amostra. Nenhum caminho ou URL entra no documento."
+        }
+      },
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "image",
+        "title": "Imagem de exemplo",
+        "data": {
+          "resourceId": "amostra",
+          "alt": "Retângulo sintético azul sobre fundo branco."
+        }
+      },
+      {
+        "owner": "CES",
+        "format": "ccr.document",
+        "version": 1,
+        "renderer": {
+          "name": "CCR",
+          "version": 1
+        },
+        "type": "data",
+        "title": "Séries combinadas — sintético",
+        "data": {
+          "columns": [
+            {
+              "label": "Período",
+              "type": "string"
+            },
+            {
+              "label": "Itens",
+              "type": "number"
+            },
+            {
+              "label": "Taxa",
+              "type": "number"
+            }
+          ],
+          "rows": [
+            [
+              "P1",
+              0,
+              25
+            ],
+            [
+              "P2",
+              4,
+              null
+            ],
+            [
+              "P3",
+              null,
+              0
+            ],
+            [
+              "P4",
+              -2,
+              75
+            ]
+          ],
+          "chart": {
+            "series": [
+              {
+                "column": 1,
+                "type": "column",
+                "axis": "left",
+                "unit": "itens",
+                "color": "#11764a"
+              },
+              {
+                "column": 2,
+                "type": "line",
+                "axis": "right",
+                "unit": "%",
+                "color": "#295fb2"
+              }
+            ]
+          },
+          "source": "Fixture sintética; sem dados reais"
+        },
+        "view": "column"
+      }
+    ]
+  }
+}

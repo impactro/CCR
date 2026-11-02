@@ -1,5 +1,14 @@
 # CCR — Crânio Chat Render
 
+**26.11.2g — fonte candidata:** séries explícitas line/column combinadas,
+unidades/eixos, texto/imagem lógica e relatórios em painéis. Exportação CM
+`python -m ccr export-document` gera PNG/PDF real pelo mesmo scene SVG Web,
+com manifesto exato, limites, paginação/rejeição e runtime fechado no pacote
+Python26.11.2.post7 (Node/PyMuPDF provisionados). Nenhuma instalação ou mudança
+nos consumidores. [Schema, API, build e limites](docs/document-export.md).
+Baseline26.11.2f: teto fixo de10.000 linhas/pontos preservado.
+
+
 **26.11.2e:** receitas cartográficas e tools CM compartilhadas: `prepare-map`,
 `lookup-place`, `render-map`. Git contém código, URLs, skill e prompt; vetores,
 catálogos e desenhos são cache permanente local criado sob demanda. Fronteiras
@@ -105,7 +114,8 @@ SVG locais de barras/colunas/linhas/área com tabela acessível, HTML e SPA isol
 imagem, PDF, áudio/voz gravada, vídeo,
 YouTube e arquivo. Um plugin pode substituir a tabela de gráfico por outro
 renderizador. A biblioteca não grava, transcreve ou gera mídia; apresenta
-artefatos autorizados pelo host. O download/export e a marca são do consumidor.
+artefatos autorizados pelo host. A autorização de download/export e a marca são do consumidor; a tool CM opcional
+export-document produz artefatos locais sem entregar ou publicar.
 
 Cada plugin recebe documento, janela, signal, cleanup, onIssue e contexto do
 consumidor. Devolve um Node ou `{element, dispose}`. Substituir uma resposta no

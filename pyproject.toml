@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "crania-ccr"
-version = "26.11.2.post5"
+version = "26.11.2.post7"
 description = "CCR: geographic recipes, polygon rendering and durable local cache"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -23,4 +23,4 @@ ccr = "ccr.cm:describe"
 where = ["python"]
 
 [tool.setuptools.package-data]
-ccr = ["skills/*/SKILL.md", "recipes/*.json", "prompts/*.md"]
+ccr = ["skills/*/SKILL.md", "recipes/*.json", "prompts/*.md", "runtime/*.mjs", "runtime/*.json"]

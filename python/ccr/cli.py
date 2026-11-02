@@ -9,6 +9,11 @@ from .drawing import render_svg
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     commands=parser.add_subparsers(dest='command',required=True)
+    export=commands.add_parser('export-document',help='Export a bounded CES document using the packaged shared SVG runtime.')
+    export.add_argument('--agent-root',type=Path,required=True)
+    export.add_argument('--data',type=Path,required=True)
+    export.add_argument('--resources',type=Path)
+    export.add_argument('--output',type=Path,required=True)
     for name in ('prepare-map','lookup-place','render-map'):
         command=commands.add_parser(name)
         command.add_argument('--agent-root',type=Path,required=True)
@@ -27,6 +32,10 @@ def main(argv=None):
     try:
         root=args.agent_root.resolve()
         if not root.is_dir():raise ValueError('Raiz do consumidor não existe.')
+        if args.command=='export-document':
+            from .document_export import export_document
+            result=export_document(root,args.data,args.output,args.resources)
+            print(json.dumps({'ok':True,'result':result},ensure_ascii=False));return 0
         cache=GeographyCache(root/'data/ccr/geography')
         if args.command=='lookup-place':result=cache.lookup(args.name,kind=args.kind,state=args.state)
         elif args.command=='prepare-map':
@@ -65,7 +74,7 @@ def main(argv=None):
                 with fitz.open(stream=svg.encode('utf8'),filetype='svg') as document:document[0].get_pixmap(alpha=False).save(target)
             result={'path':str(target),'key':args.key,'regionsWithValues':len(numbers),'gpsPoints':len(points),'customerData':True,'cacheHit':base['cacheHit']}
         print(json.dumps({'ok':True,'result':result},ensure_ascii=False));return 0
-    except (OSError,ValueError,KeyError,TypeError,ImportError,GeographyUnavailable) as exc:
+    except (OSError,ValueError,KeyError,TypeError,ImportError,RuntimeError,GeographyUnavailable) as exc:
         print(json.dumps({'ok':False,'status':'unavailable' if isinstance(exc,GeographyUnavailable) else 'invalid','error':str(exc)},ensure_ascii=False));return 1
 
 

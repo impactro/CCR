@@ -1,5 +1,22 @@
 # Histórico
 
+## 26.11.2g — séries, composição e exportação local (fonte)
+
+Implementados chart.series opcional (tipos/eixos/unidades/cores estritos),
+text/image/report CES v1 e scene SVG compartilhado DOM/Node, sem bibliotecas
+ou recursos externos em runtime. Tool CM export-document empacota runtime
+fechado com proveniência determinística; Python26.11.2.post7/npm26.11.2-g.
+Manifesto exato PNG/PDF; imagem lógica local, limites, criação exclusiva,
+tabelas paginadas e painéis sem truncamento. Tetos10.000 de26.11.2f preservados.
+Fixtures somente sintéticas; nenhum consumidor, serviço, dado real ou envio.
+Testes e limitações de execução em tests/README.md; contrato em
+[document-export.md](document-export.md). Na integração: 116 testes Node,
+11 de export Python e 10 de receitas geográficas aprovados. Wheel construído
+offline e extraído sem node_modules; PNG/PDF reais e criação exclusiva
+conferidos a partir do pacote. Inspeção do PNG de seis painéis, sem declarar
+homologação dos consumidores nem QA editorial independente.
+
+
 ## 26.11.2e — escala de município e bairro
 
 A projeção usa o tamanho real do recorte, com epsilon apenas para extensão

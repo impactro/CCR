@@ -473,3 +473,17 @@ a brand migration must not recolor document pixels or change authorization.
 CWH CSS-MIGRATION.md and CA VISUAL-IDENTITY.md describe consumer migration.
 This CSS-only release preserves renderer APIs and disposal. Immutable earlier
 packages remain available; consumers explicitly pin the new artifact hash.
+
+
+## Candidata26.11.2g — composição/export somente CCR
+
+R04/R05/R06/R09/R21: extensão opcional chart.series e documentos text/image/
+report; schema fechado e limites em document-export.md. Scene SVG único para
+Web e runtime Node fechado empacotado no Python, raster/PDF por PyMuPDF.
+Fixture sintética de seis painéis, zero/null, séries combinadas e imagem lógica;
+comparação DOM/runtime exata e testes reais PNG/PDF em memória. Não equivale
+a QA independente, screenshot de navegador ou instalação de consumidor.
+CAW atual e ALP atual preservados, sem adaptação ou mudança de revisão aqui.
+HTML/map/heatmap antigos continuam Web; export explicita tipos não suportados.
+Validação de wheel/persistência depende de diretório de evidência gravável;
+.agents/temp foi negado nesta execução. Nenhum artefato salvo fora dele.

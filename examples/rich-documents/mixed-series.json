@@ -1,0 +1,69 @@
+{
+  "owner": "CES",
+  "format": "ccr.document",
+  "version": 1,
+  "renderer": {
+    "name": "CCR",
+    "version": 1
+  },
+  "type": "data",
+  "title": "Séries combinadas — sintético",
+  "data": {
+    "columns": [
+      {
+        "label": "Período",
+        "type": "string"
+      },
+      {
+        "label": "Itens",
+        "type": "number"
+      },
+      {
+        "label": "Taxa",
+        "type": "number"
+      }
+    ],
+    "rows": [
+      [
+        "P1",
+        0,
+        25
+      ],
+      [
+        "P2",
+        4,
+        null
+      ],
+      [
+        "P3",
+        null,
+        0
+      ],
+      [
+        "P4",
+        -2,
+        75
+      ]
+    ],
+    "chart": {
+      "series": [
+        {
+          "column": 1,
+          "type": "column",
+          "axis": "left",
+          "unit": "itens",
+          "color": "#11764a"
+        },
+        {
+          "column": 2,
+          "type": "line",
+          "axis": "right",
+          "unit": "%",
+          "color": "#295fb2"
+        }
+      ]
+    },
+    "source": "Fixture sintética; sem dados reais"
+  },
+  "view": "column"
+}

@@ -7,3 +7,5 @@
 .chat-rich-document .chat-local-chart>svg{display:block;min-width:560px;background:#fff;border-radius:3px}
 .chat-rich-document .chat-html-frame{display:block;width:100%;height:360px;border:0;background:#fff}
 .chat-rich-document .chat-render-error{font-size:11px;margin:4px 0}
+.chat-document-pages>svg{display:block;width:100%;height:auto;min-width:560px;background:#fff}
+.chat-document-pages{overflow:auto;max-width:100%}

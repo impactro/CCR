@@ -1,6 +1,6 @@
 {
   "name": "@crania/chat-render",
-  "version": "26.11.2-f",
+  "version": "26.11.2-g",
   "private": true,
   "type": "module",
   "description": "Host-independent rich chat presentation with bounded plugins and isolated media",
@@ -48,12 +48,17 @@
     "docs/geographic-map.md",
     "python/ccr",
     "docs/geographic-recipes.md",
-    "pyproject.toml"
+    "pyproject.toml",
+    "docs/document-export.md",
+    "src/export-runtime.mjs",
+    "tools/build-export-runtime.mjs"
   ],
   "scripts": {
     "test": "node --test tests/unit/*.test.mjs",
     "test:unit": "node --test tests/unit/*.test.mjs",
-    "test:coverage": "node tools/test-coverage.mjs"
+    "test:coverage": "node tools/test-coverage.mjs",
+    "build:export": "node tools/build-export-runtime.mjs",
+    "check:export": "node tools/build-export-runtime.mjs --check"
   },
   "dependencies": {
     "dompurify": "3.4.17",
@@ -63,5 +68,5 @@
     "esbuild": "0.28.2",
     "jsdom": "29.1.1"
   },
-  "cesVersion": "26.11.2f"
+  "cesVersion": "26.11.2g"
 }

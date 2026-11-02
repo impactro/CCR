@@ -1,0 +1,12 @@
+{
+  "version": "26.11.2g",
+  "builder": "esbuild@0.28.2",
+  "sources": {
+    "src/chart-spec.mjs": "7004146486462d88c15073e88eb75fa421cbd6987d99869213d58f257972b074",
+    "src/data-value.mjs": "5e93d90c43667fb7c7624f3e2240f5dcc50a1c64f413fb5c7e11d9d42c998e1b",
+    "src/document-scene.mjs": "5ed853a19562008077791af66dee206d278cbcb15ad98d102c537460fe03c9bd",
+    "src/export-runtime.mjs": "2d17cf5480cf7938b194008a47add5e2a29053bdb9289c780455c8d0da73b25b",
+    "src/rich-document.mjs": "a44f483c27fd9c44059ddea2141553b5a138f8dfd78844c35ad2516bc25f62fa"
+  },
+  "runtimeSha256": "98e2c8f8d101c7c715d677f3594d277e62e99f6ab9600845c23081379d2a0061"
+}

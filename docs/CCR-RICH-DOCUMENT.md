@@ -155,3 +155,14 @@ decoder26.10.29-c. A cópia de proposta ada9fd7 no vendor CWH permanece snapshot
 histórico. Cada host confirma separadamente sua adoção da nova versão.
 
 Since26.10.30a, data views also include `heatmap` and `map`. Since26.11.1i, maps resolve Brazilian Cidade/UF or Estado names against bundled public municipal seats and state boundaries, or use explicit numeric Latitude/Longitude. They include zoom/pan/details and preserve unresolved rows; there is no network geocoder or street map. See geographic-map.md. The Markdown rich renderer accepts the same CES document in a fenced `ccr` block. Existing unsupported-view fallbacks remain valid for older consumers.
+
+
+## Extensão opcional26.11.2g
+
+O contrato v1 conserva documentos anteriores e acrescenta data.chart.series,
+type=text/image/report. O schema fechado, restrições de recurso, grid,
+paginação e API estão em [document-export.md](document-export.md), seção
+Contrato entregue. Consumers antigos não são atualizados automaticamente;
+ccr.report é capacidade opt-in. Web continua suportando HTML/map/heatmap;
+export-document rejeita esses tipos explicitamente. Tetos data/map10.000
+preservados; export de relatório tem limites próprios de layout/páginas.

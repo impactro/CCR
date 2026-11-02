@@ -36,7 +36,7 @@ export function createChatRenderer(options = {}) {
   const plugins = options.plugins || {};
   const limits = {text: 150000, block: 120000, visuals: 4, ...options.limits};
   const snapshots=new WeakMap();
-  const documents=createDocumentRenderer({locale:options.locale});
+  const documents=createDocumentRenderer({locale:options.locale,resolveResource:options.resolveDocumentResource});
   return {
     update(element,message={},extra={}) {
       const key=JSON.stringify([extra.conversationId,extra.messageId,extra.resourceRevision,message.text,message.attachments,Array.isArray(message.documents)?message.documents.map(decodeRichDocument):[]]);

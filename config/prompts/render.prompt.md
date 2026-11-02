@@ -30,7 +30,7 @@ este contrato não instala capturador nem concede consulta/envio.
 | capabilities[].examples | Exemplos sintéticos com fence/content, conferidos contra o render/decoder real. |
 
 As capacidades são `data`, `chart`, `heatmap`, `map`, `ccr.data`, `ccr.html`,
-`html`, `spa`, `image`, `pdf`, `audio`, `voice`, `video`, `youtube` e `file`.
+`ccr.report`, `html`, `spa`, `image`, `pdf`, `audio`, `voice`, `video`, `youtube` e `file`.
 Markdown é o padrão, mesmo sem selecionar nenhuma. `spa` só deve ser selecionado
 quando o host configurou o sandbox com scripts inline e runtime isolado; isso
 não é inferido de uma solicitação do modelo ou do tipo de um anexo.
@@ -130,3 +130,14 @@ coordenadas verificadas. Centro/referência da cidade deve ser identificado;
 não representa cada máquina. Marcadores nativos têm tamanho fixo.
 Geocodificação/agregação são capacidades do host, não do render. Sem coordenada
 ou identidade inequívoca, conservar a linha na tabela e informar a cobertura.
+
+
+## Relatórios e exportação26.11.2g
+
+`ccr.report` é opt-in e anuncia apenas text/image/report v1 e séries explícitas.
+Schema exato em docs/document-export.md. O host fornece callback síncrono para
+IDs lógicos de imagem, nunca autoriza URLs/paths no documento.
+Exportar é uma operação CM separada, não um efeito do fence. A skill e o prompt
+canônicos ficam em python/ccr/skills/document-export/SKILL.md e
+python/ccr/prompts/document-export.md. Não anunciar geração se backend não
+estiver provisionado; não afirmar arquivo/envio sem manifesto real do host.
