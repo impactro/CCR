@@ -1,5 +1,30 @@
 # Bases auxiliares e mapas geográficos no CCR
 
+## Acervo cartográfico reutilizável
+
+O acervo pertence ao CCR: CSV públicos como fontes revisáveis, JSON derivado
+com índices para consulta e atlas SVG pronto para uso. Não guardar fatos de
+clientes ou imagens operacionais nesse catálogo público.
+
+Gerar offline, a partir das bases já empacotadas: Brasil com27 UFs, cada UF
+com todos os pontos de suas sedes municipais, mundo com países, recorte de
+cada país e continentes/regiões da classificação Natural Earth. Os pontos
+municipais não são polígonos de municípios; contornos municipais/bairros não
+estão nesta base. Não anunciar sua existência nem baixar malhas durante render.
+
+SVG preserva vetores e escala sem duplicar centenas de PNG. PNG é derivado
+sob demanda no host e pode ser reutilizado pelo hash da base e parâmetros,
+sem misturar cache público com dados de cliente. Um índice/manifesto identifica
+cobertura, fonte, arquivos, enquadramento e hashes. Recorte de país usa sua
+parte principal; mundo conserva os territórios na geometria de origem.
+
+Disponibilizar o JSON/index e atlas como recursos dos consumidores, carregados
+somente quando usados. Python pode manter o índice em memória e consultar
+nomes/IBGE/UF retornando só correspondências. Uma função interna basta; não
+exige banco ou servidor HTTP novo. Não enviar5mil linhas ao modelo para
+filtrar nomes. O construtor do atlas e os testes verificam cobertura e
+geometria sem consultar rede nem alterar o render interativo atual.
+
 ## Intenção geográfica e entrega por canal
 
 A skill e o prompt canônicos devem reconhecer perguntas como “onde estão meus
