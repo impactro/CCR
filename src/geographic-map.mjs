@@ -47,7 +47,8 @@ export function createGeographicMap(document,value,{locale='pt-BR'}={}){
   const quantities=matches.map(p=>p.metric).filter(n=>typeof n==='number'&&n>=0&&Number.isFinite(n));if(matches.length>1)repeated++;
   const d=rings(state.geometry).map(ring=>ring.map(([lon,lat],i)=>{const[x,y]=project(lon,lat);return(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2);}).join(' ')+'Z').join(' ');
   const path=make('path',{d,'fill-rule':'evenodd',fill:matches.length?(matches.length===1&&quantities.length?color(quantities[0]):'var(--ca-map-highlight,#69bcb0)'):'var(--ca-map-land,#edf2e8)',stroke:'var(--ca-map-border,#748478)','stroke-width':.8,'vector-effect':'non-scaling-stroke',[worldwide?'data-country':'data-uf']:worldwide?state.code:state.uf});
-  inspect(path,state.name+' · '+(state.region||state.continent),matches);land.append(path);
+  const parent=state.region||state.continent||state.uf||(state.level==='neighborhood'?'bairro':'');
+  inspect(path,[state.name,parent].filter(Boolean).join(' · '),matches);land.append(path);
  }
  for(const point of points){
   const[x,y]=project(point.longitude,point.latitude),radius=typeof point.metric==='number'&&point.metric>0&&maximum>0?Math.max(3,16*Math.sqrt(point.metric/maximum)):4;

@@ -17,6 +17,7 @@ test('municipal polygons replace seat dots; zero, details and disposal remain',(
  assert.equal(node.querySelectorAll('path').length,2);assert.equal(node.querySelectorAll('circle').length,0);
  assert.equal(node.querySelectorAll('tbody tr').length,2);assert.equal(resolvePlace('CIDADE ÁLFA',{state:'SP'}).code,'3500001');
  const paths=node.querySelectorAll('path');assert.notEqual(paths[0].getAttribute('fill'),paths[1].getAttribute('fill'));
+ assert.ok([...paths].every(p=>!p.getAttribute('aria-label').includes('undefined')));
  paths[1].dispatchEvent(new dom.window.Event('click'));assert.match(node.querySelector('[role=status]').textContent,/Clientes: 0/);
  const button=node.querySelector('[aria-label="Ampliar mapa"]'),view=node.querySelector('svg g');button.click();const state=view.getAttribute('transform');node.dispose();button.click();assert.equal(view.getAttribute('transform'),state);dom.window.close();
 });

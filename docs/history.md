@@ -1,5 +1,11 @@
 # Histórico
 
+## 26.11.2d — detalhe regional sem metadado ausente
+
+Rótulos acessíveis de fronteiras usam nome/UF ou nível bairro quando a fonte
+não possui região continental. Não exibir undefined em município/bairro.
+Regressão cobre os títulos gerados pelo render real.
+
 ## 26.11.2c — rótulos PNG legíveis no backend real
 
 Removido o stroke que sobrepunha os caracteres ao rasterizar SVG no PyMuPDF.
