@@ -71,4 +71,3 @@ def render_svg(title, features, cities=(), *, country_crop=False, region_labels=
            f'<text x="24" y="778" font-family="sans-serif" font-size="12" fill="#36545b">{escape(note)}</text></svg>\n')
     return svg, {'projection': 'Mercator-clamped-85', 'scale': scale, 'offsetX': ox, 'offsetY': oy,
                  'viewBox': [0, 0, 1200, 800], 'crop': 'principal' if country_crop else 'all'}
-

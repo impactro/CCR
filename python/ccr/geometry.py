@@ -43,4 +43,3 @@ def simplified_geometry(geometry):
     polygons=[geometry['coordinates']] if geometry['type']=='Polygon' else geometry['coordinates']
     simplified=[[simplify_ring(ring) for ring in polygon] for polygon in polygons]
     return {'type':geometry['type'],'coordinates':rounded(simplified[0] if geometry['type']=='Polygon' else simplified)}
-

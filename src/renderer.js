@@ -6,6 +6,7 @@ import {createMedia} from './media.js';
 import {createDataTable} from './data.js';
 import {createDataChart} from './chart.js';
 import {createHeatmap,createGeoMap} from './visuals.mjs';
+export {configureGeography} from './geography.mjs';
 import {createDocumentRenderer,decodeRichDocument} from './document-renderer.mjs';
 
 const tags = ['p','br','strong','em','del','ul','ol','li','blockquote','h1','h2','h3','h4','table','thead','tbody','tr','th','td','a','pre','code','hr'];
