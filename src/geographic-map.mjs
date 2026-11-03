@@ -10,11 +10,11 @@ const principalRing=geometry=>rings(geometry).reduce((largest,ring)=>{
 },[]);
 
 /** Offline Brazilian cartography. The input remains an accessible typed table. */
-export function createGeographicMap(document,value,{locale='pt-BR'}={}){
+export function createGeographicMap(document,value,{locale='pt-BR',onSelect,rowKey,table='visible'}={}){
  if(!geographyReady(value)){
   const holder=document.createElement('div'),note=document.createElement('p');let disposed=false,inner=null;
   holder.className='chat-geo-loading';note.setAttribute('role','status');note.textContent='Preparando fronteiras geográficas do cache local…';holder.append(note,createDataTable(document,value,{locale}));
-  ensureGeography(value).then(data=>{if(disposed)return;installGeography(data);inner=createGeographicMap(document,value,{locale});holder.replaceChildren(inner);}).catch(()=>{if(!disposed)note.textContent='Mapa indisponível no momento: não foi possível obter/validar as fronteiras. Dados preservados na tabela; revisar a fonte geográfica do host.';});
+  ensureGeography(value).then(data=>{if(disposed)return;installGeography(data);inner=createGeographicMap(document,value,{locale,onSelect,rowKey,table});holder.replaceChildren(inner);}).catch(()=>{if(!disposed)note.textContent='Mapa indisponível no momento: não foi possível obter/validar as fronteiras. Dados preservados na tabela; revisar a fonte geográfica do host.';});
   Object.defineProperty(holder,'dispose',{value:()=>{disposed=true;inner?.dispose?.();}});return holder;
  }
  const figure=createDataTable(document,value,{locale});figure.classList.add('chat-geo-map');
@@ -34,28 +34,39 @@ export function createGeographicMap(document,value,{locale='pt-BR'}={}){
  const fmt=new Intl.NumberFormat(locale,{maximumFractionDigits:6});
  const describe=p=>`${p.label}${p.metricLabel?' · '+p.metricLabel+': '+(p.metric===null?'Sem dado':typeof p.metric==='number'?fmt.format(p.metric):String(p.metric)):''}${p.kind==='city'?(geographicBase.municipalities?.some(r=>r.code===p.code)?' · limite municipal':' · referência municipal'):p.kind==='region'?' · limite oficial de bairro':p.kind==='coordinate'?' · coordenada fornecida':''}`;
  const active=[];let selected=null;
- function inspect(node,label,items){
-  node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',label);node.append(make('title',{},label));
-  const show=()=>{if(selected)selected.removeAttribute('data-selected');selected=node;node.setAttribute('data-selected','true');details.textContent=items.map(describe).join(' | ')||label;};
+ function inspect(node,label,items,identity){
+  node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',label);node.setAttribute('aria-pressed','false');node.append(make('title',{},label));
+  const show=()=>{
+   if(disposed)return;
+   if(selected){selected.removeAttribute('data-selected');selected.setAttribute('aria-pressed','false');}
+   selected=node;node.setAttribute('data-selected','true');node.setAttribute('aria-pressed','true');details.textContent=items.map(describe).join(' | ')||label;
+   if(typeof onSelect==='function'){
+    const rows=items.map(p=>{const key=typeof rowKey==='function'?rowKey(p.row,p.rowIndex):p.rowIndex;return Object.freeze({index:p.rowIndex,key:typeof key==='string'||typeof key==='number'&&Number.isFinite(key)?key:null});});
+    onSelect(Object.freeze({...identity,label,rows:Object.freeze(rows)}));
+   }
+  };
   const key=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show();}};
   node.addEventListener('click',show);node.addEventListener('keydown',key);active.push(()=>{node.removeEventListener('click',show);node.removeEventListener('keydown',key);});
  }
  const color=n=>`hsl(${220-Math.min(1,n/Math.max(1,maximum))*220} 70% 45%)`;
- let repeated=0;
+ let repeated=0;const areaMatches=new Map();
  for(const state of territories){
   const matches=shown.filter(p=>worldwide?(p.kind==='country'&&p.country.code===state.code||p.kind==='continent'&&p.countries.some(c=>c.code===state.code)):(p.kind==='region'&&p.region.code===state.code||p.kind==='city'&&p.code===state.code||p.kind==='state'&&p.state.uf===state.uf));
+  areaMatches.set(state,matches);
   const quantities=matches.map(p=>p.metric).filter(n=>typeof n==='number'&&n>=0&&Number.isFinite(n));if(matches.length>1)repeated++;
   const d=rings(state.geometry).map(ring=>ring.map(([lon,lat],i)=>{const[x,y]=project(lon,lat);return(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2);}).join(' ')+'Z').join(' ');
   const path=make('path',{d,'fill-rule':'evenodd',fill:matches.length?(matches.length===1&&quantities.length?color(quantities[0]):'var(--ca-map-highlight,#69bcb0)'):'var(--ca-map-land,#edf2e8)',stroke:'var(--ca-map-border,#748478)','stroke-width':.8,'vector-effect':'non-scaling-stroke',[worldwide?'data-country':'data-uf']:worldwide?state.code:state.uf});
   const parent=state.region||state.continent||state.uf||(state.level==='neighborhood'?'bairro':'');
-  inspect(path,[state.name,parent].filter(Boolean).join(' · '),matches);land.append(path);
+  const kind=worldwide?'country':state.level==='neighborhood'?'neighborhood':geographicBase.municipalities?.includes(state)?'municipality':'state';
+  path.setAttribute('data-area-kind',kind);path.setAttribute('data-area-code',String(state.code));
+  inspect(path,[state.name,parent].filter(Boolean).join(' · '),matches,{type:'area',kind,code:String(state.code),uf:state.uf||null,coordinates:null});land.append(path);
  }
  for(const point of points){
   const[x,y]=project(point.longitude,point.latitude),radius=typeof point.metric==='number'&&point.metric>0&&maximum>0?Math.max(3,16*Math.sqrt(point.metric/maximum)):4;
   const group=make('g',{'data-location-kind':point.kind,'data-row':point.rowIndex}),dot=make('circle',{cx:x,cy:y,r:radius,'data-radius':radius,fill:typeof point.metric==='number'&&point.metric>=0?color(point.metric):'var(--ca-map-highlight,#69bcb0)',stroke:'var(--ca-map-point-border,#163f4d)','stroke-width':1.5,'vector-effect':'non-scaling-stroke'});
   group.append(dot);
   if(typeof point.metric==='number'&&point.metric>0)group.append(make('text',{x,y,dy:'.35em','text-anchor':'middle','font-size':11,fill:'#fff','pointer-events':'none','aria-hidden':'true'},fmt.format(point.metric)));
-  inspect(group,describe(point),[point]);markers.append(group);
+  inspect(group,describe(point),[point],{type:'point',kind:point.kind==='coordinate'?'coordinate':'municipal-reference',code:point.code?String(point.code):null,uf:point.state?.uf||null,coordinates:Object.freeze({latitude:point.latitude,longitude:point.longitude})});markers.append(group);
  }
  let zoom=1,dx=0,dy=0,drag=null,disposed=false;
  const repaint=()=>{viewport.setAttribute('transform',`translate(${W/2+dx} ${H/2+dy}) scale(${zoom}) translate(${-W/2} ${-H/2})`);for(const dot of markers.querySelectorAll('circle'))dot.setAttribute('r',Number(dot.dataset.radius)/zoom);for(const text of markers.querySelectorAll('text'))text.setAttribute('font-size',11/zoom);};
@@ -63,7 +74,10 @@ export function createGeographicMap(document,value,{locale='pt-BR'}={}){
  function fit(){
   let focus=[];
   const states=[...new Map(shown.filter(p=>p.state).map(p=>[p.state.uf,p.state])).values()];
-  if(!worldwide&&states.length===1)focus=rings(states[0].geometry).flat();
+  if(!worldwide&&(geographicBase.municipalities?.length||geographicBase.regions?.some(r=>r.level==='neighborhood'))){
+   focus=territories.filter(t=>areaMatches.get(t)?.length).flatMap(t=>rings(t.geometry).flat());
+   focus.push(...points.map(p=>[p.longitude,p.latitude]));
+  }else if(!worldwide&&states.length===1)focus=rings(states[0].geometry).flat();
   else if(shown.some(p=>p.kind==='continent'))focus=shown.filter(p=>p.kind==='continent').flatMap(p=>p.countries.flatMap(c=>principalRing(c.geometry)));
   else if(shown.some(p=>p.kind==='country'))focus=shown.filter(p=>p.kind==='country').flatMap(p=>principalRing(p.country.geometry));
   else focus=[...points.map(p=>[p.longitude,p.latitude]),...states.flatMap(s=>rings(s.geometry).flat())];
@@ -86,6 +100,9 @@ export function createGeographicMap(document,value,{locale='pt-BR'}={}){
  if(unresolved.length){const note=document.createElement('span');note.className='chat-geographic-unresolved';const counts=new Map();for(const p of unresolved){const reason=reasons[p.status]||'não localizado';counts.set(reason,(counts.get(reason)||0)+1);}note.textContent='Sem localização: '+[...counts].map(([r,n])=>`${n} ${r}`).join('; ')+'. Linhas preservadas na tabela.';summary.append(' ',note);}
  const attribution=document.createElement('p');attribution.className='chat-geographic-attribution';attribution.textContent=(worldwide?worldBase.attribution:geographicBase.attribution)+' · base obtida em '+geographicBase.obtainedAt+'. Referência geográfica ≠ GPS de cliente. Linhas não são somadas automaticamente. Projeção Mercator limitada a±85°.';
  figure.prepend(controls,svg,details,summary);figure.append(attribution);
+ if(table==='collapsed'){
+  const content=figure.querySelector('table');if(content){const disclosure=document.createElement('details'),caption=document.createElement('summary');caption.textContent='Ver dados do mapa';content.replaceWith(disclosure);disclosure.append(caption,content);}
+ }
  const dispose=()=>{if(disposed)return;disposed=true;drag=null;for(const stop of active)stop();svg.removeEventListener('keydown',onKey);svg.removeEventListener('pointerdown',down);svg.removeEventListener('pointermove',move);svg.removeEventListener('pointerup',up);svg.removeEventListener('pointercancel',up);};
  // A Node remains compatible with public createGeoMap; renderer lifecycles own cleanup.
  Object.defineProperty(figure,'dispose',{value:dispose});return figure;

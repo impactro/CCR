@@ -1,5 +1,8 @@
 # CCR — Crânio Chat Render
 
+**26.11.3c (fonte candidata):** [seleção de mapas](docs/geographic-map.md),
+IBGE e prompts de presença geográfica. Não atualiza consumidores instalados.
+
 **26.11.3b:** [render rico de dados compartilhado](docs/DATA-VIEW-CONTRACT.md)
 para chats e miniapps: Google Charts, filtro, ordenação, paginação, layouts
 configuráveis, colunas de ação por callbacks do host e exportação desacoplada.

@@ -25,7 +25,7 @@ export function richDocumentText(input,{document=globalThis.document,locale='pt-
 }
 
 /** Small standalone entry: no Markdown engine, resource fetching or host actions. */
-export function createDocumentRenderer({locale='pt-BR',resolveResource,renderData}={}){
+export function createDocumentRenderer({locale='pt-BR',resolveResource,renderData,mapOptions={}}={}){
  const mounts=new WeakMap();
  const dispose=element=>{mounts.get(element)?.handle.dispose();mounts.delete(element);};
  return {dispose,
@@ -49,7 +49,7 @@ export function createDocumentRenderer({locale='pt-BR',resolveResource,renderDat
      }else if(value.type==='data'&&typeof renderData==='function'&&!['map','heatmap'].includes(value.view)){
        const rendered=renderData(document,data,value.view);content=rendered?.element||rendered;
        if(typeof rendered?.dispose==='function')scope.cleanup(()=>rendered.dispose());
-     }else content=value.type==='html'?createHtmlFrame(document,value.data.html,{scripts:false,title:value.title}):value.view==='table'?createDataTable(document,data,{locale}):value.view==='map'?createGeoMap(document,data,{locale}):value.view==='heatmap'?createHeatmap(document,data,{locale}):createDataChart(document,data,{view:value.view,locale});
+     }else content=value.type==='html'?createHtmlFrame(document,value.data.html,{scripts:false,title:value.title}):value.view==='table'?createDataTable(document,data,{locale}):value.view==='map'?createGeoMap(document,data,{...mapOptions,locale}):value.view==='heatmap'?createHeatmap(document,data,{locale}):createDataChart(document,data,{view:value.view,locale});
      if(value.type==='html')scope.cleanup(()=>{content.removeAttribute('srcdoc');content.removeAttribute('src');});
      if(typeof content.dispose==='function')scope.cleanup(()=>content.dispose());
     }catch{result={status:'invalid',code:'render_failed'};}

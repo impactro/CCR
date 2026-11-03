@@ -2,6 +2,11 @@
 
 ## Estado da fonte
 
+CCR26.11.3c é candidata local de seleção geográfica, vínculo IBGE e orientação
+de presença.26.11.3b introduziu dados Google compartilhados. A candidata exige
+publicação coordenada/build/instalação para adoção; não promove consumidores.
+O estado da linha anterior e os limites de integração seguem abaixo.
+
 CCR26.11.2g fornece o render compartilhado e o prompt canônico, incluindo
 geografia, histórico progressivo, séries explícitas e composições exportáveis.
 O pacote JavaScript e o pacote Python são partes distintas do mesmo módulo.

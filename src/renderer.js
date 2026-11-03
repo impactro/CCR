@@ -45,7 +45,7 @@ export function createChatRenderer(options = {}) {
     const state=renderer.render(value,element,null,{...(options.richData||{}),...extra});
     return {element,dispose:()=>state.dispose()};
   }
-  const documents=createDocumentRenderer({locale:options.locale,resolveResource:options.resolveDocumentResource,
+  const documents=createDocumentRenderer({locale:options.locale,resolveResource:options.resolveDocumentResource,mapOptions:options.mapOptions,
     renderData:options.richData===false?undefined:(document,data,view)=>view!=='table'&&options.richData?.google!==true&&!options.richData?.loadCharts?createDataChart(document,data,{view,locale:options.locale}):richData(document,data,{initialView:view})});
   return {
     update(element,message={},extra={}) {
@@ -114,7 +114,7 @@ export function createChatRenderer(options = {}) {
             result={element:node,dispose:()=>documents.dispose(node)};
           }
           else if (language === 'chart') result = !options.renderChart&&(options.richData?.google===true||options.richData?.loadCharts)?richData(document,JSON.parse(source),{initialView:JSON.parse(source).view||'table'}):(options.renderChart||createDataChart)(document, JSON.parse(source),{locale:options.locale});
-          else if (language === 'map') result = (options.renderMap||createGeoMap)(document, JSON.parse(source),{locale:options.locale});
+          else if (language === 'map') result = (options.renderMap||createGeoMap)(document, JSON.parse(source),{...options.mapOptions,locale:options.locale});
           else if (language === 'heatmap') result = createHeatmap(document, JSON.parse(source),{locale:options.locale});
           else if (['data','table'].includes(language)) result = options.richData===false?createDataTable(document,JSON.parse(source),{locale:options.locale}):richData(document,JSON.parse(source));
           else result = createMedia(document, {...JSON.parse(source), type: language}, context);

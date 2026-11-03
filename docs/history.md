@@ -1,3 +1,16 @@
+## 2026-11-03 — Seleção geográfica e prompts de presença
+
+- Candidata local26.11.3c: seleção acessível de áreas/pontos por callback
+  confiável, identidade territorial, índices/chaves estáveis e snapshot
+  congelado. Dispose impede callbacks antigos; não transporta credenciais.
+- Vínculo municipal por IBGE, conflito de UF explícito e enquadramento pelo
+  recorte apresentado. Tabela acessível pode ficar recolhida. GPS fornecido e
+  referência municipal permanecem distintos; não geocodifica endereços.
+- Prompt canônico orienta consultar a distribuição completa, preservar outras
+  UFs e listar apenas localidades com entidades, salvo cobertura solicitada.
+-137 testes Node aprovados e provenance de exportação conferida. Fonte e
+  metadados candidatos apenas locais; sem push, instalação ou restart.
+
 ## 2026-11-03 — Render rico compartilhado de dados
 
 - CCR26.11.3b recebe o motor Google antes exclusivo do CAW:20 visões,

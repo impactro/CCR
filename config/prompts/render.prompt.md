@@ -2,7 +2,12 @@
 
 Fonte canônica: `render.prompt.json` neste mesmo diretório. Este Markdown explica
 o contrato e a configuração; não é uma segunda cópia da instrução para o modelo.
-Release CES26.11.2d, npm26.11.2-d, prompt schema1, documento CES/renderer1.
+Fonte candidata CES26.11.3c, npm26.11.3-c, prompt schema1, documento CES/renderer1.
+
+O contrato orienta listar apenas localidades com entidades no recorte, salvo
+pedido explícito de ausência/cobertura; não presumir SP quando há outras UFs.
+IBGE é chave municipal, GPS fornecido é ponto e geocodificação é outra operação.
+Interação depende dos callbacks realmente oferecidos pelo host.
 
 O JSON incorpora a interpretação de intenção geográfica: localizar clientes,
 instalações e máquinas, cruzar dados autorizados com referências em cache, deduplicar,

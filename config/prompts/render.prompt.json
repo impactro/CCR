@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "ccr.render",
-  "version": "26.11.3b",
-  "packageVersion": "26.11.3-b",
+  "version": "26.11.3c",
+  "packageVersion": "26.11.3-c",
   "renderer": {
     "name": "CCR",
     "version": 1
@@ -39,7 +39,10 @@
     "Recognize geographic intent from the question and context, not just the word map: \"onde estão meus clientes?\", \"cadê as máquinas?\", \"mapa de instalações\", where are my customers, installations or machines, and distribution by city, state, country or GPS ask for geographic analysis. When supported by the host, present a geographic map with a short explanation of places, concentrations, quantities, source and coverage. Questions about file locations or screen elements do not imply geography. Respect an explicit requested format. Map means geographic by default; only choose heatmap when heat is explicitly requested. Heat by locality remains geographic, not a numeric table substituted for places.",
     "For geographic analysis use supplied data or the host's authorized data tools; this contract grants no tool, database, network or sending permission. Distinguish customers, installations and machines, join only documented relationships, deduplicate by entity identifiers and avoid inflated counts from one-to-many joins. Use CCR lookup-place and cached public reference data programmatically and cross-reference compatible place keys; do not load all records into context. Prefer valid supplied operational GPS, otherwise resolve city/state/country references; preserve ambiguous and unresolved entities. Aggregate at the requested or most useful geographic grain, explain the count criterion and reconcile source, represented and unlocated totals. Group names and municipal reference positions do not prove customer identity, exact machine GPS or an active installation.",
     "Match geographic delivery to the actual host/channel: interactive map on an enabled CCR surface; for CAX/WhatsApp artifact delivery generate and review a real PNG using available authorized host tools, then use the channel file/provenance contract (image type for WhatsApp). Self-contained HTML may be a rendering/capture intermediate, or an available geographic plotting tool can export PNG directly. The CCR Python module render-map exports PNG when its optional PNG dependency is installed; the web renderer remains passive. Do not install dependencies or assume a capture tool at runtime. Do not claim an image exists or send through another route; if generation is unavailable state the real limitation and use only supported formats. Keep geographic meaning, readable labels, quantities, legend, source and coverage in the output.",
-    "For an explicit request to explore visual resources, demonstrate the requested supported formats using supplied or clearly labelled synthetic data, in batches within the visual budget. Explain the useful available interactions and state capability/data gaps. Do not create files, consult sources, run models, send messages or invoke tools just because a render format exists."
+    "For an explicit request to explore visual resources, demonstrate the requested supported formats using supplied or clearly labelled synthetic data, in batches within the visual budget. Explain the useful available interactions and state capability/data gaps. Do not create files, consult sources, run models, send messages or invoke tools just because a render format exists.",
+    "For entity-presence maps, list only cities, states or countries that actually contain entities in the authorized filtered dataset. Do not expand the rows with every place from the public boundary catalogue or invent zero-count entities. Background boundaries may provide context. Include genuine zero-entity places only when the user explicitly asks about coverage, absence or comparison against a defined universe; preserve real numeric zero in other measures.",
+    "Inspect the complete authorized geographic distribution before choosing a regional focus. Do not assume all entities belong to São Paulo, one city or the first returned state. Preserve other states and reconcile the active source total with located, out-of-scope and unlocated counts. For a municipal join prefer the supplied IBGE code and validate any supplied UF; preserve entity IDs and do not merge different customer records merely because they share a CNPJ.",
+    "Map selection can drive a linked entity list only when the trusted host supplies that interaction. The host owns callbacks, query authorization, paging and record opening. Never serialize executable callbacks, action endpoints, credentials or arbitrary commands into map data. Municipality reference coordinates are not customer GPS; geocoding an address requires a separately authorized tool and provenance/precision, not an inference from the map renderer."
   ],
   "capabilities": [
     {
@@ -165,7 +168,9 @@
         "For quantity by city/state add a separate numeric metric column, e.g. Quantidade or Mensagens. Native points vary in size for nonnegative numeric values; zero remains visible and null remains unknown. State-only rows highlight the actual state polygon. Duplicate geographic rows are not silently summed. Show the requested grain and count criterion.",
         "The native map offers zoom, pan, reset and click/keyboard details, plus the complete accessible source table. At most mapPoints locations are shown; coverage and unresolved-name reasons remain explicit. Resolution is local, exact after accent/case normalization, with no fuzzy matching or network geocoder. Unknown/out-of-base rows stay in the table. The nominal catalog covers Brazilian cities/states plus countries and continents, not cities worldwide. Country/continent values fill actual country polygons; city values color/size points, not municipal boundary polygons or a density estimate. Blue→red encodes nonnegative values with an explicit scale; null is neutral and absent rows are background. The viewport fits the selected region and offers a full-map reset. Do not claim streets, routes, satellite imagery or geographic density.",
         "Use the shared CCR tools supplied by the module: prepare-map selects world, continent-<slug>, country-<Natural Earth code>, brazil, state-<UF>, municipality-<IBGE7>, neighborhoods-3547809 or neighborhood-3547809-<slug>. Santo André/SP IBGE3547809 demonstrates official municipal SIGA neighborhood polygons; other municipalities require a documented municipal provider. lookup-place filters name/code/UF outside the model and preserves homonyms. render-map overlays explicitly aggregated region quantities or operational GPS in workspace outputs; public base caches contain no customer facts. The canonical skill is python/ccr/skills/geographic-map/SKILL.md. Module selection and authorization remain with the host.",
-        "CCR provides geographic recipes and shared module tools prepare-map, lookup-place and render-map, from world to neighborhood. Git/packages contain recipes, source URLs, code and skills only, not downloaded vector datasets, catalog tables or generated images. First ask for the persistent local public cache by geographic key; on a miss the host runs the CCR recipe, downloads only needed known public sources, validates, draws and atomically caches. Later requests reuse valid data/vectors/SVG/PNG without network. Never prebuild every map or clean this cache with temp. On source/network failure state that the map is unavailable now and identify the provider/step; preserve any valid previous cache and do not invent boundaries or retry in a loop."
+        "CCR provides geographic recipes and shared module tools prepare-map, lookup-place and render-map, from world to neighborhood. Git/packages contain recipes, source URLs, code and skills only, not downloaded vector datasets, catalog tables or generated images. First ask for the persistent local public cache by geographic key; on a miss the host runs the CCR recipe, downloads only needed known public sources, validates, draws and atomically caches. Later requests reuse valid data/vectors/SVG/PNG without network. Never prebuild every map or clean this cache with temp. On source/network failure state that the map is unavailable now and identify the provider/step; preserve any valid previous cache and do not invent boundaries or retry in a loop.",
+        "A municipal identifier column may be labelled Código município, IBGE município, municipality code or IBGE and must carry the actual seven-digit code as a string. A supplied code takes precedence over a place-name approximation; a conflicting UF is unresolved, not silently corrected. Geography is loaded by the host.",
+        "For ordinary client-distribution requests aggregate only observed active client records at the requested geographic grain; show the count criterion and unlocated total. A global Brazil view must retain clients in every supplied state. Do not fill the list with zero-client municipalities from the cartographic base."
       ],
       "examples": [
         {
@@ -198,7 +203,7 @@
         {
           "fence": "map",
           "content": {
-            "title": "Cidades reais; quantidades sintéticas, sem GPS obrigatório",
+            "title": "Cobertura incluindo ausência explícita; dados sintéticos",
             "columns": [
               {
                 "label": "Cidade",
@@ -235,7 +240,7 @@
         {
           "fence": "map",
           "content": {
-            "title": "Estados; quantidades sintéticas",
+            "title": "Cobertura incluindo ausência explícita; dados sintéticos",
             "columns": [
               {
                 "label": "Estado",
@@ -265,7 +270,7 @@
         {
           "fence": "map",
           "content": {
-            "title": "Países; clientes sintéticos",
+            "title": "Cobertura incluindo ausência explícita; dados sintéticos",
             "columns": [
               {
                 "label": "País",
@@ -292,6 +297,38 @@
               [
                 "Portugal",
                 null
+              ]
+            ]
+          }
+        },
+        {
+          "fence": "map",
+          "content": {
+            "title": "Presença por município IBGE; dados sintéticos",
+            "columns": [
+              {
+                "label": "Código município",
+                "type": "string"
+              },
+              {
+                "label": "UF",
+                "type": "string"
+              },
+              {
+                "label": "Clientes",
+                "type": "number"
+              }
+            ],
+            "rows": [
+              [
+                "3550308",
+                "SP",
+                4
+              ],
+              [
+                "3101201",
+                "MG",
+                2
               ]
             ]
           }

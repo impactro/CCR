@@ -19,11 +19,11 @@ export function geographyKey(value){
  const slug=s=>normalizePlace(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
  if(continent>=0){const names=[...new Set(value.rows.map(r=>slug(r[continent])))];return names.length===1?'continent-'+names[0]:'world';}
  if(country>=0&&!(localBrazil&&(city>=0||find(['uf','estado','state'])>=0))){const names=[...new Set(value.rows.map(r=>slug(r[country])))];return names.length===1?'country-name-'+names[0]:'world';}
- const neighborhood=find(['bairro','neighborhood']),municipality=find(['codigo municipio','ibge municipio','municipality code']);
+ const neighborhood=find(['bairro','neighborhood']),municipality=find(['codigo municipio','ibge municipio','municipality code','ibge']);
  if(neighborhood>=0&&municipality>=0){const ids=[...new Set(value.rows.map(r=>String(r[municipality])))];if(ids.length===1&&/^\d{7}$/.test(ids[0]))return 'neighborhoods-'+ids[0];}
  const state=find(['uf','estado','state','state code']);
  const ufs=state<0?[]:[...new Set(value.rows.map(r=>String(r[state]||'').toUpperCase()).filter(Boolean))];
- if(city>=0&&ufs.length===1&&/^[A-Z]{2}$/.test(ufs[0]))return 'state-'+ufs[0];
+ if((city>=0||municipality>=0)&&ufs.length===1&&/^[A-Z]{2}$/.test(ufs[0]))return 'state-'+ufs[0];
  const lat=find(['lat','latitude']),lon=find(['lon','lng','longitude']);
  if(lat>=0&&lon>=0&&value.rows.some(r=>typeof r[lon]==='number'&&(r[lon]<-75||r[lon]>-32||r[lat]<-34||r[lat]>6)))return 'world';
  return 'brazil';
@@ -38,10 +38,10 @@ export async function ensureGeography(value){
  }
  let data=loaded.get(key);
  if(key==='brazil'){
-  const labels=value.columns.map(c=>normalizePlace(typeof c==='string'?c:c.label)),city=labels.findIndex(c=>['cidade','cidade/uf','city','municipio','municipality'].includes(c)),uf=labels.findIndex(c=>['uf','estado','state'].includes(c));
-  if(city>=0){
+  const labels=value.columns.map(c=>normalizePlace(typeof c==='string'?c:c.label)),city=labels.findIndex(c=>['cidade','cidade/uf','city','municipio','municipality'].includes(c)),uf=labels.findIndex(c=>['uf','estado','state'].includes(c)),code=labels.findIndex(c=>['codigo municipio','ibge municipio','municipality code','ibge'].includes(c));
+  if(city>=0||code>=0){
    installGeography(data);
-   const states=[...new Set(value.rows.map(r=>{const place=resolvePlace(r[city],{state:uf>=0?r[uf]:null});return place.status==='ready'?place.state?.uf:null;}).filter(Boolean))];
+   const states=[...new Set(value.rows.map(r=>{const place=resolvePlace(code>=0?r[code]:r[city],{state:uf>=0?r[uf]:null,kind:code>=0?'municipality-code':'city'});return place.status==='ready'?place.state?.uf:null;}).filter(Boolean))];
    if(states.length){
     const parts=await Promise.all(states.map(state=>{const k='state-'+state;if(!pending.has(k)&&!loaded.has(k))pending.set(k,Promise.resolve().then(()=>loader(k)).then(d=>{loaded.set(k,d);return d;}).finally(()=>pending.delete(k)));return loaded.has(k)?loaded.get(k):pending.get(k);}));
     data={...data,states:parts.flatMap(p=>p.states),cities:parts.flatMap(p=>p.cities),municipalities:parts.flatMap(p=>p.municipalities),regions:parts.flatMap(p=>p.regions)};
@@ -54,14 +54,14 @@ export const normalizePlace=value=>String(value??'').normalize('NFD').replace(/[
 let index;
 function places(){
  if(index)return index;
- const states=new Map(),cities=new Map(),countries=new Map(),continents=new Map();
+ const states=new Map(),cities=new Map(),cityCodes=new Map(),countries=new Map(),continents=new Map();
  for(const state of brazil.states){states.set(normalizePlace(state.uf),state);states.set(normalizePlace(state.name),state);}
- for(const city of brazil.cities){const key=normalizePlace(city[0]),items=cities.get(key)||[];items.push(city);cities.set(key,items);}
+ for(const city of brazil.cities){const key=normalizePlace(city[0]),items=cities.get(key)||[];items.push(city);cities.set(key,items);cityCodes.set(String(city[4]),city);}
  for(const country of world.countries){
   for(const key of [country.code,country.iso2,country.iso3,country.name,country.name_en].filter(Boolean)){const normalized=normalizePlace(key),items=countries.get(normalized)||[];if(!items.includes(country))items.push(country);countries.set(normalized,items);}
   const key=normalizePlace(country.continent),members=continents.get(key)||[];members.push(country);continents.set(key,members);
  }
- return index={states,cities,countries,continents};
+ return index={states,cities,cityCodes,countries,continents};
 }
 export function resolvePlace(name,{state,kind='city'}={}){
  const lookup=places(),text=normalizePlace(name);
@@ -80,6 +80,14 @@ export function resolvePlace(name,{state,kind='city'}={}){
  }
  if(kind==='state'){
   const found=lookup.states.get(text);return found?{status:'ready',kind:'state',state:found,label:found.name+'/'+found.uf}:{status:'unknown-state'};
+ }
+ if(kind==='municipality-code'){
+  const city=/^\d{7}$/.test(text)?lookup.cityCodes.get(text):null;
+  if(!city)return {status:'unknown-city'};
+  const uf=state?lookup.states.get(normalizePlace(state)):null;
+  if(state&&!uf)return {status:'unknown-state'};
+  if(uf&&uf.uf!==city[1])return {status:'conflicting-state'};
+  return {status:'ready',kind:'city',label:city[0]+'/'+city[1],latitude:city[2],longitude:city[3],code:city[4],state:lookup.states.get(normalizePlace(city[1]))};
  }
  let cityName=text,uf=state?lookup.states.get(normalizePlace(state)):null;
  if(state&&!uf)return {status:'unknown-state'};
@@ -102,6 +110,7 @@ export function mapLocations(value){
  const neighborhood=names.findIndex(n=>['bairro','neighborhood'].includes(n));
  const state=names.findIndex(n=>['uf','estado','state','state code'].includes(n));
  const country=names.findIndex(n=>['pais','country','country code'].includes(n)),continent=names.findIndex(n=>['continente','continent'].includes(n));
+ const code=names.findIndex(n=>['codigo municipio','ibge municipio','municipality code','ibge'].includes(n));
  const label=city>=0?city:names.findIndex((_,i)=>i!==lat&&i!==lon&&i!==state&&i!==country&&i!==continent&&value.rows.some(row=>typeof row[i]==='string'));
  const metric=names.findIndex((n,i)=>i!==lat&&i!==lon&&i!==state&&i!==city&&!/\bid\b|codigo|code|ibge/.test(n)&&value.rows.some(row=>typeof row[i]==='number'&&Number.isFinite(row[i])));
  const locations=value.rows.map((row,rowIndex)=>{
@@ -112,6 +121,7 @@ export function mapLocations(value){
   }
   let result;
   if(neighborhood>=0)result=resolvePlace(row[neighborhood],{kind:'neighborhood'});
+  else if(code>=0&&row[code]!==null&&row[code]!==undefined&&row[code]!=='')result=resolvePlace(row[code],{kind:'municipality-code',state:state>=0?row[state]:null});
   else if(city>=0||(state<0&&country<0&&continent<0&&label>=0)){
    const nation=country>=0&&row[country]?resolvePlace(row[country],{kind:'country'}):null;
    result=nation&&(nation.status!=='ready'||nation.country.code!=='BRA')?{status:'unsupported-city-country'}:resolvePlace(row[city>=0?city:label],{state:state>=0?row[state]:null});

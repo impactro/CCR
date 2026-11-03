@@ -1,5 +1,9 @@
 # Matriz atual de compatibilidade do CCR
 
+Candidata local26.11.3c: seleção de áreas/GPS, IBGE e prompts de presença
+validados com137 testes Node. CAW testado com alias explícito da candidata,
+sem alterar lock ou recibos oficiais. Não instalado; matriz anterior abaixo.
+
 Referência de fonte: CCR26.11.2g. Presença na biblioteca, build no consumidor e
 aceite operacional são estados distintos. Esta matriz substitui a comparação
 exploratória de outubro; a procedência histórica permanece no Git.

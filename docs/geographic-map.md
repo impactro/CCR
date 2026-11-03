@@ -6,6 +6,45 @@ cache público permanente por consumidor, criado somente quando solicitado.
 [fontes e licença](../python/ccr/recipes/geography.json),
 [skill canônico](../python/ccr/skills/geographic-map/SKILL.md).
 
+## Seleção interativa (candidata 26.11.3c)
+
+Na distribuição de entidades, as linhas representam somente localidades com
+entidades no recorte autorizado. Outras fronteiras podem aparecer como contexto;
+a malha não fornece a lista de clientes. Zero entidades só entra quando a
+pergunta pede ausência/cobertura de um universo definido. Conferir outras UFs
+antes de escolher o foco, preservar IDs e explicar os não localizados.
+
+O JavaScript aceita `mapOptions` nos renderizadores de documento e chat, ou as
+mesmas opções diretamente em `createGeoMap`. A tabela pode ser `visible`
+(padrão) ou `collapsed`. Callbacks são código confiável do host, nunca JSON.
+
+```js
+const renderer = createDocumentRenderer({mapOptions: {
+  table: 'collapsed',
+  rowKey: (row, index) => index,
+  onSelect: selection => {
+    if (selection.type === 'area') showAuthorizedList(selection.code);
+  }
+}});
+```
+
+`onSelect` recebe snapshot congelado com `type` (`area`/`point`), `kind`,
+`code`, `uf`, `label`, `coordinates` e `rows:[{index,key}]`. Índices são das
+linhas originais; `rowKey` opcional devolve string ou número finito. Área sem
+linha recebe `rows:[]`, preservando o código. Os tipos distinguem
+`municipality`, `state`, `country`, `neighborhood`, `coordinate` e
+`municipal-reference`. GPS fornecido e referência municipal são identificados
+separadamente; nenhum comprova endereço por inferência do renderizador.
+Clique e Enter/Espaço compartilham o contrato. Dispose remove os listeners.
+O evento não contém sessão, ticket, endpoint nem permissão. O host valida o
+código e consulta sua fonte autorizada. SVG exportado não carrega esse backend.
+
+Colunas `Código município`, `IBGE município`, `municipality code` e `IBGE`
+resolvem pelo código exato de sete dígitos. UF conflitante/código fora da base
+permanece não localizado. Nomes não corrigem código fornecido silenciosamente.
+GPS explícito continua tendo precedência na apresentação de pontos. O
+enquadramento municipal usa os polígonos presentes nos dados.
+
 ## Intenção e ferramentas
 
 “Onde estão meus clientes?”, “Cadê as máquinas?”, “Mapa de instalações”, lojas,
