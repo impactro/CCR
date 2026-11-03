@@ -1,5 +1,11 @@
 # CCR
 
+Direção Fábio02/11/2026: não bloquear evolução por versões exatas de dependências.
+Usar faixas compatíveis; o lock e o recibo de cada build registram as revisões
+testadas, sem impedir atualização coordenada no próximo SYNC. Consumidores podem
+seguir main oficial e conferir o commit resolvido no lock; isso substitui a
+exigência histórica de SHA fixo na declaração do consumidor.
+
 Em manutenção/SYNC, ler `.agents/updates/README.md`. Avisos planejados são
 handoffs, não capacidades entregues; reconciliar a referência na fila local.
 

@@ -1,5 +1,11 @@
 # Histórico
 
+## 2026-11-02 — 26.11.2i, dependências evolutivas
+
+Por direção de Fábio, declarações npm passam a faixas compatíveis. O lock mantém
+a resolução testada e a proveniência por build, sem pin permanente de versão.
+Núcleo, limites, dados, permissões e contratos de apresentação permanecem iguais.
+
 ## 2026-11-02 — 26.11.2h, legibilidade de resultados
 
 Tabela compartilhada recebe cabeçalho destacado, espaçamento, zebra suave,
