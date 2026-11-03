@@ -31,6 +31,10 @@ A ação `listen` tem ícone e ordem comuns entre copiar e visualizar; o CCR nã
 chama CSay nem contém autenticação. `detailsPlacement: 'time'` posiciona as
 métricas fornecidas em um tooltip acessível no horário, preservando data,
 valores zero e ausência de dados. Nenhum saldo é inferido de créditos de uso.
+O resumo técnico comum é `Total: 1m21s · Tokens 1234 / 56 · gpt-6-luna`:
+prefere o tempo acumulado fornecido pelo host e não repete tempos da resposta.
+Duração visual arredonda para segundos; contagens ausentes aparecem como `—`,
+nunca como zero inventado. Data completa continua no tooltip do horário.
 
 Ações adicionais usam `kind: 'custom'`, `actionId`, rótulo, ícone e callback
 fornecidos por código confiável do host; `element` permite adotar um controle

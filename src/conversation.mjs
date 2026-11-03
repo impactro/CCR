@@ -4,15 +4,25 @@ const escapeText=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;'
 export const isAuthorColor=value=>typeof value==='string'&&/^#[0-9a-f]{6}$/i.test(value);
 const colorStyle=color=>isAuthorColor(color)?` style="--author-color:${color}"`:'';
 const nonnegative=value=>typeof value==='number'&&Number.isFinite(value)&&value>=0;
+const tokenCount=value=>Number.isSafeInteger(value)&&value>=0;
+function metricDuration(value){
+ const seconds=Math.round(value),hours=Math.floor(seconds/3600),minutes=Math.floor(seconds/60)%60,rest=seconds%60;
+ if(hours)return `${hours}h${String(minutes).padStart(2,'0')}m${String(rest).padStart(2,'0')}s`;
+ if(minutes)return `${minutes}m${String(rest).padStart(2,'0')}s`;
+ return `${rest}s`;
+}
 /** Metrics are optional host facts; absence is never converted into zero. */
 export function messageDetails(metrics){
  if(!metrics||typeof metrics!=='object')return '';
  const parts=[];
- if(typeof metrics.model==='string'&&metrics.model.trim())parts.push('Modelo: '+metrics.model.trim().slice(0,160));
- if(nonnegative(metrics.durationSeconds))parts.push('Duração: '+metrics.durationSeconds+' s');
- if(nonnegative(metrics.totalDurationSeconds))parts.push('Duração acumulada: '+metrics.totalDurationSeconds+' s');
- for(const [key,label]of [['inputTokens','Tokens de entrada'],['outputTokens','Tokens de saída']])
-  if(Number.isSafeInteger(metrics[key])&&metrics[key]>=0)parts.push(label+': '+metrics[key]);
+ const model=typeof metrics.model==='string'?metrics.model.trim().slice(0,160):'';
+ const total=nonnegative(metrics.totalDurationSeconds)?metrics.totalDurationSeconds:
+  nonnegative(metrics.durationSeconds)?metrics.durationSeconds:null;
+ if(model||total!==null||tokenCount(metrics.inputTokens)||tokenCount(metrics.outputTokens)){
+  parts.push('Total: '+(total===null?'—':metricDuration(total)));
+  parts.push('Tokens '+(tokenCount(metrics.inputTokens)?metrics.inputTokens:'—')+' / '+(tokenCount(metrics.outputTokens)?metrics.outputTokens:'—'));
+  if(model)parts.push(model);
+ }
  if(nonnegative(metrics.credits))parts.push((metrics.creditsEstimated===true?'Créditos estimados: ':'Créditos: ')+metrics.credits);
  if(nonnegative(metrics.cost)&&typeof metrics.currency==='string'&&/^[A-Z]{3}$/.test(metrics.currency))
   parts.push((metrics.costEstimated===true?'Custo estimado: ':'Custo: ')+metrics.cost+' '+metrics.currency);

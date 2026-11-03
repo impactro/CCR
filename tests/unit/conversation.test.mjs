@@ -66,8 +66,8 @@ test('contextual controls wrap the original body and only show supplied metrics'
  assert.ok(content.querySelector(':scope > .message-actions [data-action=copy]'));
  assert.equal(content.querySelector('.chat-actions-toggle').getAttribute('aria-expanded'),'false');
  const tooltip=content.querySelector('[role=tooltip]');
- assert.match(tooltip.textContent,/Modelo: <img src=x>.*Duração: 0 s.*Tokens de entrada: 0.*Créditos estimados: 2.*Custo estimado: 0.5 USD/);
- assert.doesNotMatch(tooltip.textContent,/Tokens de saída/);assert.equal(content.querySelector('img'),null);
+ assert.match(tooltip.textContent,/Total: 0s · Tokens 0 \/ — · <img src=x>.*Créditos estimados: 2.*Custo estimado: 0.5 USD/);
+ assert.doesNotMatch(tooltip.textContent,/Duração|Modelo:|Tokens de saída/);assert.equal(content.querySelector('img'),null);
  assert.equal(messageDetails({durationSeconds:Infinity,inputTokens:1.2,cost:4,currency:'usd'}),'');
  assert.equal(doc(renderChatMessage(first,options)).querySelector('.chat-message-content,.chat-actions-toggle,.chat-message-insights'),null);
  assert.equal(doc(renderChatMessage(first,{...options,contextualActions:true})).querySelector('.chat-actions-toggle'),null);
@@ -99,14 +99,24 @@ test('metrics preserve real zero values and omit absent, malformed or negative v
  assert.equal(messageDetails(null),'');assert.equal(messageDetails('untrusted'), '');
  assert.equal(messageDetails({model:' ',durationSeconds:-1,inputTokens:1.5,outputTokens:Infinity,credits:NaN,cost:1,currency:'usd'}),'');
  assert.equal(messageDetails({credits:0,cost:0,currency:'BRL'}),'Créditos: 0 · Custo: 0 BRL');
- assert.equal(messageDetails({outputTokens:0}),'Tokens de saída: 0');
+ assert.equal(messageDetails({outputTokens:0}),'Total: — · Tokens — / 0');
+});
+
+test('compact metrics prefer the accumulated total, format units and never invent tokens',()=>{
+ assert.equal(messageDetails({durationSeconds:2,totalDurationSeconds:81,inputTokens:1234,outputTokens:56,model:'gpt-6-luna'}),
+  'Total: 1m21s · Tokens 1234 / 56 · gpt-6-luna');
+ assert.equal(messageDetails({durationSeconds:104.8,model:' gpt-6-luna '}),'Total: 1m45s · Tokens — / — · gpt-6-luna');
+ assert.equal(messageDetails({durationSeconds:3661,inputTokens:0,outputTokens:0}),'Total: 1h01m01s · Tokens 0 / 0');
+ assert.equal(messageDetails({durationSeconds:7,totalDurationSeconds:NaN,inputTokens:-1,outputTokens:1.5}),'Total: 7s · Tokens — / —');
+ assert.equal(messageDetails({durationSeconds:2,totalDurationSeconds:0}),'Total: 0s · Tokens — / —');
 });
 
 test('host may place factual metrics at the hour without another information icon',()=>{
  const node=doc(renderChatMessage(first,{...options,contextualActions:true,detailsPlacement:'time',metrics:{durationSeconds:3,totalDurationSeconds:8,inputTokens:0,credits:0}}));
  const insight=node.querySelector('.message-time .chat-message-insights');
  assert.equal(insight.querySelector('time').textContent,'10:30');
- assert.match(insight.querySelector('[role=tooltip]').textContent,/Duração: 3 s.*Duração acumulada: 8 s.*Tokens de entrada: 0.*Créditos: 0/);
+ assert.match(insight.querySelector('[role=tooltip]').textContent,/Total: 8s · Tokens 0 \/ — · Créditos: 0/);
+ assert.doesNotMatch(insight.querySelector('[role=tooltip]').textContent,/Duração/);
  assert.equal(node.querySelector('.chat-message-content .chat-message-insights'),null);
  assert.equal(insight.tabIndex,0);node.defaultView.close();
 });

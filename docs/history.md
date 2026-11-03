@@ -1,5 +1,12 @@
 # Histórico
 
+## 2026-11-03 — 26.11.3a, métricas compactas comuns
+
+Tooltip técnico usa Total, par de tokens entrada/saída e nome do modelo sem
+rótulo redundante. Tempo acumulado prevalece; fallback é a duração da resposta.
+Zero válido preservado; dado ausente/negativo/inválido não vira contagem zero.
+Sem mudança de coleta, custo, callbacks, identidade ou efeitos de transporte.
+
 ## 2026-11-02 — 26.11.2i, dependências evolutivas
 
 Por direção de Fábio, declarações npm passam a faixas compatíveis. O lock mantém
