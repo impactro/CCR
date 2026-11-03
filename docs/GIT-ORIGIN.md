@@ -42,21 +42,22 @@ para contornar trabalho em andamento. Documentação atual dos consumidores deve
 apontar para esse clone e para a revisão utilizada; snapshots históricos ficam
 inalterados. Recursos compilados em vendor são saídas de build da fonte Git.
 
-No package.json do consumidor, fixar uma revisão completa já publicada:
+Direção do proprietário em02/11/2026: acompanhar main oficial no manifesto;
+o lock de cada publicação conserva a revisão completa testada:
 
 ```json
 {
   "dependencies": {
-    "@crania/chat-render": "git+https://github.com/impactro/CCR.git#8bfc3ea1ed96f1ee9512a95f71c8273671bc1e88"
+    "@crania/chat-render": "git+https://github.com/impactro/CCR.git#main"
   }
 }
 ```
 
-Esse exemplo corresponde ao código26.10.30-b. Cada produto deve escolher a
-revisão compatível com sua integração, gerar e commitar o package-lock.json e
-conferir que a resolução aponta para o SHA oficial. Usar `npm ci` na instalação
-das dependências de build. Não usar `main` flutuante, link para diretório irmão,
-tarball reconstruído de fonte não identificada ou pacote virtual.
+No SYNC, resolver a revisão oficial, atualizar e commitar o package-lock.json,
+validar a integração e conferir o SHA resolvido. npm ci reproduz essa composição
+na instalação. Não adquirir fonte flutuante durante a conversa nem usar link
+para diretório irmão, tarball sem origem ou pacote virtual. Dependências
+CM/* e ALP usam faixas compatíveis, sem pins exatos nos requisitos.
 
 O build do consumidor importa o pacote instalado e produz seus assets fechados.
 Esses assets podem integrar bundle, tarball ou wheel do produto com procedência

@@ -59,7 +59,7 @@ const instructions = buildRenderPrompt({capabilities: ['data', 'chart', 'ccr.dat
 O nome técnico `@crania/chat-render` e os imports continuam estáveis.
 Origem oficial pública: **[impactro/CCR](https://github.com/impactro/CCR)**.
 O diretório local padronizado é **`CM/CCR`**, igual ao repositório. Dependências Git devem fixar
-o SHA completo, conforme [origem e consumo pelo Git](docs/GIT-ORIGIN.md).
+main oficial, com SHA testado no lock, conforme [origem e consumo pelo Git](docs/GIT-ORIGIN.md).
 
 Para obter a fonte, executar a partir da pasta de componentes `CM`:
 
