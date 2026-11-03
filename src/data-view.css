@@ -24,6 +24,8 @@
 .ccr-data-view button:disabled{cursor:default;opacity:.55}
 .ccr-data-view .data-search{flex:0 1 220px;min-width:120px;padding:6px 9px}
 .ccr-data-view .data-view-select{padding:6px 9px;max-width:100%}
+.ccr-data-view .data-export-icon{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;padding:6px}
+.ccr-data-view .data-export-icon svg{display:block;width:18px;height:18px}
 .ccr-data-view .data-visual{max-width:100%;overflow:auto;min-width:0}
 .ccr-data-view .data-google-host{max-width:100%;overflow-x:auto}
 .ccr-data-view :is(.data-fallback-table,.google-visualization-table-table){border-collapse:collapse;width:100%;font:inherit;color:var(--ccr-data-text);background:var(--ccr-data-surface)}

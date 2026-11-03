@@ -7,7 +7,7 @@ function fixture(config={}){
  const dom=new JSDOM('<main></main>',{url:'https://host.test'}),document=dom.window.document;
  return {dom,document,mount:document.querySelector('main'),renderer:createRichDataRenderer({document,...config})};
 }
-const click=(root,text)=>[...root.querySelectorAll('button')].find(b=>b.textContent===text).click();
+const click=(root,text)=>[...root.querySelectorAll('button')].find(b=>b.textContent===text||b.getAttribute('aria-label')===text).click();
 
 test('standalone view has configurable layout and controls, without message identity or external scripts',async()=>{
  const f=fixture(),view=f.renderer.render(data,f.mount,null,{layout:'bare',title:false,count:false,views:false,exports:false});await view.ready;

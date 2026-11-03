@@ -1,4 +1,5 @@
 import {renderChatMessage,bindConversationInteractions} from './conversation.mjs';
+import {actionIcon} from './actions.mjs';
 /** Rich data implementation shared by chats and miniapps. Host owns exports/actions. */
 export function createRichDataRenderer({document=globalThis.document,google=false,loadCharts,exportData,onError=()=>{},locale='pt-BR'}={}) {
   if (!document?.defaultView) throw new TypeError('A DOM document is required');
@@ -522,7 +523,7 @@ export function createRichDataRenderer({document=globalThis.document,google=fals
           allowHtml: true,
           page: "enable",
           pageSize: 10,
-          pagingButtons: "auto",
+          pagingButtons: 5,
           showRowNumber: true,
           sort: "enable",
           width: "100%",
@@ -726,6 +727,9 @@ export function createRichDataRenderer({document=globalThis.document,google=fals
     button.className = "message-action";
     button.textContent = label;
     button.title = title;
+    button.setAttribute('aria-label',label);
+    const icon=label==='PDF'?'pdf':label==='Excel'?'spreadsheet':null;
+    if(icon){button.innerHTML=actionIcon(icon);button.classList.add('data-export-icon');}
     return button;
   }
 
