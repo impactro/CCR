@@ -1,5 +1,10 @@
 # Matriz atual de compatibilidade do CCR
 
+Evolução local posterior: camada de pontos do host e anotações compactas,
+140 testes Node aprovados. Miniapp consumidor validado em bundle candidato e
+em fallback com bundle anterior. Não altera versão instalada; promoção continua
+coordenada pelo responsável do consumidor.
+
 Candidata local26.11.3c: seleção de áreas/GPS, IBGE e prompts de presença
 validados com137 testes Node. CAW testado com alias explícito da candidata,
 sem alterar lock ou recibos oficiais. Não instalado; matriz anterior abaixo.

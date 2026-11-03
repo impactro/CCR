@@ -1,4 +1,5 @@
 import {createDataTable} from './data.js';
+import {mapPoints} from './map-points.mjs';
 import {geographicBase,worldBase,mapLocations,geographyReady,ensureGeography,installGeography} from './geography.mjs';
 
 const NS='http://www.w3.org/2000/svg',W=800,H=540,LIMIT=10000;
@@ -10,15 +11,17 @@ const principalRing=geometry=>rings(geometry).reduce((largest,ring)=>{
 },[]);
 
 /** Offline Brazilian cartography. The input remains an accessible typed table. */
-export function createGeographicMap(document,value,{locale='pt-BR',onSelect,rowKey,table='visible'}={}){
+export function createGeographicMap(document,value,{locale='pt-BR',onSelect,rowKey,table='visible',pointLayer=[],annotations='full'}={}){
+ const overlay=mapPoints(pointLayer);
  if(!geographyReady(value)){
   const holder=document.createElement('div'),note=document.createElement('p');let disposed=false,inner=null;
   holder.className='chat-geo-loading';note.setAttribute('role','status');note.textContent='Preparando fronteiras geográficas do cache local…';holder.append(note,createDataTable(document,value,{locale}));
-  ensureGeography(value).then(data=>{if(disposed)return;installGeography(data);inner=createGeographicMap(document,value,{locale,onSelect,rowKey,table});holder.replaceChildren(inner);}).catch(()=>{if(!disposed)note.textContent='Mapa indisponível no momento: não foi possível obter/validar as fronteiras. Dados preservados na tabela; revisar a fonte geográfica do host.';});
+  ensureGeography(value).then(data=>{if(disposed)return;installGeography(data);inner=createGeographicMap(document,value,{locale,onSelect,rowKey,table,pointLayer,annotations});holder.replaceChildren(inner);}).catch(()=>{if(!disposed)note.textContent='Mapa indisponível no momento: não foi possível obter/validar as fronteiras. Dados preservados na tabela; revisar a fonte geográfica do host.';});
   Object.defineProperty(holder,'dispose',{value:()=>{disposed=true;inner?.dispose?.();}});return holder;
  }
  const figure=createDataTable(document,value,{locale});figure.classList.add('chat-geo-map');
- const {locations}=mapLocations(value),valid=locations.filter(p=>p.status==='ready'),shown=valid.slice(0,LIMIT),points=shown.filter(p=>p.kind==='coordinate'||p.kind==='city'&&!geographicBase.municipalities?.some(r=>r.code===p.code));
+ const {locations}=mapLocations(value),valid=locations.filter(p=>p.status==='ready'),shown=valid.slice(0,LIMIT),points=[...shown.filter(p=>p.kind==='coordinate'||p.kind==='city'&&!geographicBase.municipalities?.some(r=>r.code===p.code)),...overlay];
+ if(points.length>LIMIT)throw TypeError('map_points_limit');
  const worldwide=shown.some(p=>['country','continent'].includes(p.kind))||points.some(p=>p.longitude< -75||p.longitude> -32||p.latitude< -34||p.latitude>6);
  const territories=worldwide?worldBase.countries:geographicBase.municipalities?.length?geographicBase.municipalities:geographicBase.regions?.length?geographicBase.regions:geographicBase.states;
  const numeric=shown.map(p=>p.metric).filter(n=>typeof n==='number'&&Number.isFinite(n)&&n>=0),maximum=Math.max(0,...numeric);
@@ -32,7 +35,7 @@ export function createGeographicMap(document,value,{locale='pt-BR',onSelect,rowK
  const project=(lon,lat)=>[(W-(maxX-minX)*scale)/2+(lon-minX)*scale,(H-(maxY-minY)*scale)/2+(maxY-mercator(lat))*scale];
  const details=document.createElement('div');details.className='chat-geographic-detail';details.setAttribute('role','status');details.setAttribute('aria-live','polite');details.textContent='Selecione um ponto ou território para ver os dados.';
  const fmt=new Intl.NumberFormat(locale,{maximumFractionDigits:6});
- const describe=p=>`${p.label}${p.metricLabel?' · '+p.metricLabel+': '+(p.metric===null?'Sem dado':typeof p.metric==='number'?fmt.format(p.metric):String(p.metric)):''}${p.kind==='city'?(geographicBase.municipalities?.some(r=>r.code===p.code)?' · limite municipal':' · referência municipal'):p.kind==='region'?' · limite oficial de bairro':p.kind==='coordinate'?' · coordenada fornecida':''}`;
+ const describe=p=>`${p.label}${p.metricLabel?' · '+p.metricLabel+': '+(p.metric===null?'Sem dado':typeof p.metric==='number'?fmt.format(p.metric):String(p.metric)):''}${p.kind==='city'?(geographicBase.municipalities?.some(r=>r.code===p.code)?' · limite municipal':' · referência municipal'):p.kind==='region'?' · limite oficial de bairro':p.kind==='coordinate'?' · coordenada fornecida':p.kind==='municipal-reference'?' · referência municipal, não é endereço exato':''}`;
  const active=[];let selected=null;
  function inspect(node,label,items,identity){
   node.setAttribute('role','button');node.setAttribute('tabindex','0');node.setAttribute('aria-label',label);node.setAttribute('aria-pressed','false');node.append(make('title',{},label));
@@ -41,7 +44,7 @@ export function createGeographicMap(document,value,{locale='pt-BR',onSelect,rowK
    if(selected){selected.removeAttribute('data-selected');selected.setAttribute('aria-pressed','false');}
    selected=node;node.setAttribute('data-selected','true');node.setAttribute('aria-pressed','true');details.textContent=items.map(describe).join(' | ')||label;
    if(typeof onSelect==='function'){
-    const rows=items.map(p=>{const key=typeof rowKey==='function'?rowKey(p.row,p.rowIndex):p.rowIndex;return Object.freeze({index:p.rowIndex,key:typeof key==='string'||typeof key==='number'&&Number.isFinite(key)?key:null});});
+    const rows=items.map(p=>{const key=p.overlay?p.pointKey:typeof rowKey==='function'?rowKey(p.row,p.rowIndex):p.rowIndex;return Object.freeze({index:p.rowIndex,key:typeof key==='string'||typeof key==='number'&&Number.isFinite(key)?key:null});});
     onSelect(Object.freeze({...identity,label,rows:Object.freeze(rows)}));
    }
   };
@@ -64,9 +67,11 @@ export function createGeographicMap(document,value,{locale='pt-BR',onSelect,rowK
  for(const point of points){
   const[x,y]=project(point.longitude,point.latitude),radius=typeof point.metric==='number'&&point.metric>0&&maximum>0?Math.max(3,16*Math.sqrt(point.metric/maximum)):4;
   const group=make('g',{'data-location-kind':point.kind,'data-row':point.rowIndex}),dot=make('circle',{cx:x,cy:y,r:radius,'data-radius':radius,fill:typeof point.metric==='number'&&point.metric>=0?color(point.metric):'var(--ca-map-highlight,#69bcb0)',stroke:'var(--ca-map-point-border,#163f4d)','stroke-width':1.5,'vector-effect':'non-scaling-stroke'});
+  if(point.kind==='municipal-reference'){dot.setAttribute('fill','var(--ca-map-water,#dcebf3)');dot.setAttribute('stroke-dasharray','3 2');}
+  if(point.overlay)group.setAttribute('data-point-key',point.pointKey);
   group.append(dot);
-  if(typeof point.metric==='number'&&point.metric>0)group.append(make('text',{x,y,dy:'.35em','text-anchor':'middle','font-size':11,fill:'#fff','pointer-events':'none','aria-hidden':'true'},fmt.format(point.metric)));
-  inspect(group,describe(point),[point],{type:'point',kind:point.kind==='coordinate'?'coordinate':'municipal-reference',code:point.code?String(point.code):null,uf:point.state?.uf||null,coordinates:Object.freeze({latitude:point.latitude,longitude:point.longitude})});markers.append(group);
+  if(typeof point.metric==='number'&&point.metric>0&&(!point.overlay||point.metric>1))group.append(make('text',{x,y,dy:'.35em','text-anchor':'middle','font-size':11,fill:point.kind==='municipal-reference'?'var(--ca-map-point-border,#163f4d)':'#fff','pointer-events':'none','aria-hidden':'true'},fmt.format(point.metric)));
+  inspect(group,describe(point),[point],{type:'point',kind:point.kind==='coordinate'?'coordinate':'municipal-reference',code:point.code?String(point.code):null,uf:point.state?.uf||null,coordinates:Object.freeze({latitude:point.latitude,longitude:point.longitude}),...(point.overlay?{source:'points',pointKey:point.pointKey}:{})});markers.append(group);
  }
  let zoom=1,dx=0,dy=0,drag=null,disposed=false;
  const repaint=()=>{viewport.setAttribute('transform',`translate(${W/2+dx} ${H/2+dy}) scale(${zoom}) translate(${-W/2} ${-H/2})`);for(const dot of markers.querySelectorAll('circle'))dot.setAttribute('r',Number(dot.dataset.radius)/zoom);for(const text of markers.querySelectorAll('text'))text.setAttribute('font-size',11/zoom);};
@@ -100,6 +105,10 @@ export function createGeographicMap(document,value,{locale='pt-BR',onSelect,rowK
  if(unresolved.length){const note=document.createElement('span');note.className='chat-geographic-unresolved';const counts=new Map();for(const p of unresolved){const reason=reasons[p.status]||'não localizado';counts.set(reason,(counts.get(reason)||0)+1);}note.textContent='Sem localização: '+[...counts].map(([r,n])=>`${n} ${r}`).join('; ')+'. Linhas preservadas na tabela.';summary.append(' ',note);}
  const attribution=document.createElement('p');attribution.className='chat-geographic-attribution';attribution.textContent=(worldwide?worldBase.attribution:geographicBase.attribution)+' · base obtida em '+geographicBase.obtainedAt+'. Referência geográfica ≠ GPS de cliente. Linhas não são somadas automaticamente. Projeção Mercator limitada a±85°.';
  figure.prepend(controls,svg,details,summary);figure.append(attribution);
+ if(annotations==='compact'){summary.hidden=true;attribution.textContent=worldwide?worldBase.attribution:geographicBase.attribution;}
+ if(table==='hidden'){
+  for(const child of [...figure.children])if(child.tagName==='TABLE'||child.tagName==='FIGCAPTION'||child.tagName==='P'&&child!==summary&&child!==attribution)child.hidden=true;
+ }
  if(table==='collapsed'){
   const content=figure.querySelector('table');if(content){const disclosure=document.createElement('details'),caption=document.createElement('summary');caption.textContent='Ver dados do mapa';content.replaceWith(disclosure);disclosure.append(caption,content);}
  }

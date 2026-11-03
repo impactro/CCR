@@ -2,6 +2,11 @@
 
 ## Estado da fonte
 
+Evolução local adicional de mapas: `pointLayer` confiável independente das
+contagens de áreas, referência municipal tracejada, tabela substituível por
+lista acessível e crédito compacto. Fonte/testes somente; sem nova versão ou
+promoção de consumidor nesta entrega. Contrato em [geographic-map.md](geographic-map.md).
+
 CCR26.11.3c é candidata local de seleção geográfica, vínculo IBGE e orientação
 de presença.26.11.3b introduziu dados Google compartilhados. A candidata exige
 publicação coordenada/build/instalação para adoção; não promove consumidores.

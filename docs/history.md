@@ -1,3 +1,16 @@
+## 2026-11-03 — Camada de pontos independente e apresentação compacta
+
+- pointLayer do host sobrepõe posições sem somar novamente valores das áreas.
+  Chaves estáveis, tipos/limites explícitos, rejeição de accessors e texto escapado;
+  referência municipal tracejada permanece distinta de coordenada cadastrada.
+- Eventos de overlay identificam origem/chave, mantendo contrato anterior para
+  áreas e linhas. Teclado/dispose cobrem a camada; CCR não busca dados privados
+  nem executa geocodificação. Tabela pode ser substituída pelo host e anotações
+  compactas conservam o crédito cartográfico.
+- 140 testes Node aprovados no checkout compartilhado, incluindo oito focais de
+  seleção/pontos. Consumidor validado em navegador com candidato e bundle anterior.
+  Sem alteração de versão, push, instalação ou restart nesta frente.
+
 ## 2026-11-03 — Seleção geográfica e prompts de presença
 
 - Candidata local26.11.3c: seleção acessível de áreas/pontos por callback

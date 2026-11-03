@@ -121,6 +121,28 @@ rede/fonte/estrutura é explícita, sem inventar geometria ou retry infinito.
 
 ## Render web e verificação
 
+### Camada de pontos fornecida pelo host
+
+`mapOptions.pointLayer` acrescenta pontos sem alterar as linhas ou as contagens
+das áreas do documento. É uma opção confiável do host, não uma instrução recebida
+no conteúdo. Cada entrada usa `key`, `label`, `latitude`, `longitude`, `kind`
+(`coordinate` ou `municipal-reference`), `code` IBGE7 opcional e `count` positivo.
+Limite agregado de10.000pontos, chaves únicas, coordenadas finitas e sem campos
+extras. Strings são texto escapado; accessors e protótipos executáveis são recusados.
+
+Referência municipal recebe círculo vazado/tracejado e identificação explícita
+de aproximação. Não comprova endereço exato nem GPS. Ao selecionar um overlay,
+o evento acrescenta `source:'points'` e `pointKey`; `rows` identifica o índice
+da camada e sua chave, sem confundir com índices da tabela de áreas. O contrato
+de seleção anterior permanece igual quando não há camada adicional.
+
+`table:'hidden'` permite ao miniapp fornecer sua própria lista acessível;
+`annotations:'compact'` conserva o crédito cartográfico em uma linha e omite o
+resumo técnico. Os padrões continuam tabela visível e anotações completas.
+O host cuida da hierarquia de negócio, autorização, geocodificação e atribuição
+de provedores adicionais; CCR não consulta endereço, cadastro ou rede por conta
+própria. Teclado, seleção e dispose também cobrem a camada de pontos.
+
 `configureGeography({load: async key => publicData})` injeta callback autorizado
 do host. O render não escolhe URL pública nem baixa dataset externo. Durante
 primeira carga/erro conserva tabela acessível e respeita dispose. O endpoint
