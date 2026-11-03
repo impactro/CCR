@@ -32,6 +32,19 @@ chama CSay nem contém autenticação. `detailsPlacement: 'time'` posiciona as
 métricas fornecidas em um tooltip acessível no horário, preservando data,
 valores zero e ausência de dados. Nenhum saldo é inferido de créditos de uso.
 
+Ações adicionais usam `kind: 'custom'`, `actionId`, rótulo, ícone e callback
+fornecidos por código confiável do host; `element` permite adotar um controle
+existente sem perder seus handlers/estado. Não aceitar funções, HTML ou nomes
+executáveis definidos pela IA. `actionIcon()` expõe o vocabulário fechado de
+ícones comuns, incluindo ajuda, PDF e planilha. Conteúdo adicional usa os slots
+de corpo existentes, sem introduzir outro envelope de mensagem.
+
+Sequências contíguas respeitam a classe `continuation` calculada por identidade,
+conversa, direção e dia. A borda do lado do autor fica reta e sobreposta em 1 px,
+inclusive quando o host usa `.chat-message-entry`; reações mantêm sua folga.
+Tokens de canto `--ca-chat-bubble-*-radius` permitem que o tema acompanhe o
+encaixe, sem reescrever a projeção temporal.
+
 - Uma mensagem possui um único envelope. Texto, citação e partes ricas ficam
   dentro dele; não envolver o CCR em outra bolha com borda/fundo próprios.
 - conversationId, messageId e authorId são opacos e distintos. Agrupamento

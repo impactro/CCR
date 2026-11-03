@@ -4,6 +4,19 @@
 .chat-contextual-actions.has-actions .chat-message-content{max-width:calc(100% - var(--ca-chat-action-space,9rem))}
 .chat-contextual-actions:has(.message-actions:not(:empty)) .chat-message-content{max-width:calc(100% - var(--ca-chat-action-space,9rem))}
 .chat-contextual-actions .chat-message-content>.bubble{max-width:100%;width:100%;margin:0;box-sizing:border-box;overflow-wrap:anywhere}
+.chat-contextual-actions .chat-message-content>.bubble{border-top-left-radius:var(--ca-chat-bubble-top-left-radius,var(--ca-ui-radius,10px));border-bottom-left-radius:var(--ca-chat-bubble-bottom-left-radius,var(--ca-ui-radius,10px));border-top-right-radius:var(--ca-chat-bubble-top-right-radius,var(--ca-ui-radius,10px));border-bottom-right-radius:var(--ca-chat-bubble-bottom-right-radius,var(--ca-ui-radius,10px))}
+/* Only the host-confirmed continuation joins a run. Reactions keep clearance.
+   Both adjacent rows and host-owned entry wrappers share the same projection. */
+.chat-contextual-actions:not(.has-reactions)+.chat-contextual-actions.continuation{margin-block-start:-1px}
+.chat-contextual-actions.in:not(.has-reactions):has(+.chat-contextual-actions.in.continuation) .chat-message-content,
+.chat-message-entry:not(:has(.has-reactions)):has(+.chat-message-entry .chat-contextual-actions.in.continuation) .chat-contextual-actions.in .chat-message-content{--ca-chat-bubble-bottom-left-radius:0px;--ca-chat-bubble-shadow:none}
+.chat-contextual-actions.in:not(.has-reactions)+.chat-contextual-actions.in.continuation .chat-message-content,
+.chat-message-entry:not(:has(.has-reactions))+.chat-message-entry .chat-contextual-actions.in.continuation .chat-message-content{--ca-chat-bubble-top-left-radius:0px}
+.chat-contextual-actions.out:not(.has-reactions):has(+.chat-contextual-actions.out.continuation) .chat-message-content,
+.chat-message-entry:not(:has(.has-reactions)):has(+.chat-message-entry .chat-contextual-actions.out.continuation) .chat-contextual-actions.out .chat-message-content{--ca-chat-bubble-bottom-right-radius:0px;--ca-chat-bubble-shadow:none}
+.chat-contextual-actions.out:not(.has-reactions)+.chat-contextual-actions.out.continuation .chat-message-content,
+.chat-message-entry:not(:has(.has-reactions))+.chat-message-entry .chat-contextual-actions.out.continuation .chat-message-content{--ca-chat-bubble-top-right-radius:0px}
+.chat-message-entry:not(:has(.has-reactions))+.chat-message-entry:has(.chat-contextual-actions.continuation){margin-block-start:-1px}
 .chat-contextual-actions .chat-message-content>.message-actions{position:absolute;inset-block-start:0;inset-inline-start:calc(100% + .25rem);display:flex;align-items:center;flex-wrap:wrap;gap:.15rem;width:max-content;max-width:var(--ca-chat-action-space,9rem);padding:.2rem;margin:0;opacity:0;visibility:hidden;pointer-events:none;background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#20252b);border:1px solid var(--ca-ui-border,#d5dae0);border-radius:var(--ca-ui-radius,.3rem);z-index:2}
 .chat-contextual-actions.out .chat-message-content>.message-actions{inset-inline-start:auto;inset-inline-end:calc(100% + .25rem)}
 .chat-contextual-actions .message-actions::before{content:'';position:absolute;inset-block:0;inset-inline-end:100%;width:.35rem}

@@ -1,10 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
-import {renderMessageActions,createMessageActionRail} from '../../src/actions.mjs';
+import {renderMessageActions,createMessageActionRail,actionIcon} from '../../src/actions.mjs';
 const scope={conversationId:'conversation',messageId:'message'};
 const action=(kind,extra={})=>({actionId:kind,kind,label:kind,invoke:()=>{},...extra});
 const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
+test('custom host action retains its control and safe shared icons',()=>{
+ const {dom,document,root}=setup();let calls=0;
+ const button=document.createElement('button');button.innerHTML=actionIcon('help');
+ const rail=createMessageActionRail(root,{scope,actions:[{actionId:'details',kind:'custom',label:'Dados técnicos',element:button,invoke:()=>{calls++;}}]});
+ assert.equal(calls,0);button.click();assert.equal(calls,1);
+ assert.equal(root.firstElementChild,button);
+ for(const name of ['pdf','spreadsheet','<script>'])assert.match(actionIcon(name),/^<svg/);
+ assert.doesNotMatch(actionIcon('<script>'),/<script>/);rail.dispose();dom.window.close();
+});
 function setup(){const dom=new JSDOM('<main><audio></audio><iframe></iframe><textarea>draft</textarea><aside></aside></main>');return {dom,document:dom.window.document,root:dom.window.document.querySelector('aside')};}
 
 test('delete is absent without a host descriptor and carries no implicit transport behavior',()=>{
