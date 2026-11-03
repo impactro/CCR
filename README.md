@@ -58,7 +58,7 @@ const instructions = buildRenderPrompt({capabilities: ['data', 'chart', 'ccr.dat
 **CCR** é o nome curto de CChatRender, aprovado por Fábio em29/10/2026.
 O nome técnico `@crania/chat-render` e os imports continuam estáveis.
 Origem oficial pública: **[impactro/CCR](https://github.com/impactro/CCR)**.
-O diretório local padronizado é **`CM/CCR`**, igual ao repositório. Dependências Git devem fixar
+O diretório local padronizado é **`CM/CCR`**, igual ao repositório. Dependências Git devem acompanhar
 main oficial, com SHA testado no lock, conforme [origem e consumo pelo Git](docs/GIT-ORIGIN.md).
 
 Para obter a fonte, executar a partir da pasta de componentes `CM`:
