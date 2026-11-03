@@ -1,8 +1,9 @@
 /** Action descriptors are trusted host code, never document/AI JSON. */
-const ORDER={reply:10,react:20,copy:30,preview:40,open:45,download:50,export:55,forward:60,delete:70};
+const ORDER={reply:10,react:20,copy:30,listen:35,preview:40,open:45,download:50,export:55,forward:60,delete:70};
 const PATHS={reply:'<path d="m10 5-7 6 7 6v-4c7 0 10 2 11 6 1-8-3-11-11-11z"/>',react:'<circle cx="12" cy="12" r="9"/><path d="M8 14c2 3 6 3 8 0M8 8h.01M16 8h.01"/>',copy:'<rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/>',preview:'<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>',download:'<path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/>',forward:'<path d="m12 5 7 7-7 7M5 5l7 7-7 7"/>'};
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 PATHS.delete='<path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>';
+PATHS.listen='<path d="M4 9h4l5-4v14l-5-4H4zM16 8a6 6 0 0 1 0 8M19 5a10 10 0 0 1 0 14"/>';
 const defaultIcon=kind=>`<svg viewBox="0 0 24 24" aria-hidden="true">${PATHS[({smile:'react',search:'preview'})[kind]||kind]||PATHS.download}</svg>`;
 const validId=value=>typeof value==='string'&&value.length>0&&value.length<=512&&!/[\u0000-\u001f]/.test(value);
 const sameScope=(a,b)=>a?.conversationId===b?.conversationId&&a?.messageId===b?.messageId;

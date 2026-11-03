@@ -102,6 +102,15 @@ test('metrics preserve real zero values and omit absent, malformed or negative v
  assert.equal(messageDetails({outputTokens:0}),'Tokens de saída: 0');
 });
 
+test('host may place factual metrics at the hour without another information icon',()=>{
+ const node=doc(renderChatMessage(first,{...options,contextualActions:true,detailsPlacement:'time',metrics:{durationSeconds:3,totalDurationSeconds:8,inputTokens:0,credits:0}}));
+ const insight=node.querySelector('.message-time .chat-message-insights');
+ assert.equal(insight.querySelector('time').textContent,'10:30');
+ assert.match(insight.querySelector('[role=tooltip]').textContent,/Duração: 3 s.*Duração acumulada: 8 s.*Tokens de entrada: 0.*Créditos: 0/);
+ assert.equal(node.querySelector('.chat-message-content .chat-message-insights'),null);
+ assert.equal(insight.tabIndex,0);node.defaultView.close();
+});
+
 test('external cancellation removes interaction listeners, including an already aborted signal',()=>{
  for(const alreadyAborted of [false,true]){
   const node=doc(renderChatMessage(first,{...options,contextualActions:true,actionsMarkup:'<button>Copiar</button>'}));

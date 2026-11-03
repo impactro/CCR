@@ -10,6 +10,7 @@ export function messageDetails(metrics){
  const parts=[];
  if(typeof metrics.model==='string'&&metrics.model.trim())parts.push('Modelo: '+metrics.model.trim().slice(0,160));
  if(nonnegative(metrics.durationSeconds))parts.push('Duração: '+metrics.durationSeconds+' s');
+ if(nonnegative(metrics.totalDurationSeconds))parts.push('Duração acumulada: '+metrics.totalDurationSeconds+' s');
  for(const [key,label]of [['inputTokens','Tokens de entrada'],['outputTokens','Tokens de saída']])
   if(Number.isSafeInteger(metrics[key])&&metrics[key]>=0)parts.push(label+': '+metrics[key]);
  if(nonnegative(metrics.credits))parts.push((metrics.creditsEstimated===true?'Créditos estimados: ':'Créditos: ')+metrics.credits);
@@ -59,7 +60,7 @@ export function renderChatMessage(message,{
  previousMessage,author={},layout='private',showAuthor=layout==='group',
  showIncomingAvatar=showAuthor,showOutgoingAvatar=false,automated=false,
  avatarMarkup='',bodyMarkup='',actionsMarkup='',beforeBodyMarkup='',deliveryMarkup='',
- reactions=[],escape=escapeText,timeZone,locale='pt-BR',contextualActions=false,metrics=null
+ reactions=[],escape=escapeText,timeZone,locale='pt-BR',contextualActions=false,metrics=null,detailsPlacement='indicator'
 }={}){
  const outgoing=message.direction==='outgoing',group=layout==='group';
  const {date,continuation}=sequenceFor(message,previousMessage,{timeZone,locale});
@@ -68,13 +69,16 @@ export function renderChatMessage(message,{
  const totals=reactions.filter(item=>typeof item?.text==='string'&&item.text&&Number.isSafeInteger(item.count)&&item.count>0);
  const reactionsHtml=totals.length?`<div class="message-reactions" aria-label="Reações">${totals.map(({text,count})=>`<span class="message-reaction" aria-label="${escape(text)} · ${count} ${count===1?'reação':'reações'}">${escape(text)}${count>1?`<small>${count}</small>`:''}</span>`).join('')}</div>`:'';
  const fullDate=Number.isSafeInteger(message.createdAt)&&message.createdAt>0?new Intl.DateTimeFormat(locale,{timeZone,dateStyle:'short',timeStyle:'short'}).format(new Date(message.createdAt)):'';
+ const details=messageDetails(metrics);
+ const timeDetails=details&&detailsPlacement==='time';
+ const timeText=escape(messageTime(message.createdAt,{timeZone,locale}));
+ const timeMarkup=timeDetails?`<span class="chat-message-insights" tabindex="0" role="note" aria-label="${escape([fullDate,details].filter(Boolean).join(' · '))}"><time>${timeText}</time><span class="chat-message-tooltip" role="tooltip">${escape([fullDate,details].filter(Boolean).join(' · '))}</span></span>`:`<time title="${escape(fullDate)}">${timeText}</time>`;
  const bubble=`<article class="bubble ${group?'group-bubble':'private-message'} ${outgoing?'out':''} ${automated?'agent-message':''}" data-message-id="${escape(message.messageId)}" data-message-from-me="${outgoing?'true':'false'}">${authorHtml}${beforeBodyMarkup}<div class="message-body">${bodyMarkup}</div>${reactionsHtml}</article>`;
- const metadata=`<div class="message-time"><span class="message-time-line"><time title="${escape(fullDate)}">${escape(messageTime(message.createdAt,{timeZone,locale}))}</time>${outgoing?deliveryMarkup:''}</span>${message.edited?'<small class="message-edited">editada</small>':''}</div>`;
+ const metadata=`<div class="message-time"><span class="message-time-line">${timeMarkup}${outgoing?deliveryMarkup:''}</span>${message.edited?'<small class="message-edited">editada</small>':''}</div>`;
  const day=date?`<div class="message-day" role="separator" aria-label="${escape(date)}"><strong>${escape(date)}</strong></div>`:'';
  const actions=actionsMarkup?`<div class="message-actions">${actionsMarkup}</div>`:'';
  const avatar=!continuation&&(outgoing?showOutgoingAvatar:showIncomingAvatar)?avatarMarkup:'';
- const details=messageDetails(metrics);
- const insights=details?`<span class="chat-message-insights" tabindex="0" role="note" aria-label="${escape(details)}"><span aria-hidden="true">ⓘ</span><span class="chat-message-tooltip" role="tooltip">${escape(details)}</span></span>`:'';
+ const insights=details&&!timeDetails?`<span class="chat-message-insights" tabindex="0" role="note" aria-label="${escape(details)}"><span aria-hidden="true">ⓘ</span><span class="chat-message-tooltip" role="tooltip">${escape(details)}</span></span>`:'';
  const toggle=actions?'<button type="button" class="chat-actions-toggle" aria-label="Ações da mensagem" aria-expanded="false">⋯</button>':'';
  const contextual=`<div class="chat-message-content"${actions?' tabindex="0"':''}>${bubble}${toggle}${actions}${insights}</div>`;
  const content=contextualActions?(outgoing?`${contextual}${metadata}${avatar}`:`<div class="message-leading">${avatar}${metadata}</div>${contextual}`):

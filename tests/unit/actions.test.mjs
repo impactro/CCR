@@ -60,3 +60,11 @@ test('granted links retain native gestures and button-to-link transitions replac
  rail.update({scope,actions:[action('download',{invoke:undefined,resolveLink:()=>({href:'https://example.test/file',download:'file.pdf'})})]});
  assert.notEqual(root.firstElementChild,original);assert.equal(root.firstElementChild.tagName,'A');assert.equal(root.firstElementChild.download,'file.pdf');rail.dispose();dom.window.close();
 });
+
+test('listening uses a host callback, a speaker icon and shared order',()=>{
+ const {dom,root}=setup();let calls=0;
+ const rail=createMessageActionRail(root,{scope,actions:[action('download'),action('listen',{invoke:()=>{calls++;}}),action('copy')]});
+ assert.deepEqual([...root.children].map(n=>n.dataset.chatActionId),['copy','listen','download']);
+ assert.equal(calls,0);assert.ok(root.children[1].querySelector('svg path'));
+ root.children[1].click();assert.equal(calls,1);rail.dispose();dom.window.close();
+});

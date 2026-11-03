@@ -25,6 +25,13 @@ o mesmo render. Tema não reimplementa agrupamento, datas, ações ou visualizad
 
 ## Regras comuns
 
+Controles contextuais usam `contextualActions: true`: desktop por hover/foco e
+toque pelo botão de ações. O host fornece somente callbacks/capacidades reais.
+A ação `listen` tem ícone e ordem comuns entre copiar e visualizar; o CCR não
+chama CSay nem contém autenticação. `detailsPlacement: 'time'` posiciona as
+métricas fornecidas em um tooltip acessível no horário, preservando data,
+valores zero e ausência de dados. Nenhum saldo é inferido de créditos de uso.
+
 - Uma mensagem possui um único envelope. Texto, citação e partes ricas ficam
   dentro dele; não envolver o CCR em outra bolha com borda/fundo próprios.
 - conversationId, messageId e authorId são opacos e distintos. Agrupamento

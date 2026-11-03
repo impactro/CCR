@@ -11,7 +11,9 @@
 .chat-contextual-actions .chat-message-content:hover>.message-actions,.chat-contextual-actions .chat-message-content:focus-within>.message-actions{opacity:1;visibility:visible;pointer-events:auto}
 .chat-contextual-actions .message-actions:empty{display:none}
 .chat-actions-toggle{display:none}
+.chat-contextual-actions .chat-message-content>.chat-actions-toggle[hidden]{display:none}
 .chat-message-insights{position:relative;display:inline-block;color:var(--ca-ui-muted,#626b75);font-size:.8rem;cursor:help}
+.message-time .chat-message-insights{font-size:inherit}
 .chat-message-tooltip{position:absolute;inset-block-end:100%;inset-inline-start:0;display:none;width:max-content;max-width:min(28rem,75vw);padding:.55rem .7rem;border:1px solid var(--ca-ui-border,#d5dae0);border-radius:var(--ca-ui-radius,.3rem);background:var(--ca-ui-surface,#fff);color:var(--ca-ui-text,#20252b);white-space:normal;z-index:4;box-shadow:0 .2rem .7rem #0002}
 .chat-contextual-actions.out .chat-message-tooltip{inset-inline-start:auto;inset-inline-end:0}
 .chat-message-insights:hover>.chat-message-tooltip,.chat-message-insights:focus>.chat-message-tooltip{display:block}
