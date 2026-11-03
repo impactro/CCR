@@ -7,6 +7,8 @@ PATHS.listen='<path d="M4 9h4l5-4v14l-5-4H4zM16 8a6 6 0 0 1 0 8M19 5a10 10 0 0 1
 PATHS.help='<circle cx="12" cy="12" r="9"/><path d="M9 8a3 3 0 0 1 6 1c0 2-3 2-3 4M12 17h.01"/>';
 PATHS.custom='<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>';
 PATHS.pdf='<path d="M14 3H5v18h14V8zM14 3v5h5M8 12h3v3H8v3M13 18v-6h2l2 3-2 3z"/>';
+PATHS.xml='<path d="M14 3H5v18h14V8zM14 3v5h5M9 12l-2 3 2 3M15 12l2 3-2 3M13 11l-2 8"/>';
+PATHS.edit='<path d="m15 4 5 5M4 20l5-1L21 7l-5-5L4 14z"/>';
 PATHS.spreadsheet='<path d="M14 3H5v18h14V8zM14 3v5h5M8 11h8M8 14h8M8 17h8M11 11v9"/>';
 const defaultIcon=kind=>`<svg viewBox="0 0 24 24" aria-hidden="true">${PATHS[({smile:'react',search:'preview'})[kind]||kind]||PATHS.download}</svg>`;
 /** Closed trusted icon vocabulary. This never accepts markup or executable code. */

@@ -1,3 +1,7 @@
+## 2026-11-03 — Contratos de apresentação e feedback
+
+Ações de linha aceitam ícones da biblioteca fechada, rótulos acessíveis/tooltips. Callback de classe por célula aplica semântica no Google/fallback e segue identidade após ordenar.140Node passaram; sem dados ou autoridade do consumidor.
+
 ## 2026-11-03 — Camada de pontos independente e apresentação compacta
 
 - pointLayer do host sobrepõe posições sem somar novamente valores das áreas.

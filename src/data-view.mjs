@@ -70,6 +70,11 @@ export function createRichDataRenderer({document=globalThis.document,google=fals
     }
     return displayCellValue(value,column.type);
   }
+  function cellClass(state,row,columnIndex){
+    if(typeof state.options.cellClassName!=='function')return '';
+    const value=state.options.cellClassName({row:Object.freeze([...row]),index:state.rowIndexes.get(row),columnIndex});
+    return typeof value==='string'?value.split(/\s+/).filter(v=>/^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$/.test(v)).slice(0,8).join(' '):'';
+  }
   function validateActions(columns){
     if(!Array.isArray(columns)||columns.length>8)throw new TypeError('Colunas de ação inválidas.');
     for(const column of columns)if(!column||typeof column.label!=='string'||column.label.length>120||typeof column.actions!=='function')throw new TypeError('Ações exigem um callback do aplicativo.');
@@ -86,7 +91,9 @@ export function createRichDataRenderer({document=globalThis.document,google=fals
     for(const action of actions){
       if(!action||typeof action.label!=='string'||action.label.length>120||typeof action.invoke!=='function')throw new TypeError('Ação inválida.');
       const button=document.createElement('button');button.type='button';button.textContent=action.label;
-      button.className='ccr-row-action';if(typeof action.title==='string')button.title=action.title.slice(0,300);
+      button.className='ccr-row-action';button.setAttribute('aria-label',action.label);
+      if(typeof action.icon==='string'){button.innerHTML=actionIcon(action.icon);button.classList.add('ccr-row-action-icon');button.title=action.label;}
+if(typeof action.title==='string')button.title=action.title.slice(0,300);
       const disabled=action.disabled===true;button.disabled=disabled;button.dataset.disabled=String(disabled);
       button.addEventListener('click',async event=>{
         event.stopPropagation();if(state.disposed||button.disabled)return;
@@ -137,7 +144,7 @@ export function createRichDataRenderer({document=globalThis.document,google=fals
     thead.append(head);const tbody=document.createElement('tbody');
     for(const row of rows.slice(state.page*size,(state.page+1)*size)){
       const tr=document.createElement('tr');
-      row.forEach((value,index)=>{const td=document.createElement('td');td.textContent=cellText(state,value,state.data.columns[index],index);td.dataset.type=state.data.columns[index].type;tr.append(td);});
+      row.forEach((value,index)=>{const td=document.createElement('td');td.textContent=cellText(state,value,state.data.columns[index],index);td.dataset.type=state.data.columns[index].type;td.className=cellClass(state,row,index);tr.append(td);});
       state.actionColumns.forEach((column,columnIndex)=>{const td=document.createElement('td');td.append(actionCell(state,state.rowIndexes.get(row),columnIndex));tr.append(td);});
       tbody.append(tr);
     }
@@ -819,6 +826,7 @@ export function createRichDataRenderer({document=globalThis.document,google=fals
         for(const [index,column] of state.data.columns.entries())if(state.options.formatters?.[index]||['date','datetime'].includes(column.type)){
           rows.forEach((row,rowIndex)=>definition.data.setFormattedValue(rowIndex,index,escapeTableText(cellText(state,row[index],column,index))));
         }
+        if(state.options.cellClassName)rows.forEach((row,rowIndex)=>state.data.columns.forEach((_,columnIndex)=>definition.data.setProperty(rowIndex,columnIndex,'className',cellClass(state,row,columnIndex))));
         addGoogleActions(state,definition.data,rows);
       }
       state.visual.replaceChildren();

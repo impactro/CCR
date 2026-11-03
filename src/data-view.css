@@ -45,3 +45,6 @@
 .ccr-data-view .data-error:empty{display:none}
 .ccr-data-view .data-column-resizer{position:absolute;z-index:2;top:0;right:0;width:7px;height:100%;cursor:col-resize;touch-action:none}
 @media(max-width:600px){.ccr-data-view .data-header{align-items:stretch}.ccr-data-view .data-search{flex:1 1 100%}.ccr-data-view .data-action-group{margin-left:0}.ccr-data-view :is(.data-fallback-table,.google-visualization-table-table) :is(th,td){padding:7px 8px}}
+
+.ccr-row-action.ccr-row-action-icon {display:inline-flex;align-items:center;justify-content:center;width:34px;min-width:34px;padding:6px;}
+.ccr-row-action-icon svg {width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}

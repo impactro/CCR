@@ -128,3 +128,13 @@ test('Google HTML mode cannot turn plain string cells or labels into markup',asy
  assert.equal(f.mount.querySelector('[data-ccr-action-row]'),null);
  view.dispose();f.dom.window.close();
 });
+
+test('row icons preserve accessible labels and cell classes follow rows after sorting',async()=>{
+ const {document,mount,renderer}=fixture();
+ const view=renderer.render(data,mount,null,{search:false,views:false,title:false,exports:false,count:false,cellClassName:({row,columnIndex})=>columnIndex===0?'state-'+row[0]:'',actionColumns:[{label:'Ações',actions:()=>[{label:'XML',icon:'xml',invoke(){}}]}]});
+ await view.ready;
+ const button=mount.querySelector('.ccr-row-action');
+ assert.equal(button.getAttribute('aria-label'),'XML');assert.equal(button.title,'XML');assert.ok(button.querySelector('svg'));assert.equal(button.textContent,'');
+ assert.ok(mount.querySelector('td.state-003'));click(mount,'Código');await view.ready;assert.equal(mount.querySelector('tbody td').className,'state-001');
+ assert.equal(mount.querySelector('.data-header').hidden,true);view.dispose();
+});
