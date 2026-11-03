@@ -117,6 +117,13 @@ Não editar uma cópia vendor publicada nem criar forks permanentes por tema.
 
 ## Aceite dos consumidores
 
+O rail dá a mesma área de 30 × 30 px a botões, controles nativos adotados e
+links de download. Todos recebem hover e foco de teclado comuns; ações
+desabilitadas não recebem o destaque de hover. O host personaliza somente
+`--ca-chat-action-radius`, `--ca-chat-action-frame-radius` e
+`--ca-chat-action-hover`. A moldura tem respiro de 4 px vertical/6 px lateral.
+Isso não muda title, autorização, callback nem o gesto nativo dos links.
+
 Testar fixtures comuns de privado/grupo, humano/IA, dois autores, duas
 conversas/contas, dia novo, sequência, citações/reações, ações disponíveis,
 mídia/documentos e troca durante carregamento. Usar claro/escuro e os temas
