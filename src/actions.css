@@ -1,5 +1,7 @@
 .chat-action-rail{display:flex;align-items:center;flex-wrap:wrap;gap:2px}
 .chat-action-rail [hidden]{display:none!important}
-.chat-action-rail>button,.chat-action-rail>a{display:inline-grid;place-items:center;min-width:24px;min-height:24px;padding:3px;border:0;background:transparent;color:var(--ca-ui-muted,currentColor);text-decoration:none;cursor:pointer}
+.chat-action-rail>button,.chat-action-rail>a{display:inline-grid;place-items:center;box-sizing:border-box;inline-size:30px;block-size:30px;min-width:30px;min-height:30px;padding:4px;border:0;border-radius:var(--ca-chat-action-radius,4px);background:transparent;color:var(--ca-ui-muted,currentColor);text-decoration:none;cursor:pointer}
+.chat-action-rail>:is(button,a):not(:disabled):not([aria-disabled=true]):hover{background:var(--ca-chat-action-hover,color-mix(in srgb,var(--ca-ui-text,#20252b) 10%,var(--ca-ui-surface,#fff)));color:var(--ca-ui-text,#20252b)}
+.chat-action-rail>:is(button,a):focus-visible{outline:2px solid var(--ca-ui-focus,#64748b);outline-offset:1px}
 .chat-action-rail svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .chat-action-rail :disabled,.chat-action-rail [aria-disabled=true]{opacity:.5;cursor:default}

@@ -1,10 +1,27 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
+import {readFileSync} from 'node:fs';
 import {renderMessageActions,createMessageActionRail,actionIcon} from '../../src/actions.mjs';
 const scope={conversationId:'conversation',messageId:'message'};
 const action=(kind,extra={})=>({actionId:kind,kind,label:kind,invoke:()=>{},...extra});
 const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
+
+test('native buttons, adopted host controls and download links share size and hover rule',()=>{
+ const {dom,document,root}=setup();
+ const style=document.createElement('style');style.textContent=readFileSync(new URL('../../src/actions.css',import.meta.url),'utf8');document.head.append(style);
+ const details=document.createElement('button');details.className='message-action technical-toggle';details.title='Dados técnicos';
+ const rail=createMessageActionRail(root,{scope,actions:[action('copy'),action('download',{resolveLink:()=>({href:'blob:fixture',download:'fixture.txt'})}),action('custom',{actionId:'details',element:details})]});
+ const nodes=[...root.children];assert.equal(nodes.length,3);assert.ok(nodes.some(n=>n.tagName==='A'));
+ for(const node of nodes){const computed=dom.window.getComputedStyle(node);assert.equal(computed.inlineSize,'30px');assert.equal(computed.blockSize,'30px');node.setAttribute('data-test-hover','');}
+ const hover=[...style.sheet.cssRules].find(rule=>rule.selectorText?.includes(':hover'));
+ assert.equal(document.querySelectorAll(hover.selectorText.replaceAll(':hover','[data-test-hover]')).length,3);
+ nodes[0].disabled=true;nodes[1].setAttribute('aria-disabled','true');
+ assert.equal(document.querySelectorAll(hover.selectorText.replaceAll(':hover','[data-test-hover]')).length,1);
+ const envelope=readFileSync(new URL('../../src/conversation.css',import.meta.url),'utf8');
+ assert.match(envelope,/padding:4px 6px/);assert.match(envelope,/--ca-chat-action-frame-radius,12px/);
+ rail.dispose();dom.window.close();
+});
 test('custom host action retains its control and safe shared icons',()=>{
  const {dom,document,root}=setup();let calls=0;
  const button=document.createElement('button');button.innerHTML=actionIcon('help');
