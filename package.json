@@ -1,6 +1,6 @@
 {
   "name": "@crania/chat-render",
-  "version": "26.11.3-a",
+  "version": "26.11.3-b",
   "private": true,
   "type": "module",
   "description": "Host-independent rich chat presentation with bounded plugins and isolated media",
@@ -15,6 +15,8 @@
   "exports": {
     ".": "./src/index.js",
     "./styles.css": "./src/styles.css",
+    "./data-view": "./src/data-view.mjs",
+    "./data-view.css": "./src/data-view.css",
     "./sandbox-runtime": "./src/sandbox-runtime.js",
     "./sandbox-host": "./src/sandbox-host.js",
     "./presentation": "./src/presentation.mjs",
@@ -45,6 +47,7 @@
     "examples/rich-documents",
     "docs/CCR-RICH-DOCUMENT.md",
     "docs/CCR-ACTIONS.md",
+    "docs/DATA-VIEW-CONTRACT.md",
     "docs/PROGRESSIVE-HISTORY-CONTRACT.md",
     "docs/CONTEXTUAL-VIEWS-CONTRACT.md",
     "tools/manage-geography.py",
@@ -71,5 +74,5 @@
     "esbuild": "^0.28.2",
     "jsdom": "^29.1.1"
   },
-  "cesVersion": "26.11.3a"
+  "cesVersion": "26.11.3b"
 }

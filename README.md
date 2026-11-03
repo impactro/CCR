@@ -1,5 +1,12 @@
 # CCR — Crânio Chat Render
 
+**26.11.3b:** [render rico de dados compartilhado](docs/DATA-VIEW-CONTRACT.md)
+para chats e miniapps: Google Charts, filtro, ordenação, paginação, layouts
+configuráveis, colunas de ação por callbacks do host e exportação desacoplada.
+O envelope de mensagem é opcional e permite ocultar horário, autor e métricas.
+Ativação e instalação pertencem a cada consumidor; o CCR não autentica ou
+executa ações de negócio.
+
 Operação sem checkout: [guia do pacote instalado](docs/installed-package.md).
 Referências a fontes, build e testes são destinadas à manutenção.
 

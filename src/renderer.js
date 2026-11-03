@@ -4,6 +4,7 @@ import {createScope} from './lifecycle.js';
 import {createHtmlFrame} from './sandbox.js';
 import {createMedia} from './media.js';
 import {createDataTable} from './data.js';
+import {createRichDataRenderer} from './data-view.mjs';
 import {createDataChart} from './chart.js';
 import {createHeatmap,createGeoMap} from './visuals.mjs';
 export {configureGeography} from './geography.mjs';
@@ -36,7 +37,16 @@ export function createChatRenderer(options = {}) {
   const plugins = options.plugins || {};
   const limits = {text: 150000, block: 120000, visuals: 4, ...options.limits};
   const snapshots=new WeakMap();
-  const documents=createDocumentRenderer({locale:options.locale,resolveResource:options.resolveDocumentResource});
+  const dataRenderers=new WeakMap();
+  function richData(document,value,extra={}){
+    let renderer=dataRenderers.get(document);
+    if(!renderer){renderer=createRichDataRenderer({document,...(options.richData||{})});dataRenderers.set(document,renderer);}
+    const element=document.createElement('div');
+    const state=renderer.render(value,element,null,{...(options.richData||{}),...extra});
+    return {element,dispose:()=>state.dispose()};
+  }
+  const documents=createDocumentRenderer({locale:options.locale,resolveResource:options.resolveDocumentResource,
+    renderData:options.richData===false?undefined:(document,data,view)=>view!=='table'&&options.richData?.google!==true&&!options.richData?.loadCharts?createDataChart(document,data,{view,locale:options.locale}):richData(document,data,{initialView:view})});
   return {
     update(element,message={},extra={}) {
       const key=JSON.stringify([extra.conversationId,extra.messageId,extra.resourceRevision,message.text,message.attachments,Array.isArray(message.documents)?message.documents.map(decodeRichDocument):[]]);
@@ -72,8 +82,17 @@ export function createChatRenderer(options = {}) {
           options.decorateLink?.(link, url);
         } catch { link.replaceWith(document.createTextNode(link.textContent)); }
       }
-      if (options.renderTable) for (const table of [...element.querySelectorAll('table')]) {
-        try { const node = options.renderTable(table, context); if (node) { table.replaceWith(node); if (node.dispose) scope.cleanup(() => node.dispose()); } }
+      if (options.renderTable || options.richData!==false) for (const table of [...element.querySelectorAll('table')]) {
+        try {
+          let result;
+          if(options.renderTable)result=options.renderTable(table,context);
+          else {
+            const parser=dataRenderers.get(document)||createRichDataRenderer({document,...(options.richData||{})});
+            const value=parser.tableModel(table);if(value)result=richData(document,value);
+          }
+          const node=result?.element||result;
+          if(node){table.replaceWith(node);if(result.dispose)scope.cleanup(()=>result.dispose());}
+        }
         catch { error(table); }
       }
       let visuals = 0;
@@ -94,10 +113,10 @@ export function createChatRenderer(options = {}) {
             if(handle.result.status!=='ready')throw Error('Invalid CCR document');
             result={element:node,dispose:()=>documents.dispose(node)};
           }
-          else if (language === 'chart') result = (options.renderChart||createDataChart)(document, JSON.parse(source),{locale:options.locale});
+          else if (language === 'chart') result = !options.renderChart&&(options.richData?.google===true||options.richData?.loadCharts)?richData(document,JSON.parse(source),{initialView:JSON.parse(source).view||'table'}):(options.renderChart||createDataChart)(document, JSON.parse(source),{locale:options.locale});
           else if (language === 'map') result = (options.renderMap||createGeoMap)(document, JSON.parse(source),{locale:options.locale});
           else if (language === 'heatmap') result = createHeatmap(document, JSON.parse(source),{locale:options.locale});
-          else if (['data','table'].includes(language)) result = createDataTable(document, JSON.parse(source),{locale:options.locale});
+          else if (['data','table'].includes(language)) result = options.richData===false?createDataTable(document,JSON.parse(source),{locale:options.locale}):richData(document,JSON.parse(source));
           else result = createMedia(document, {...JSON.parse(source), type: language}, context);
           const node = result?.element || result;
           if (!node || node.ownerDocument !== document || !node.nodeType) throw Error('Plugin inválido');

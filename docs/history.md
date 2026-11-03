@@ -1,3 +1,18 @@
+## 2026-11-03 — Render rico compartilhado de dados
+
+- CCR26.11.3b recebe o motor Google antes exclusivo do CAW:20 visões,
+  busca, ordenação, paginação, redimensionamento e exportação por callback.
+- API standalone e integração padrão dos blocos de dados/Markdown. Superfícies
+  bubble/panel/bare, controles opcionais, envelope compartilhado com visibilidade
+  de horário/autor/métricas e colunas de botões fornecidas pelo host.
+- Ações mantêm identidade após filtro/sort/paginação e não entram em dados ou
+  exportações. Strings são texto escapado no modo HTML Google; callbacks não
+  podem ser introduzidos por conteúdo serializado. Dispose impede ações tardias.
+- Google é habilitado pelo consumidor; falha preserva tabela interativa local.
+  Exportação, autenticação e autorização permanecem nos adaptadores dos produtos.
+- Testes Node do módulo e ensaio real Google com dados sintéticos aprovados;
+  adoção e instalação em CAW/CWH/miniapps exigem recibos próprios dos consumidores.
+
 # Histórico
 
 ## 2026-11-03 — 26.11.3a, métricas compactas comuns

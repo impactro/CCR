@@ -2,6 +2,7 @@ export {createChatRenderer, splitAnswer, disposeAnswer} from './renderer.js';
 export {createMedia, resourceUrl} from './media.js';
 export {createHtmlFrame} from './sandbox.js';
 export {createDataTable} from './data.js';
+export {createRichDataRenderer} from './data-view.mjs';
 export {createDataChart,localChartViews} from './chart.js';
 export {createHeatmap,createGeoMap} from './visuals.mjs';
 export {configureGeography,installGeography} from './geography.mjs';
