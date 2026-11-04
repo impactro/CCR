@@ -1,5 +1,13 @@
 ## 2026-11-03 — Contratos de apresentação e feedback
 
+## 2026-11-04 — Fila compartilhada de tarefas
+
+- `.agents/tasks.md` passa a ser versionada, com referência relativa à governança CES; demais contextos privados continuam ignorados.
+- Pendências anteriores foram organizadas sem executar seus escopos ou revalidar automaticamente estados antigos. Recuperação integral anterior permanece local, fora do Git.
+- Validação documental: categorias, referências, UTF-8 e exceções de ignore; nenhuma alteração de runtime.
+- Registros que já declaravam conclusão saíram da fila (conclusões anteriores, não novas implementações):
+  - CA-CCR-PROMOCAO-20261103 — promoção concluída.
+
 Ações de linha aceitam ícones da biblioteca fechada, rótulos acessíveis/tooltips. Callback de classe por célula aplica semântica no Google/fallback e segue identidade após ordenar.140Node passaram; sem dados ou autoridade do consumidor.
 
 ## 2026-11-03 — Camada de pontos independente e apresentação compacta

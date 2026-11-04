@@ -29,3 +29,6 @@ nesses documentos e ações futuras somente na fila do projeto responsável.
 Exceção técnica documentada: npm exige SemVer para dependências; converter
 AA.M.Dletra em AA.M.D-letra no campo package.version. cesVersion e release.json
 conservam AA.M.Dletra, com correspondência fixa e sem versão alternativa de runtime.
+
+Fila pendente e histórico seguem a [governança CES](../../CServer/CES/padroes/project-governance.md).
+Começar por `.agents/tasks.md`; contexto privado permanece fora do Git.
