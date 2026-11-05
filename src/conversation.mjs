@@ -1,6 +1,15 @@
 import {messageTime, sequenceFor} from './presentation.mjs';
 
 const escapeText=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+
+/** A received snapshot, never a tracker. No remote request until the link is opened. */
+export function renderChatPosition(location,{escape=escapeText}={}){
+ const lat=location?.latitude,lon=location?.longitude;
+ if(typeof lat!=='number'||typeof lon!=='number'||!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)return '';
+ const query=encodeURIComponent(`${lat},${lon}`),url=`https://www.google.com/maps/search/?api=1&query=${query}`;
+ const osm=`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=16/${lat}/${lon}`;
+ return `<section class="chat-position" aria-label="Posição GPS"><a href="${url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir posição no Google Maps"><svg viewBox="0 0 320 120" role="img" aria-label="Posição recebida, sem rastreamento"><rect width="320" height="120" rx="12" fill="#e8f1ed"/><path d="M0 30L320 85M0 95L320 20M70 0L110 120M250 0L210 120" stroke="#fff" stroke-width="12"/><path d="M160 25c-17 0-27 12-27 27 0 20 27 43 27 43s27-23 27-43c0-15-10-27-27-27" fill="#246658"/><circle cx="160" cy="51" r="9" fill="#fff"/></svg><strong>${escape(location.name||'Posição recebida')}</strong><span>${escape(location.address||`${lat.toFixed(6)}, ${lon.toFixed(6)}`)}</span></a><a href="${osm}" target="_blank" rel="noopener noreferrer">Abrir no OpenStreetMap</a></section>`;
+}
 export const isAuthorColor=value=>typeof value==='string'&&/^#[0-9a-f]{6}$/i.test(value);
 const colorStyle=color=>isAuthorColor(color)?` style="--author-color:${color}"`:'';
 const nonnegative=value=>typeof value==='number'&&Number.isFinite(value)&&value>=0;

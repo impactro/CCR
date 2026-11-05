@@ -1,6 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
+import {renderChatPosition} from '../../src/conversation.mjs';
+
+test('position snapshots have safe clickable maps without loading external resources',()=>{
+ const html=renderChatPosition({latitude:0,longitude:0,name:'<script>alert(1)</script>'});
+ const document=new JSDOM(html).window.document;
+ assert.equal(document.querySelectorAll('script,img,iframe').length,0);
+ assert.equal(document.querySelectorAll('a').length,2);
+ assert.match(document.querySelector('a').href,/google.com\/maps/);
+ assert.equal(document.querySelector('strong').textContent,'<script>alert(1)</script>');
+ for(const latitude of [NaN,Infinity,91,true,'0'])assert.equal(renderChatPosition({latitude,longitude:0}),'');
+});
 import {renderChatMessage,renderChatQuote,isAuthorColor,messageDetails,bindConversationInteractions} from '../../src/conversation.mjs';
 
 const first={conversationId:'workspace-one/chat-one',messageId:'m1',authorId:'agent-one',role:'assistant',direction:'incoming',createdAt:Date.parse('2026-10-29T13:30:00Z')};

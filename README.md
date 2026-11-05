@@ -310,3 +310,8 @@ Use host --ca-ui-border, --ca-ui-muted, --ca-ui-warning, --ca-ui-text and
 to --ca-ui-font and --ca-ui-space in the host contract; CCR does not install
 a global reset, palette selector or configuration menu. Document pixels and
 chart data colors are not corporate theme tokens. APIs remain unchanged.
+## Posições GPS — candidata 26.11.5a
+
+Render de posição com links e exportação local de clientes por raio em
+PNG/SVG/HTML: [contrato](docs/CHAT-PRESENTATION-CONTRACT.md#posição-gps).
+Não inclui instalação ou atualização automática dos consumidores.

@@ -9,6 +9,10 @@ from .drawing import render_svg
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
     commands=parser.add_subparsers(dest='command',required=True)
+    positions=commands.add_parser('render-positions',help='Mapa local de cinco ou mais clientes dentro de um raio, sem rede ou rastreamento.')
+    positions.add_argument('--agent-root',type=Path,required=True)
+    positions.add_argument('--data',type=Path,required=True)
+    positions.add_argument('--output',type=Path,required=True)
     export=commands.add_parser('export-document',help='Export a bounded CES document using the packaged shared SVG runtime.')
     export.add_argument('--agent-root',type=Path,required=True)
     export.add_argument('--data',type=Path,required=True)
@@ -32,6 +36,9 @@ def main(argv=None):
     try:
         root=args.agent_root.resolve()
         if not root.is_dir():raise ValueError('Raiz do consumidor não existe.')
+        if args.command=='render-positions':
+            from .positions import export_positions
+            print(json.dumps({'ok':True,'result':export_positions(root,args.data,args.output)},ensure_ascii=False));return 0
         if args.command=='export-document':
             from .document_export import export_document
             result=export_document(root,args.data,args.output,args.resources)

@@ -21,6 +21,7 @@ python -s -m ccr lookup-place --agent-root . --kind city --state SP --name "Sant
 python -s -m ccr prepare-map --agent-root . --key state-SP --png
 python -s -m ccr render-map --agent-root . --key state-SP --data temp/valores.json --output outputs/mapa.png
 python -s -m ccr export-document --help
+python -s -m ccr render-positions --agent-root . --data temp/posicoes.json --output outputs/clientes.png
 ```
 
 `prepare-map` pode baixar bases públicas das receitas aprovadas. O cache

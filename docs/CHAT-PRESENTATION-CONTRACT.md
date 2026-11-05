@@ -1,5 +1,21 @@
 # CCR: contrato comum de apresentação das conversas
 
+## Posição GPS
+
+`renderChatPosition({latitude,longitude,name?,address?})`, exportado por
+`conversation`, apresenta marcador ilustrativo e links Google Maps e
+OpenStreetMap. Não baixa mapas nem acompanha localização. Exige coordenadas
+finitas, limites geográficos e escape; acesso e DTO pertencem ao host.
+
+CM Python `render-positions` exporta PNG/SVG/HTML e manifesto para cinco a cem
+pontos no raio (padrão 5 km). O mapa esquemático mostra norte, centro, distância
+em linha reta, marcadores e legenda, sem base viária, rede ou geocodificação.
+HTML/SVG têm links por ponto e para o centro no OSM; PNG é imagem estática.
+Arquivos somente em temp/outputs da raiz autorizada, sem sobrescrita. Exportar
+não comprova envio. Menos de cinco pontos: lista no consumidor. Ver skill
+`position-map` do pacote Python. Atualizar o bundle oficial do CCR no CWH antes
+de promover a apresentação; consumidor com bundle anterior mantém compatibilidade.
+
 Diretriz explícita de Fábio em 30/10/2026: CAW e todos os consumidores do CCR
 seguem o mesmo padrão. O CCR é o núcleo do render de chat completo, incluindo
 o envelope da mensagem e suas ações, além do conteúdo rico. Não é apenas uma
