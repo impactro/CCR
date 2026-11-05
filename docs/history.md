@@ -1,3 +1,9 @@
+## 2026-11-05 — Conciliação da fila no devServer
+
+Integrada a fila compartilhada85ef3eb, preservando o aceite integrado pendente
+CCR-RENDER-RESTANTE da fila local antes ignorada. As novas frentes de dados e
+mídia foram mantidas. Nenhuma implementação, instalação ou aceite visual novo.
+
 ## 2026-11-03 — Contratos de apresentação e feedback
 
 ## 2026-11-04 — Fila compartilhada de tarefas
