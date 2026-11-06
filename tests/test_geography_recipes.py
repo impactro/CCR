@@ -75,7 +75,7 @@ class RecipesTest(unittest.TestCase):
 
     def test_module_discovery_exposes_shared_skill_and_exact_tools(self):
         descriptor=describe();self.assertEqual(descriptor['contractVersion'],3)
-        self.assertEqual(set(descriptor['operations']),{'prepare-map','lookup-place','render-map','export-document'})
+        self.assertEqual(set(descriptor['operations']),{'prepare-map','lookup-place','render-map','render-positions','export-document'})
         self.assertTrue(descriptor['skillGroups'][0]['skills'][0]['path'].is_file())
         recipe=json.loads((Path(__file__).resolve().parents[1]/'python/ccr/recipes/geography.json').read_text('utf8'))
         self.assertEqual(recipe['cache']['expiration'],'explicit-refresh-only')
