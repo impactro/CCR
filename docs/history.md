@@ -1,3 +1,10 @@
+## 2026-11-08 — Apresentação flat
+
+Removidas faixas laterais de avisos/detalhes e sombras internas de cabeçalhos
+de tabela. Balões, painéis e ações não têm moldura decorativa. Preservados
+contornos funcionais mínimos de tabelas/campos, foco de teclado e callbacks.
+A fonte é candidata na branchCUI; atualizar o CCR não promove consumidores.
+
 ## 2026-11-05 — Conciliação da fila no devServer
 
 Integrada a fila compartilhada85ef3eb, preservando o aceite integrado pendente

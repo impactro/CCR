@@ -32,3 +32,10 @@ conservam AA.M.Dletra, com correspondência fixa e sem versão alternativa de ru
 
 Fila pendente e histórico seguem a [governança CES](../../CServer/CES/padroes/project-governance.md).
 Começar por `.agents/tasks.md`; contexto privado permanece fora do Git.
+
+Direção visual Fábio08/11/2026: apresentação flat. É proibido usar borda colorida
+em um lado, sombra interna (`inset`) ou aro decorativo para seleção/destaque,
+inclusive em cabeçalhos de tabela, citações, avisos e detalhes geográficos.
+Ícones são desenhados sem moldura e mudam de cor quando selecionados.
+Balões/painéis não têm borda decorativa; preservar somente bordas funcionais
+mínimas de tabelas, paginação e campos editáveis, além de foco `:focus-visible`.
