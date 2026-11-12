@@ -2,7 +2,7 @@
 
 Fonte canônica: `render.prompt.json` neste mesmo diretório. Este Markdown explica
 o contrato e a configuração; não é uma segunda cópia da instrução para o modelo.
-Fonte candidata CES26.11.5a, npm26.11.5-a, prompt schema1, documento CES/renderer1.
+Fonte CES26.11.12a, npm26.11.12-a, prompt schema1, documento CES/renderer1.
 
 O contrato orienta listar apenas localidades com entidades no recorte, salvo
 pedido explícito de ausência/cobertura; não presumir SP quando há outras UFs.
