@@ -1,8 +1,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
+import {readFileSync} from 'node:fs';
 import {createChatRenderer,createHtmlFrame,resourceUrl,createDataChart,createDataTable} from '../../src/index.js';
 const fixture=()=>{const dom=new JSDOM('<main></main>',{url:'https://host.test'});return {dom,element:dom.window.document.querySelector('main')};};
+
+test('rich Markdown resets inherited pre-wrap without losing real breaks or code whitespace',()=>{
+ const {dom,element}=fixture(),document=dom.window.document;
+ const style=document.createElement('style');
+ style.textContent='.message-body{white-space:pre-wrap}'+readFileSync(new URL('../../src/styles.css',import.meta.url),'utf8');
+ document.head.append(style);document.body.classList.add('message-body');
+ const renderer=createChatRenderer();
+ renderer.render(element,{text:'Uma lista:\n\n- **Primeiro** item.\n- **Segundo** item.\n\nLinha A\nLinha B\n\n```text\n  preservar\n    espaços\n```'});
+ assert.equal(dom.window.getComputedStyle(element).whiteSpace,'normal');
+ assert.equal(element.querySelectorAll('li').length,2);
+ assert.equal(element.querySelector('ul').querySelectorAll('br').length,0);
+ assert.equal(element.querySelectorAll('p br').length,1);
+ assert.equal(dom.window.getComputedStyle(document.body).whiteSpace,'pre-wrap');
+ assert.equal(dom.window.getComputedStyle(element.querySelector('pre')).whiteSpace,'pre');
+ assert.match(element.querySelector('pre code').textContent,/  preservar\n    espaços/);
+ renderer.dispose(element);dom.window.close();
+});
 
 test('result tables preserve identifiers, zero, false and missing values with typed alignment',()=>{
  const {dom}=fixture();

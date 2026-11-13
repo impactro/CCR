@@ -1,3 +1,12 @@
+## 2026-11-12 — Markdown sem espaçamento herdado do host
+
+Frontend26.11.12a normaliza white-space na raiz rich criada pelo renderer.
+Impede que pre-wrap de um balão de texto mostre as quebras entre tags HTML como
+linhas vazias em listas/parágrafos. Markdown, quebras explícitas e indentação
+dos blocos pre/code são preservados. Regressão sintética reproduziu o problema
+antes do ajuste; sem dados privados em fixture. Versões e manifesto de exportação
+foram alinhados; APIs e comportamento Python não mudaram.
+
 ## 2026-11-08 — Apresentação flat
 
 Removidas faixas laterais de avisos/detalhes e sombras internas de cabeçalhos

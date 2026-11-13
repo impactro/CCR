@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "ccr.render",
-  "version": "26.11.5a",
-  "packageVersion": "26.11.5-a",
+  "version": "26.11.12a",
+  "packageVersion": "26.11.12-a",
   "renderer": {
     "name": "CCR",
     "version": 1
