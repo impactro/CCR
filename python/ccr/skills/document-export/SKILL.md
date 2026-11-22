@@ -1,3 +1,8 @@
+---
+name: document-export
+description: Exportar documentos CCR tipados em PDF ou PNG usando export-document, com recursos locais autorizados e manifesto verificável, sem rede nem envio.
+---
+
 # Exportação de documentos CCR
 
 Use somente quando o host disponibilizar a operação `export-document`.
